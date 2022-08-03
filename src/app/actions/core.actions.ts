@@ -1,4 +1,5 @@
 
+import { ISessionInfo } from '@inrupt/solid-client-authn-browser';
 import {createAction, props} from '@ngrx/store';
 
 const loginRequested = createAction(
@@ -10,11 +11,19 @@ const loginRequested = createAction(
  * Marks that the navigations has been handled off to the user IDP
  */
 const loginInitiated = createAction(
-  '[CORE] Login Initiated'
+  '[CORE] Login Initiated',
+   props<{idP: string}>(),
 );
 
-const requestWebId = createAction(
-  '[CORE] Request WebId',
+// `url`- full url of incoming redirect
+const incomingLoginRedirect = createAction(
+  '[CORE] Incoming Login Redirect',
+  props<{url: string}>(),
+);
+
+const oidcInfoReceived = createAction(
+  '[CORE] OIDC Info Received',
+  props<{oidcInfo: ISessionInfo}>(),
 );
 
 const webIdReceived = createAction(
@@ -29,26 +38,39 @@ const loginStatusChanged = createAction(
 
 const serverSessionRequested = createAction(
   '[CORE] Server session status requested',
+  props<{idP: string}>(),
 )
 
 const serverSessionReceived = createAction(
   '[CORE] Server session status received',
-  props<{loggedIn: boolean}>(),
+  props<{isServerLoggedIn: boolean, redirectUrl?: string}>(),
 )
 
 const requestName = createAction(
   '[CORE] Request Name',
 )
 
+const serverLoginRequested = createAction(
+  '[CORE] Server Login Requested'
+);
 
+/**
+ * Marks that the navigations has been handled off to the user IDP
+ */
+const serverLoginInitiated = createAction(
+  '[CORE] Server login Initiated'
+);
 
 export const CoreActions = {
   loginRequested,
   loginInitiated,
-  requestWebId,
+  incomingLoginRedirect,
+  oidcInfoReceived,
   webIdReceived,
   loginStatusChanged,
   serverSessionRequested,
   serverSessionReceived,
   requestName,
+  serverLoginRequested,
+  serverLoginInitiated
 };

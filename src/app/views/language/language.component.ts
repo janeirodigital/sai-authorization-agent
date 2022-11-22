@@ -1,8 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 
-interface Languages {
-  value: string;
-}
+// TODO export type somewhere more visible
+export type Language = string;
 
 @Component({
   selector: 'sai-language',
@@ -11,15 +10,15 @@ interface Languages {
 })
 export class LanguageComponent implements OnInit {
 
-  @Input() languageSelector = Array<Languages>;
-  @Output() selectedLanguage = new EventEmitter<Languages>();
+  @Input() languageSelector = new Array<Language>();
+  @Output() selectedLanguage = new EventEmitter<Language>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  public handleSelectLanguage(language: Languages): void {
+  public handleSelectLanguage(language: Language): void {
     this.selectedLanguage.emit(language);
   }
 

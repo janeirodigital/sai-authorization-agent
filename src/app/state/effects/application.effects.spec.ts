@@ -3,7 +3,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { TestBed } from '@angular/core/testing';
 import { Action } from '@ngrx/store';
 import { ApplicationProfileEffects } from './application.effects';
-import { DataService } from '../services/data.service';
+import { DataService } from '../../services/data.service';
 import { Authorization, AccessAuthorization, Application, DataRegistry, SocialAgent, AuthorizationData } from '@janeirodigital/sai-api-messages';
 import { provideMockStore } from '@ngrx/store/testing';
 import { prefLanguage } from '../selectors';

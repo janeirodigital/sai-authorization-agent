@@ -1,0 +1,12 @@
+
+#container {
+  border: solid darkgray 1px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  * {
+    margin-left: 10px;
+  }
+}

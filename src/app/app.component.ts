@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {Store} from "@ngrx/store";
 import {onSessionRestore} from '@inrupt/solid-client-authn-browser';
-import {CoreActions} from "./actions";
-import {serverLoggedInStatus, oidcIssuer, webId} from "./selectors";
-import { SwPush } from '@angular/service-worker';
+import {CoreActions} from "./state/actions";
+import {loggedInStatus, oidcIssuer, webId} from "./state/selectors";
+import {SwPush} from '@angular/service-worker';
+import {PushService} from "./services/push.service";
+import {ENV} from "../environments/environment";
 
 @Component({
   selector: 'app-root',
@@ -15,12 +17,15 @@ export class AppComponent implements OnInit{
   title = 'sai-web-app';
   oidcIssuer = this.store.select(oidcIssuer);
   webId = this.store.select(webId);
-  isServerLoggedIn = this.store.select(serverLoggedInStatus);
+  isLoggedIn = this.store.select(loggedInStatus);
+
+  subscription$ = this.swPush.subscription;
 
   constructor(
     private router: Router,
     private store: Store,
     private swPush: SwPush,
+    private push: PushService,
   ) {
     // TODO ensure that requestedPath gets set even if oidc session can't be restored
     onSessionRestore((currentUrl: string) => {
@@ -39,5 +44,12 @@ export class AppComponent implements OnInit{
     if (window.location.pathname === '/') {
       this.router.navigateByUrl('/start')
     }
+  }
+
+  async subscribeToNotifications() {
+    const subscription = await this.swPush.requestSubscription({
+      serverPublicKey: ENV.VAPID_PUBLIC_KEY
+    });
+    await this.push.subscribe(subscription)
   }
 }

@@ -3,12 +3,12 @@
     "interfaces": [
         {
             "name": "AccessNeed",
-            "id": "interface-AccessNeed-7353ef806592625b9fcf9d5a8875c30bfa98551bd018acd18d04f32a9d0e699bc2d6cd155521d070994466f71beb786f5f7c07208b1c003641cba1e84c81e8f2",
+            "id": "interface-AccessNeed-52bdb108db3279fc3e0932dd6b1d082cead5b541e804310d207bdd0eb734bcdd777c22d37c12b42fd453608cfdc18f5fda485630472ea7ac09bfe57352ec5027",
             "file": "src/app/state/models/index.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import {UniqueId} from \"@janeirodigital/sai-api-messages\";\nimport {IRI} from \"@janeirodigital/sai-api-messages/src\";\n\nexport type ACL = 'http://www.w3.org/ns/auth/acl#Read'\n  | 'http://www.w3.org/ns/auth/acl#Write'\n  |'http://www.w3.org/ns/auth/acl#Control'\n  |'http://www.w3.org/ns/auth/acl#Append'\n  |'http://www.w3.org/ns/auth/acl#Update';\n\nexport interface AccessNeedGroup extends UniqueId {\n  label: string;\n  description?: string;\n  required?: boolean;\n  needs: IRI[];\n}\n\nexport interface AccessNeed extends UniqueId {\n  label: string;\n  description?: string;\n  required?: boolean;\n  access: string[];\n  shapeTree: IRI,\n  children?: IRI[]\n  parent?: IRI\n}\n\nexport interface ShapeTree extends UniqueId {\n  label: string,\n}\n",
+            "sourceCode": "import {UniqueId} from \"@janeirodigital/sai-api-messages\";\nimport {IRI} from \"@janeirodigital/sai-api-messages/src\";\n\nexport type ACL = 'http://www.w3.org/ns/auth/acl#Read'\n  | 'http://www.w3.org/ns/auth/acl#Write'\n  |'http://www.w3.org/ns/auth/acl#Control'\n  |'http://www.w3.org/ns/auth/acl#Append'\n  |'http://www.w3.org/ns/auth/acl#Update';\n\nexport interface AccessNeedGroup extends UniqueId {\n  label: string;\n  description?: string;\n  required?: boolean;\n  needs: IRI[];\n}\n\nexport interface AccessNeed extends UniqueId {\n  label: string;\n  description?: string;\n  required?: boolean;\n  access: string[];\n  shapeTree: IRI,\n  children: IRI[]\n  parent?: IRI\n}\n\nexport interface ShapeTree extends UniqueId {\n  label: string,\n}\n\nexport interface Instance extends UniqueId {\n  label: string;\n}\n",
             "properties": [
                 {
                     "name": "access",
@@ -24,7 +24,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "IRI[]",
-                    "optional": true,
+                    "optional": false,
                     "description": "",
                     "line": 31
                 },
@@ -81,12 +81,12 @@
         },
         {
             "name": "AccessNeedGroup",
-            "id": "interface-AccessNeedGroup-7353ef806592625b9fcf9d5a8875c30bfa98551bd018acd18d04f32a9d0e699bc2d6cd155521d070994466f71beb786f5f7c07208b1c003641cba1e84c81e8f2",
+            "id": "interface-AccessNeedGroup-52bdb108db3279fc3e0932dd6b1d082cead5b541e804310d207bdd0eb734bcdd777c22d37c12b42fd453608cfdc18f5fda485630472ea7ac09bfe57352ec5027",
             "file": "src/app/state/models/index.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import {UniqueId} from \"@janeirodigital/sai-api-messages\";\nimport {IRI} from \"@janeirodigital/sai-api-messages/src\";\n\nexport type ACL = 'http://www.w3.org/ns/auth/acl#Read'\n  | 'http://www.w3.org/ns/auth/acl#Write'\n  |'http://www.w3.org/ns/auth/acl#Control'\n  |'http://www.w3.org/ns/auth/acl#Append'\n  |'http://www.w3.org/ns/auth/acl#Update';\n\nexport interface AccessNeedGroup extends UniqueId {\n  label: string;\n  description?: string;\n  required?: boolean;\n  needs: IRI[];\n}\n\nexport interface AccessNeed extends UniqueId {\n  label: string;\n  description?: string;\n  required?: boolean;\n  access: string[];\n  shapeTree: IRI,\n  children?: IRI[]\n  parent?: IRI\n}\n\nexport interface ShapeTree extends UniqueId {\n  label: string,\n}\n",
+            "sourceCode": "import {UniqueId} from \"@janeirodigital/sai-api-messages\";\nimport {IRI} from \"@janeirodigital/sai-api-messages/src\";\n\nexport type ACL = 'http://www.w3.org/ns/auth/acl#Read'\n  | 'http://www.w3.org/ns/auth/acl#Write'\n  |'http://www.w3.org/ns/auth/acl#Control'\n  |'http://www.w3.org/ns/auth/acl#Append'\n  |'http://www.w3.org/ns/auth/acl#Update';\n\nexport interface AccessNeedGroup extends UniqueId {\n  label: string;\n  description?: string;\n  required?: boolean;\n  needs: IRI[];\n}\n\nexport interface AccessNeed extends UniqueId {\n  label: string;\n  description?: string;\n  required?: boolean;\n  access: string[];\n  shapeTree: IRI,\n  children: IRI[]\n  parent?: IRI\n}\n\nexport interface ShapeTree extends UniqueId {\n  label: string,\n}\n\nexport interface Instance extends UniqueId {\n  label: string;\n}\n",
             "properties": [
                 {
                     "name": "description",
@@ -131,13 +131,13 @@
             "extends": "UniqueId"
         },
         {
-            "name": "AccessNeedsGroupState",
-            "id": "interface-AccessNeedsGroupState-86b4da2eff1aed65675ae030857702cd1d01cb0a6852ff4136547b51bb2be3e817c08a47d312871b2aea0e0577decd3dbdcd552205afca63bd36a3c496346fc3",
+            "name": "AccessNeedGroupState",
+            "id": "interface-AccessNeedGroupState-29ccaef26a4d8649a743be5bc5689ada68aae663bda9cb6613242a991cb0de77357c875acf741a9db9251f855857069cf968a9d67730f22bf30df5b7f65b7e07",
             "file": "src/app/state/reducers/access-needs.reducer.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import {createReducer, on} from '@ngrx/store';\nimport {AccessNeed, AccessNeedGroup, ShapeTree} from \"../models\";\nimport {createEntityAdapter, EntityState} from \"@ngrx/entity\";\nimport * as Actions from \"../actions/access-needs.actions\"\n\nexport const ACCESS_NEEDS_STATE_KEY = 'access-needs';\n\n/**\n * Contains all the received access needs. Children needs are flattened to the top\n * and the 'parent' and 'children' (by ids) are used to reconstruct the hierarchy\n */\nexport interface AccessNeedsState extends EntityState<AccessNeed> {}\nconst accessNeedAdapter = createEntityAdapter<AccessNeed>();\n\nconst accessNeedsInitialState: AccessNeedsState = accessNeedAdapter.getInitialState();\n\nexport const accessNeedsReducer = createReducer(\n  accessNeedsInitialState,\n  on(Actions.addAccessNeed, (state, {need}) => accessNeedAdapter.addOne(need, state)),\n);\n\n/**\n * Group of all the groups\n */\nexport const ACCESS_NEEDS_GROUPS_STATE_KEY = 'access-needs-groups';\nexport interface AccessNeedsGroupState extends EntityState<AccessNeedGroup> {}\nconst accessNeedGroupAdapter = createEntityAdapter<AccessNeedGroup>()\n\nconst accessNeedsGroupsInitialState: AccessNeedsGroupState = accessNeedGroupAdapter.getInitialState();\n\nexport const accessNeedsGroupReducer = createReducer(\n  accessNeedsGroupsInitialState,\n)\n\n\n/**\n * Group of all the shapetrees that have been loaded into the application through the different access needs\n */\nexport const SHAPE_TREE_STATE_KEY = 'shapetrees';\nexport interface ShapetreesState extends EntityState<ShapeTree>{}\nconst shapetreeAdapter = createEntityAdapter<ShapeTree>();\n\nconst shapeTreeInitialState = shapetreeAdapter.getInitialState();\nexport const shapetreeReducer = createReducer(\n  shapeTreeInitialState,\n  on(Actions.addShapeTree, (state, {tree}) => shapetreeAdapter.addOne(tree, state))\n)\n",
+            "sourceCode": "import {createReducer, on} from '@ngrx/store';\nimport {AccessNeed, AccessNeedGroup, ShapeTree} from \"../models\";\nimport {createEntityAdapter, EntityState} from \"@ngrx/entity\";\nimport * as Actions from \"../actions/access-needs.actions\"\n\nexport const ACCESS_NEEDS_STATE_KEY = 'access-needs';\n\n/**\n * Contains all the received access needs. Children needs are flattened to the top\n * and the 'parent' and 'children' (by ids) are used to reconstruct the hierarchy\n */\nexport interface AccessNeedsState extends EntityState<AccessNeed> {}\nexport const needsAdapter = createEntityAdapter<AccessNeed>();\n\nconst accessNeedsInitialState: AccessNeedsState = needsAdapter.getInitialState();\n\nexport const accessNeedsReducer = createReducer(\n  accessNeedsInitialState,\n  on(Actions.addAccessNeed, (state, {need}) => needsAdapter.addOne(need, state)),\n);\n\n/**\n * Group of all the groups\n */\nexport const ACCESS_NEEDS_GROUPS_STATE_KEY = 'access-needs-groups';\nexport interface AccessNeedGroupState extends EntityState<AccessNeedGroup> {}\nexport const groupsAdapter = createEntityAdapter<AccessNeedGroup>()\n\nconst accessNeedsGroupsInitialState: AccessNeedGroupState = groupsAdapter.getInitialState();\n\nexport const accessNeedsGroupReducer = createReducer(\n  accessNeedsGroupsInitialState,\n  on(Actions.addAccessNeedGroup, (state, {group}) => groupsAdapter.addOne(group, state)),\n)\n\n\n/**\n * Group of all the shapetrees that have been loaded into the application through the different access needs\n */\nexport const SHAPE_TREE_STATE_KEY = 'shapetrees';\nexport interface ShapetreesState extends EntityState<ShapeTree>{}\nexport const shapetreeAdapter = createEntityAdapter<ShapeTree>();\n\nconst shapeTreeInitialState = shapetreeAdapter.getInitialState();\nexport const shapetreeReducer = createReducer(\n  shapeTreeInitialState,\n  on(Actions.addShapeTree, (state, {tree}) => shapetreeAdapter.addOne(tree, state))\n)\n",
             "properties": [],
             "indexSignatures": [],
             "methods": [],
@@ -145,12 +145,12 @@
         },
         {
             "name": "AccessNeedsState",
-            "id": "interface-AccessNeedsState-86b4da2eff1aed65675ae030857702cd1d01cb0a6852ff4136547b51bb2be3e817c08a47d312871b2aea0e0577decd3dbdcd552205afca63bd36a3c496346fc3",
+            "id": "interface-AccessNeedsState-29ccaef26a4d8649a743be5bc5689ada68aae663bda9cb6613242a991cb0de77357c875acf741a9db9251f855857069cf968a9d67730f22bf30df5b7f65b7e07",
             "file": "src/app/state/reducers/access-needs.reducer.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import {createReducer, on} from '@ngrx/store';\nimport {AccessNeed, AccessNeedGroup, ShapeTree} from \"../models\";\nimport {createEntityAdapter, EntityState} from \"@ngrx/entity\";\nimport * as Actions from \"../actions/access-needs.actions\"\n\nexport const ACCESS_NEEDS_STATE_KEY = 'access-needs';\n\n/**\n * Contains all the received access needs. Children needs are flattened to the top\n * and the 'parent' and 'children' (by ids) are used to reconstruct the hierarchy\n */\nexport interface AccessNeedsState extends EntityState<AccessNeed> {}\nconst accessNeedAdapter = createEntityAdapter<AccessNeed>();\n\nconst accessNeedsInitialState: AccessNeedsState = accessNeedAdapter.getInitialState();\n\nexport const accessNeedsReducer = createReducer(\n  accessNeedsInitialState,\n  on(Actions.addAccessNeed, (state, {need}) => accessNeedAdapter.addOne(need, state)),\n);\n\n/**\n * Group of all the groups\n */\nexport const ACCESS_NEEDS_GROUPS_STATE_KEY = 'access-needs-groups';\nexport interface AccessNeedsGroupState extends EntityState<AccessNeedGroup> {}\nconst accessNeedGroupAdapter = createEntityAdapter<AccessNeedGroup>()\n\nconst accessNeedsGroupsInitialState: AccessNeedsGroupState = accessNeedGroupAdapter.getInitialState();\n\nexport const accessNeedsGroupReducer = createReducer(\n  accessNeedsGroupsInitialState,\n)\n\n\n/**\n * Group of all the shapetrees that have been loaded into the application through the different access needs\n */\nexport const SHAPE_TREE_STATE_KEY = 'shapetrees';\nexport interface ShapetreesState extends EntityState<ShapeTree>{}\nconst shapetreeAdapter = createEntityAdapter<ShapeTree>();\n\nconst shapeTreeInitialState = shapetreeAdapter.getInitialState();\nexport const shapetreeReducer = createReducer(\n  shapeTreeInitialState,\n  on(Actions.addShapeTree, (state, {tree}) => shapetreeAdapter.addOne(tree, state))\n)\n",
+            "sourceCode": "import {createReducer, on} from '@ngrx/store';\nimport {AccessNeed, AccessNeedGroup, ShapeTree} from \"../models\";\nimport {createEntityAdapter, EntityState} from \"@ngrx/entity\";\nimport * as Actions from \"../actions/access-needs.actions\"\n\nexport const ACCESS_NEEDS_STATE_KEY = 'access-needs';\n\n/**\n * Contains all the received access needs. Children needs are flattened to the top\n * and the 'parent' and 'children' (by ids) are used to reconstruct the hierarchy\n */\nexport interface AccessNeedsState extends EntityState<AccessNeed> {}\nexport const needsAdapter = createEntityAdapter<AccessNeed>();\n\nconst accessNeedsInitialState: AccessNeedsState = needsAdapter.getInitialState();\n\nexport const accessNeedsReducer = createReducer(\n  accessNeedsInitialState,\n  on(Actions.addAccessNeed, (state, {need}) => needsAdapter.addOne(need, state)),\n);\n\n/**\n * Group of all the groups\n */\nexport const ACCESS_NEEDS_GROUPS_STATE_KEY = 'access-needs-groups';\nexport interface AccessNeedGroupState extends EntityState<AccessNeedGroup> {}\nexport const groupsAdapter = createEntityAdapter<AccessNeedGroup>()\n\nconst accessNeedsGroupsInitialState: AccessNeedGroupState = groupsAdapter.getInitialState();\n\nexport const accessNeedsGroupReducer = createReducer(\n  accessNeedsGroupsInitialState,\n  on(Actions.addAccessNeedGroup, (state, {group}) => groupsAdapter.addOne(group, state)),\n)\n\n\n/**\n * Group of all the shapetrees that have been loaded into the application through the different access needs\n */\nexport const SHAPE_TREE_STATE_KEY = 'shapetrees';\nexport interface ShapetreesState extends EntityState<ShapeTree>{}\nexport const shapetreeAdapter = createEntityAdapter<ShapeTree>();\n\nconst shapeTreeInitialState = shapetreeAdapter.getInitialState();\nexport const shapetreeReducer = createReducer(\n  shapeTreeInitialState,\n  on(Actions.addShapeTree, (state, {tree}) => shapetreeAdapter.addOne(tree, state))\n)\n",
             "properties": [],
             "indexSignatures": [],
             "description": "<p>Contains all the received access needs. Children needs are flattened to the top\nand the &#39;parent&#39; and &#39;children&#39; (by ids) are used to reconstruct the hierarchy</p>\n",
@@ -306,13 +306,37 @@
             "extends": "NormalizedState"
         },
         {
+            "name": "Instance",
+            "id": "interface-Instance-52bdb108db3279fc3e0932dd6b1d082cead5b541e804310d207bdd0eb734bcdd777c22d37c12b42fd453608cfdc18f5fda485630472ea7ac09bfe57352ec5027",
+            "file": "src/app/state/models/index.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import {UniqueId} from \"@janeirodigital/sai-api-messages\";\nimport {IRI} from \"@janeirodigital/sai-api-messages/src\";\n\nexport type ACL = 'http://www.w3.org/ns/auth/acl#Read'\n  | 'http://www.w3.org/ns/auth/acl#Write'\n  |'http://www.w3.org/ns/auth/acl#Control'\n  |'http://www.w3.org/ns/auth/acl#Append'\n  |'http://www.w3.org/ns/auth/acl#Update';\n\nexport interface AccessNeedGroup extends UniqueId {\n  label: string;\n  description?: string;\n  required?: boolean;\n  needs: IRI[];\n}\n\nexport interface AccessNeed extends UniqueId {\n  label: string;\n  description?: string;\n  required?: boolean;\n  access: string[];\n  shapeTree: IRI,\n  children: IRI[]\n  parent?: IRI\n}\n\nexport interface ShapeTree extends UniqueId {\n  label: string,\n}\n\nexport interface Instance extends UniqueId {\n  label: string;\n}\n",
+            "properties": [
+                {
+                    "name": "label",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "optional": false,
+                    "description": "",
+                    "line": 40
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 165,
+            "methods": [],
+            "extends": "UniqueId"
+        },
+        {
             "name": "NormalizedState",
-            "id": "interface-NormalizedState-d1e4aacd4cd2457839d029e9362d937684ec3a1b98ee3dd3e2cc7f63e7108b935dec455d28c27405d03f595be6e85787094ef756c16968854510c82f2900f515",
+            "id": "interface-NormalizedState-106f510ef3af61b303734db47aa1bad75938c5a8458f07ea4fc1c2b0a0cb45a93999c0badee5a39f5914ca4a818e4108d5fc32ae052e023786d48b23f0f1f707",
             "file": "src/app/state/reducers/index.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import {\n  ActionReducer,\n  ActionReducerMap,\n  MetaReducer\n} from '@ngrx/store';\nimport { ENV } from '../../../environments/environment';\n\nimport {CoreState, coreReducer, CORE_STATE_KEY} from \"./core.reducer\";\nimport {\n  ApplicationsState,\n  applicationProfileReducer,\n  APPLICATION_PROFILE_STATE_KEY,\n} from './application.reducer';\nimport {\n  SocialAgentState,\n  socialAgentsReducer,\n  SOCIAL_AGENT_STATE_KEY,\n} from './social-agent.reducer';\n\nimport {\n  DataRegistryState,\n  dataRegistriesReducer,\n  DATA_REGISTRY_STATE_KEY,\n} from './data-registry.reducer';\n\nimport {\n  ShapetreesState,\n  shapetreeReducer,\n  SHAPE_TREE_STATE_KEY,\n} from \"./access-needs.reducer\";\n\nimport { UniqueId } from '@janeirodigital/sai-api-messages';\nimport {DESCRIPTIONS_STATE_KEY, descriptionsReducer, DescriptionsState} from \"./descriptions.reducer\";\nimport { localStorageSync } from 'ngrx-store-localstorage';\nimport {\n  ACCESS_NEEDS_GROUPS_STATE_KEY,\n  ACCESS_NEEDS_STATE_KEY, accessNeedsGroupReducer, AccessNeedsGroupState,\n  accessNeedsReducer,\n  AccessNeedsState\n} from \"./access-needs.reducer\";\n\nexport interface NormalizedState<T extends UniqueId> {\n  byId: { [id: string]: T },\n  allIds: string[],\n}\n\n\nexport interface RootState {\n  [CORE_STATE_KEY]: CoreState,\n  [APPLICATION_PROFILE_STATE_KEY]: ApplicationsState,\n  [SOCIAL_AGENT_STATE_KEY]: SocialAgentState,\n  [DESCRIPTIONS_STATE_KEY]: DescriptionsState,\n  [DATA_REGISTRY_STATE_KEY]: DataRegistryState,\n  [ACCESS_NEEDS_STATE_KEY]: AccessNeedsState,\n  [ACCESS_NEEDS_GROUPS_STATE_KEY]: AccessNeedsGroupState,\n  [SHAPE_TREE_STATE_KEY]: ShapetreesState,\n}\n\nexport const reducers: ActionReducerMap<RootState> = {\n  [CORE_STATE_KEY]: coreReducer,\n  [APPLICATION_PROFILE_STATE_KEY]: applicationProfileReducer,\n  [SOCIAL_AGENT_STATE_KEY]: socialAgentsReducer,\n  [DESCRIPTIONS_STATE_KEY]: descriptionsReducer,\n  [DATA_REGISTRY_STATE_KEY]: dataRegistriesReducer,\n  [ACCESS_NEEDS_STATE_KEY]: accessNeedsReducer,\n  [ACCESS_NEEDS_GROUPS_STATE_KEY]: accessNeedsGroupReducer,\n  [SHAPE_TREE_STATE_KEY]: shapetreeReducer,\n};\n\nexport function localStorageSyncReducer(reducer: ActionReducer<RootState>): ActionReducer<RootState> {\n  return localStorageSync({keys: [{ [CORE_STATE_KEY]: ['oidcIssuer', 'requestedPath']}], rehydrate: true})(reducer);\n}\n\nexport const metaReducers: MetaReducer<RootState>[] = !ENV.production ? [localStorageSyncReducer] : [localStorageSyncReducer];\n",
+            "sourceCode": "import {\n  ActionReducer,\n  ActionReducerMap,\n  MetaReducer\n} from '@ngrx/store';\nimport { ENV } from '../../../environments/environment';\n\nimport {CoreState, coreReducer, CORE_STATE_KEY} from \"./core.reducer\";\nimport {\n  ApplicationsState,\n  applicationProfileReducer,\n  APPLICATION_PROFILE_STATE_KEY,\n} from './application.reducer';\nimport {\n  SocialAgentState,\n  socialAgentsReducer,\n  SOCIAL_AGENT_STATE_KEY,\n} from './social-agent.reducer';\n\nimport {\n  DataRegistryState,\n  dataRegistriesReducer,\n  DATA_REGISTRY_STATE_KEY,\n} from './data-registry.reducer';\n\nimport {\n  ShapetreesState,\n  shapetreeReducer,\n  SHAPE_TREE_STATE_KEY,\n} from \"./access-needs.reducer\";\n\nimport { UniqueId } from '@janeirodigital/sai-api-messages';\nimport {DESCRIPTIONS_STATE_KEY, descriptionsReducer, DescriptionsState} from \"./descriptions.reducer\";\nimport { localStorageSync } from 'ngrx-store-localstorage';\nimport {\n  ACCESS_NEEDS_GROUPS_STATE_KEY,\n  ACCESS_NEEDS_STATE_KEY, accessNeedsGroupReducer, AccessNeedGroupState,\n  accessNeedsReducer,\n  AccessNeedsState\n} from \"./access-needs.reducer\";\n\nexport interface NormalizedState<T extends UniqueId> {\n  byId: { [id: string]: T },\n  allIds: string[],\n}\n\n\nexport interface RootState {\n  [CORE_STATE_KEY]: CoreState,\n  [APPLICATION_PROFILE_STATE_KEY]: ApplicationsState,\n  [SOCIAL_AGENT_STATE_KEY]: SocialAgentState,\n  [DESCRIPTIONS_STATE_KEY]: DescriptionsState,\n  [DATA_REGISTRY_STATE_KEY]: DataRegistryState,\n  [ACCESS_NEEDS_STATE_KEY]: AccessNeedsState,\n  [ACCESS_NEEDS_GROUPS_STATE_KEY]: AccessNeedGroupState,\n  [SHAPE_TREE_STATE_KEY]: ShapetreesState,\n}\n\nexport const reducers: ActionReducerMap<RootState> = {\n  [CORE_STATE_KEY]: coreReducer,\n  [APPLICATION_PROFILE_STATE_KEY]: applicationProfileReducer,\n  [SOCIAL_AGENT_STATE_KEY]: socialAgentsReducer,\n  [DESCRIPTIONS_STATE_KEY]: descriptionsReducer,\n  [DATA_REGISTRY_STATE_KEY]: dataRegistriesReducer,\n  [ACCESS_NEEDS_STATE_KEY]: accessNeedsReducer,\n  [ACCESS_NEEDS_GROUPS_STATE_KEY]: accessNeedsGroupReducer,\n  [SHAPE_TREE_STATE_KEY]: shapetreeReducer,\n};\n\nexport function localStorageSyncReducer(reducer: ActionReducer<RootState>): ActionReducer<RootState> {\n  return localStorageSync({keys: [{ [CORE_STATE_KEY]: ['oidcIssuer', 'requestedPath']}], rehydrate: true})(reducer);\n}\n\nexport const metaReducers: MetaReducer<RootState>[] = !ENV.production ? [localStorageSyncReducer] : [localStorageSyncReducer];\n",
             "properties": [
                 {
                     "name": "allIds",
@@ -339,18 +363,18 @@
         },
         {
             "name": "RootState",
-            "id": "interface-RootState-d1e4aacd4cd2457839d029e9362d937684ec3a1b98ee3dd3e2cc7f63e7108b935dec455d28c27405d03f595be6e85787094ef756c16968854510c82f2900f515",
+            "id": "interface-RootState-106f510ef3af61b303734db47aa1bad75938c5a8458f07ea4fc1c2b0a0cb45a93999c0badee5a39f5914ca4a818e4108d5fc32ae052e023786d48b23f0f1f707",
             "file": "src/app/state/reducers/index.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import {\n  ActionReducer,\n  ActionReducerMap,\n  MetaReducer\n} from '@ngrx/store';\nimport { ENV } from '../../../environments/environment';\n\nimport {CoreState, coreReducer, CORE_STATE_KEY} from \"./core.reducer\";\nimport {\n  ApplicationsState,\n  applicationProfileReducer,\n  APPLICATION_PROFILE_STATE_KEY,\n} from './application.reducer';\nimport {\n  SocialAgentState,\n  socialAgentsReducer,\n  SOCIAL_AGENT_STATE_KEY,\n} from './social-agent.reducer';\n\nimport {\n  DataRegistryState,\n  dataRegistriesReducer,\n  DATA_REGISTRY_STATE_KEY,\n} from './data-registry.reducer';\n\nimport {\n  ShapetreesState,\n  shapetreeReducer,\n  SHAPE_TREE_STATE_KEY,\n} from \"./access-needs.reducer\";\n\nimport { UniqueId } from '@janeirodigital/sai-api-messages';\nimport {DESCRIPTIONS_STATE_KEY, descriptionsReducer, DescriptionsState} from \"./descriptions.reducer\";\nimport { localStorageSync } from 'ngrx-store-localstorage';\nimport {\n  ACCESS_NEEDS_GROUPS_STATE_KEY,\n  ACCESS_NEEDS_STATE_KEY, accessNeedsGroupReducer, AccessNeedsGroupState,\n  accessNeedsReducer,\n  AccessNeedsState\n} from \"./access-needs.reducer\";\n\nexport interface NormalizedState<T extends UniqueId> {\n  byId: { [id: string]: T },\n  allIds: string[],\n}\n\n\nexport interface RootState {\n  [CORE_STATE_KEY]: CoreState,\n  [APPLICATION_PROFILE_STATE_KEY]: ApplicationsState,\n  [SOCIAL_AGENT_STATE_KEY]: SocialAgentState,\n  [DESCRIPTIONS_STATE_KEY]: DescriptionsState,\n  [DATA_REGISTRY_STATE_KEY]: DataRegistryState,\n  [ACCESS_NEEDS_STATE_KEY]: AccessNeedsState,\n  [ACCESS_NEEDS_GROUPS_STATE_KEY]: AccessNeedsGroupState,\n  [SHAPE_TREE_STATE_KEY]: ShapetreesState,\n}\n\nexport const reducers: ActionReducerMap<RootState> = {\n  [CORE_STATE_KEY]: coreReducer,\n  [APPLICATION_PROFILE_STATE_KEY]: applicationProfileReducer,\n  [SOCIAL_AGENT_STATE_KEY]: socialAgentsReducer,\n  [DESCRIPTIONS_STATE_KEY]: descriptionsReducer,\n  [DATA_REGISTRY_STATE_KEY]: dataRegistriesReducer,\n  [ACCESS_NEEDS_STATE_KEY]: accessNeedsReducer,\n  [ACCESS_NEEDS_GROUPS_STATE_KEY]: accessNeedsGroupReducer,\n  [SHAPE_TREE_STATE_KEY]: shapetreeReducer,\n};\n\nexport function localStorageSyncReducer(reducer: ActionReducer<RootState>): ActionReducer<RootState> {\n  return localStorageSync({keys: [{ [CORE_STATE_KEY]: ['oidcIssuer', 'requestedPath']}], rehydrate: true})(reducer);\n}\n\nexport const metaReducers: MetaReducer<RootState>[] = !ENV.production ? [localStorageSyncReducer] : [localStorageSyncReducer];\n",
+            "sourceCode": "import {\n  ActionReducer,\n  ActionReducerMap,\n  MetaReducer\n} from '@ngrx/store';\nimport { ENV } from '../../../environments/environment';\n\nimport {CoreState, coreReducer, CORE_STATE_KEY} from \"./core.reducer\";\nimport {\n  ApplicationsState,\n  applicationProfileReducer,\n  APPLICATION_PROFILE_STATE_KEY,\n} from './application.reducer';\nimport {\n  SocialAgentState,\n  socialAgentsReducer,\n  SOCIAL_AGENT_STATE_KEY,\n} from './social-agent.reducer';\n\nimport {\n  DataRegistryState,\n  dataRegistriesReducer,\n  DATA_REGISTRY_STATE_KEY,\n} from './data-registry.reducer';\n\nimport {\n  ShapetreesState,\n  shapetreeReducer,\n  SHAPE_TREE_STATE_KEY,\n} from \"./access-needs.reducer\";\n\nimport { UniqueId } from '@janeirodigital/sai-api-messages';\nimport {DESCRIPTIONS_STATE_KEY, descriptionsReducer, DescriptionsState} from \"./descriptions.reducer\";\nimport { localStorageSync } from 'ngrx-store-localstorage';\nimport {\n  ACCESS_NEEDS_GROUPS_STATE_KEY,\n  ACCESS_NEEDS_STATE_KEY, accessNeedsGroupReducer, AccessNeedGroupState,\n  accessNeedsReducer,\n  AccessNeedsState\n} from \"./access-needs.reducer\";\n\nexport interface NormalizedState<T extends UniqueId> {\n  byId: { [id: string]: T },\n  allIds: string[],\n}\n\n\nexport interface RootState {\n  [CORE_STATE_KEY]: CoreState,\n  [APPLICATION_PROFILE_STATE_KEY]: ApplicationsState,\n  [SOCIAL_AGENT_STATE_KEY]: SocialAgentState,\n  [DESCRIPTIONS_STATE_KEY]: DescriptionsState,\n  [DATA_REGISTRY_STATE_KEY]: DataRegistryState,\n  [ACCESS_NEEDS_STATE_KEY]: AccessNeedsState,\n  [ACCESS_NEEDS_GROUPS_STATE_KEY]: AccessNeedGroupState,\n  [SHAPE_TREE_STATE_KEY]: ShapetreesState,\n}\n\nexport const reducers: ActionReducerMap<RootState> = {\n  [CORE_STATE_KEY]: coreReducer,\n  [APPLICATION_PROFILE_STATE_KEY]: applicationProfileReducer,\n  [SOCIAL_AGENT_STATE_KEY]: socialAgentsReducer,\n  [DESCRIPTIONS_STATE_KEY]: descriptionsReducer,\n  [DATA_REGISTRY_STATE_KEY]: dataRegistriesReducer,\n  [ACCESS_NEEDS_STATE_KEY]: accessNeedsReducer,\n  [ACCESS_NEEDS_GROUPS_STATE_KEY]: accessNeedsGroupReducer,\n  [SHAPE_TREE_STATE_KEY]: shapetreeReducer,\n};\n\nexport function localStorageSyncReducer(reducer: ActionReducer<RootState>): ActionReducer<RootState> {\n  return localStorageSync({keys: [{ [CORE_STATE_KEY]: ['oidcIssuer', 'requestedPath']}], rehydrate: true})(reducer);\n}\n\nexport const metaReducers: MetaReducer<RootState>[] = !ENV.production ? [localStorageSyncReducer] : [localStorageSyncReducer];\n",
             "properties": [
                 {
                     "name": "ACCESS_NEEDS_GROUPS_STATE_KEY",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "AccessNeedsGroupState",
+                    "type": "AccessNeedGroupState",
                     "optional": false,
                     "description": "",
                     "line": 55
@@ -425,12 +449,12 @@
         },
         {
             "name": "ShapeTree",
-            "id": "interface-ShapeTree-7353ef806592625b9fcf9d5a8875c30bfa98551bd018acd18d04f32a9d0e699bc2d6cd155521d070994466f71beb786f5f7c07208b1c003641cba1e84c81e8f2",
+            "id": "interface-ShapeTree-52bdb108db3279fc3e0932dd6b1d082cead5b541e804310d207bdd0eb734bcdd777c22d37c12b42fd453608cfdc18f5fda485630472ea7ac09bfe57352ec5027",
             "file": "src/app/state/models/index.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import {UniqueId} from \"@janeirodigital/sai-api-messages\";\nimport {IRI} from \"@janeirodigital/sai-api-messages/src\";\n\nexport type ACL = 'http://www.w3.org/ns/auth/acl#Read'\n  | 'http://www.w3.org/ns/auth/acl#Write'\n  |'http://www.w3.org/ns/auth/acl#Control'\n  |'http://www.w3.org/ns/auth/acl#Append'\n  |'http://www.w3.org/ns/auth/acl#Update';\n\nexport interface AccessNeedGroup extends UniqueId {\n  label: string;\n  description?: string;\n  required?: boolean;\n  needs: IRI[];\n}\n\nexport interface AccessNeed extends UniqueId {\n  label: string;\n  description?: string;\n  required?: boolean;\n  access: string[];\n  shapeTree: IRI,\n  children?: IRI[]\n  parent?: IRI\n}\n\nexport interface ShapeTree extends UniqueId {\n  label: string,\n}\n",
+            "sourceCode": "import {UniqueId} from \"@janeirodigital/sai-api-messages\";\nimport {IRI} from \"@janeirodigital/sai-api-messages/src\";\n\nexport type ACL = 'http://www.w3.org/ns/auth/acl#Read'\n  | 'http://www.w3.org/ns/auth/acl#Write'\n  |'http://www.w3.org/ns/auth/acl#Control'\n  |'http://www.w3.org/ns/auth/acl#Append'\n  |'http://www.w3.org/ns/auth/acl#Update';\n\nexport interface AccessNeedGroup extends UniqueId {\n  label: string;\n  description?: string;\n  required?: boolean;\n  needs: IRI[];\n}\n\nexport interface AccessNeed extends UniqueId {\n  label: string;\n  description?: string;\n  required?: boolean;\n  access: string[];\n  shapeTree: IRI,\n  children: IRI[]\n  parent?: IRI\n}\n\nexport interface ShapeTree extends UniqueId {\n  label: string,\n}\n\nexport interface Instance extends UniqueId {\n  label: string;\n}\n",
             "properties": [
                 {
                     "name": "label",
@@ -449,12 +473,12 @@
         },
         {
             "name": "ShapetreesState",
-            "id": "interface-ShapetreesState-86b4da2eff1aed65675ae030857702cd1d01cb0a6852ff4136547b51bb2be3e817c08a47d312871b2aea0e0577decd3dbdcd552205afca63bd36a3c496346fc3",
+            "id": "interface-ShapetreesState-29ccaef26a4d8649a743be5bc5689ada68aae663bda9cb6613242a991cb0de77357c875acf741a9db9251f855857069cf968a9d67730f22bf30df5b7f65b7e07",
             "file": "src/app/state/reducers/access-needs.reducer.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import {createReducer, on} from '@ngrx/store';\nimport {AccessNeed, AccessNeedGroup, ShapeTree} from \"../models\";\nimport {createEntityAdapter, EntityState} from \"@ngrx/entity\";\nimport * as Actions from \"../actions/access-needs.actions\"\n\nexport const ACCESS_NEEDS_STATE_KEY = 'access-needs';\n\n/**\n * Contains all the received access needs. Children needs are flattened to the top\n * and the 'parent' and 'children' (by ids) are used to reconstruct the hierarchy\n */\nexport interface AccessNeedsState extends EntityState<AccessNeed> {}\nconst accessNeedAdapter = createEntityAdapter<AccessNeed>();\n\nconst accessNeedsInitialState: AccessNeedsState = accessNeedAdapter.getInitialState();\n\nexport const accessNeedsReducer = createReducer(\n  accessNeedsInitialState,\n  on(Actions.addAccessNeed, (state, {need}) => accessNeedAdapter.addOne(need, state)),\n);\n\n/**\n * Group of all the groups\n */\nexport const ACCESS_NEEDS_GROUPS_STATE_KEY = 'access-needs-groups';\nexport interface AccessNeedsGroupState extends EntityState<AccessNeedGroup> {}\nconst accessNeedGroupAdapter = createEntityAdapter<AccessNeedGroup>()\n\nconst accessNeedsGroupsInitialState: AccessNeedsGroupState = accessNeedGroupAdapter.getInitialState();\n\nexport const accessNeedsGroupReducer = createReducer(\n  accessNeedsGroupsInitialState,\n)\n\n\n/**\n * Group of all the shapetrees that have been loaded into the application through the different access needs\n */\nexport const SHAPE_TREE_STATE_KEY = 'shapetrees';\nexport interface ShapetreesState extends EntityState<ShapeTree>{}\nconst shapetreeAdapter = createEntityAdapter<ShapeTree>();\n\nconst shapeTreeInitialState = shapetreeAdapter.getInitialState();\nexport const shapetreeReducer = createReducer(\n  shapeTreeInitialState,\n  on(Actions.addShapeTree, (state, {tree}) => shapetreeAdapter.addOne(tree, state))\n)\n",
+            "sourceCode": "import {createReducer, on} from '@ngrx/store';\nimport {AccessNeed, AccessNeedGroup, ShapeTree} from \"../models\";\nimport {createEntityAdapter, EntityState} from \"@ngrx/entity\";\nimport * as Actions from \"../actions/access-needs.actions\"\n\nexport const ACCESS_NEEDS_STATE_KEY = 'access-needs';\n\n/**\n * Contains all the received access needs. Children needs are flattened to the top\n * and the 'parent' and 'children' (by ids) are used to reconstruct the hierarchy\n */\nexport interface AccessNeedsState extends EntityState<AccessNeed> {}\nexport const needsAdapter = createEntityAdapter<AccessNeed>();\n\nconst accessNeedsInitialState: AccessNeedsState = needsAdapter.getInitialState();\n\nexport const accessNeedsReducer = createReducer(\n  accessNeedsInitialState,\n  on(Actions.addAccessNeed, (state, {need}) => needsAdapter.addOne(need, state)),\n);\n\n/**\n * Group of all the groups\n */\nexport const ACCESS_NEEDS_GROUPS_STATE_KEY = 'access-needs-groups';\nexport interface AccessNeedGroupState extends EntityState<AccessNeedGroup> {}\nexport const groupsAdapter = createEntityAdapter<AccessNeedGroup>()\n\nconst accessNeedsGroupsInitialState: AccessNeedGroupState = groupsAdapter.getInitialState();\n\nexport const accessNeedsGroupReducer = createReducer(\n  accessNeedsGroupsInitialState,\n  on(Actions.addAccessNeedGroup, (state, {group}) => groupsAdapter.addOne(group, state)),\n)\n\n\n/**\n * Group of all the shapetrees that have been loaded into the application through the different access needs\n */\nexport const SHAPE_TREE_STATE_KEY = 'shapetrees';\nexport interface ShapetreesState extends EntityState<ShapeTree>{}\nexport const shapetreeAdapter = createEntityAdapter<ShapeTree>();\n\nconst shapeTreeInitialState = shapetreeAdapter.getInitialState();\nexport const shapetreeReducer = createReducer(\n  shapeTreeInitialState,\n  on(Actions.addShapeTree, (state, {tree}) => shapetreeAdapter.addOne(tree, state))\n)\n",
             "properties": [],
             "indexSignatures": [],
             "methods": [],
@@ -489,7 +513,7 @@
     "injectables": [
         {
             "name": "ApplicationProfileEffects",
-            "id": "injectable-ApplicationProfileEffects-ac06cf2c0e3f0bb299ccc578197d53d8208429193f64356430edaee2fbffb655a52f31593603de0417a9b0fe6b8158e830fd4f1fa8cc19c363a7b439525944c7",
+            "id": "injectable-ApplicationProfileEffects-bd910540abcded30d5aa6ae66f1b8a6ac2df8ff947af9d64d312d7befaf2480aadc9640ac86129c5228d10894c188c6bd1a720d8197d1243b88fdc103021a071",
             "file": "src/app/state/effects/application.effects.ts",
             "properties": [
                 {
@@ -500,7 +524,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 36
+                    "line": 35
                 },
                 {
                     "name": "authorizeApplication$",
@@ -510,7 +534,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 59
+                    "line": 58
                 },
                 {
                     "name": "loadApplicationProfiles$",
@@ -520,7 +544,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 24
+                    "line": 23
                 },
                 {
                     "name": "loadDataRegistries$",
@@ -530,7 +554,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 42
+                    "line": 41
                 },
                 {
                     "name": "loadDescriptions$",
@@ -540,7 +564,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 49
+                    "line": 48
                 },
                 {
                     "name": "loadSocialAgentsProfiles$",
@@ -550,7 +574,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 30
+                    "line": 29
                 },
                 {
                     "name": "redirectToCallbackEndpoint",
@@ -560,7 +584,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 65
+                    "line": 64
                 }
             ],
             "methods": [],
@@ -568,7 +592,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import {map, mergeMap, switchMap, tap} from \"rxjs\";\nimport {Injectable} from \"@angular/core\";\nimport {Actions, concatLatestFrom, createEffect, ofType} from \"@ngrx/effects\";\nimport {DataActions} from \"../actions/application.actions\";\nimport {DescActions} from \"../actions/description.actions\";\nimport * as NeedActions from \"../actions/access-needs.actions\"\nimport {DataService} from \"../../services/data.service\";\nimport {Store} from \"@ngrx/store\";\nimport * as selectors from \"../selectors\";\nimport {AccessNeed as ApiAccessNeed, AuthorizationData} from \"@janeirodigital/sai-api-messages\";\nimport {AccessNeed, ShapeTree} from \"../models\";\nimport {LoadingNeeds} from \"../../views/app-view/app-view.stories\";\n\n// TODO contains effects for non-application, move to their own files/classes\n\n@Injectable()\nexport class ApplicationProfileEffects {\n  constructor(\n    private actions$: Actions,\n    private data: DataService,\n    private store: Store,\n  ) {}\n\n  loadApplicationProfiles$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.applicationsPanelLoaded),\n    mergeMap(() => this.data.getApplicationProfiles()),\n    map(profiles => DataActions.applicationProfilesReceived({profiles})),\n  ))\n\n  loadSocialAgentsProfiles$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.socialAgentsPanelLoaded),\n    mergeMap(() => this.data.getSocialAgentProfiles()),\n    map(profiles => DataActions.socialAgentProfilesReceived({profiles})),\n  ))\n\n  addSocialAgent$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.addSocialAgent),\n    mergeMap(({ webId, label, note }) => this.data.addSocialAgent(webId, label, note)),\n    map(profile => DataActions.socialAgentProfileReceived({profile})),\n  ))\n\n  loadDataRegistries$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.dataRegistriesNeeded),\n    concatLatestFrom(() => this.store.select(selectors.prefLanguage)),\n    mergeMap(([props, lang]) => this.data.getDataRegistries(lang)),\n    map(registries => DataActions.dataRegistriesProvided({registries})),\n  ))\n\n  loadDescriptions$ = createEffect(() => this.actions$.pipe(\n    ofType(DescActions.descriptionsNeeded),\n    concatLatestFrom(() => this.store.select(selectors.prefLanguage)),\n    mergeMap(([props, lang]) => this.data.getDescriptions(props.applicationId, lang)),\n    switchMap(authorizationData => [\n      DescActions.descriptionsReceived({authorizationData}),\n      ...mapAuthorizationDataToNeedsActions(authorizationData).flat(),\n    ]),\n  ))\n\n  authorizeApplication$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.authorizeApplication),\n    mergeMap(({ authorization }) => this.data.authorizeApplication(authorization)),\n    map(accessAuthorization => DataActions.authorizationReceived({ accessAuthorization })),\n  ))\n\n  redirectToCallbackEndpoint =  createEffect(() => this.actions$.pipe(\n    ofType(DataActions.authorizationReceived),\n    tap(({accessAuthorization}) => window.location.href = accessAuthorization.callbackEndpoint!)\n  ), {dispatch: false});\n}\n\nconst mapAuthorizationDataToNeedsActions = (data: AuthorizationData) => {\n  const needs = data.accessNeedGroup.needs;\n\n  const shapeTrees = needs.map(need => flatShapeTrees(need)).flat();\n  const accessNeeds = needs.map(need => flatAccessNeed(need)).flat();\n\n  const shapeTreeActions = shapeTrees.map(tree => NeedActions.addShapeTree({tree}));\n  const needsActions = accessNeeds.map(need => NeedActions.addAccessNeed({need}));\n\n  return [shapeTreeActions, needsActions];\n}\n\nconst flatAccessNeed = (apiAccess: ApiAccessNeed): AccessNeed[] => {\n  const children = apiAccess.children;\n\n  if (!children || children.length === 0)\n    return [{...apiAccess, shapeTree: apiAccess.shapeTree.id, children: apiAccess.children?.map(c => c.id)}];\n\n  else {\n    // collect and recurse\n    const newAccess: AccessNeed = {...apiAccess, shapeTree: apiAccess.shapeTree.id, children: apiAccess.children?.map(c => c.id)};\n    const convertedChildren = children.map(c => flatAccessNeed(c)).flat();\n\n    return [newAccess, ...convertedChildren];\n  }\n}\n\nconst flatShapeTrees = (apiAccess: ApiAccessNeed): ShapeTree[] => {\n  const children = apiAccess.children;\n\n  if (!children || children.length === 0)\n    return [{id: apiAccess.shapeTree.id, label: apiAccess.shapeTree.label}]\n\n  else {\n    const thisShapeTree = {id: apiAccess.shapeTree.id, label: apiAccess.shapeTree.label};\n    const childrenShapeTrees = children.map(c => flatShapeTrees(c)).flat();\n\n    return [thisShapeTree, ...childrenShapeTrees];\n  }\n}\n",
+            "sourceCode": "import {map, mergeMap, switchMap, tap} from \"rxjs\";\nimport {Injectable} from \"@angular/core\";\nimport {Actions, concatLatestFrom, createEffect, ofType} from \"@ngrx/effects\";\nimport {DataActions} from \"../actions/application.actions\";\nimport {DescActions} from \"../actions/description.actions\";\nimport * as NeedActions from \"../actions/access-needs.actions\"\nimport {DataService} from \"../../services/data.service\";\nimport {Store} from \"@ngrx/store\";\nimport * as selectors from \"../selectors\";\nimport {AccessNeed as ApiAccessNeed, AccessNeedGroup as ApiGroup, AuthorizationData} from \"@janeirodigital/sai-api-messages\";\nimport {AccessNeed, AccessNeedGroup, ShapeTree} from \"../models\";\n\n// TODO contains effects for non-application, move to their own files/classes\n\n@Injectable()\nexport class ApplicationProfileEffects {\n  constructor(\n    private actions$: Actions,\n    private data: DataService,\n    private store: Store,\n  ) {}\n\n  loadApplicationProfiles$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.applicationsPanelLoaded),\n    mergeMap(() => this.data.getApplicationProfiles()),\n    map(profiles => DataActions.applicationProfilesReceived({profiles})),\n  ))\n\n  loadSocialAgentsProfiles$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.socialAgentsPanelLoaded),\n    mergeMap(() => this.data.getSocialAgentProfiles()),\n    map(profiles => DataActions.socialAgentProfilesReceived({profiles})),\n  ))\n\n  addSocialAgent$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.addSocialAgent),\n    mergeMap(({ webId, label, note }) => this.data.addSocialAgent(webId, label, note)),\n    map(profile => DataActions.socialAgentProfileReceived({profile})),\n  ))\n\n  loadDataRegistries$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.dataRegistriesNeeded),\n    concatLatestFrom(() => this.store.select(selectors.prefLanguage)),\n    mergeMap(([props, lang]) => this.data.getDataRegistries(lang)),\n    map(registries => DataActions.dataRegistriesProvided({registries})),\n  ))\n\n  loadDescriptions$ = createEffect(() => this.actions$.pipe(\n    ofType(DescActions.descriptionsNeeded),\n    concatLatestFrom(() => this.store.select(selectors.prefLanguage)),\n    mergeMap(([props, lang]) => this.data.getDescriptions(props.applicationId, lang)),\n    switchMap(authorizationData => [\n      DescActions.descriptionsReceived({authorizationData}),\n      ...mapAuthorizationDataToNeedsActions(authorizationData).flat(),\n    ]),\n  ))\n\n  authorizeApplication$ = createEffect(() => this.actions$.pipe(\n    ofType(DataActions.authorizeApplication),\n    mergeMap(({ authorization }) => this.data.authorizeApplication(authorization)),\n    map(accessAuthorization => DataActions.authorizationReceived({ accessAuthorization })),\n  ))\n\n  redirectToCallbackEndpoint =  createEffect(() => this.actions$.pipe(\n    ofType(DataActions.authorizationReceived),\n    tap(({accessAuthorization}) => window.location.href = accessAuthorization.callbackEndpoint!)\n  ), {dispatch: false});\n}\n\nconst mapAuthorizationDataToNeedsActions = (data: AuthorizationData) => {\n  const needs = data.accessNeedGroup.needs;\n\n  const shapeTrees = needs.map(need => flatShapeTrees(need)).flat();\n  const accessNeeds = needs.map(need => flatAccessNeed(need)).flat();\n\n  const shapeTreeActions = shapeTrees.map(tree => NeedActions.addShapeTree({tree}));\n  const needsActions = accessNeeds.map(need => NeedActions.addAccessNeed({need}));\n\n  const group = flatAccessNeedGroup(data.accessNeedGroup);\n  const groupAction = NeedActions.addAccessNeedGroup({group});\n  return [shapeTreeActions, needsActions, groupAction];\n}\n\n\n/* This set of functions take the nested Authorization Data from the api and flatten the needs, shapetrees and group\n * that then can be used to insert into the store as independent entities\n */\nconst flatAccessNeedGroup = (apiGroup: ApiGroup): AccessNeedGroup => {\n  return {...apiGroup, needs: apiGroup.needs.map(need => need.id)};\n}\n\nconst flatAccessNeed = (apiAccess: ApiAccessNeed): AccessNeed[] => {\n  const children = apiAccess.children;\n\n  if (!children || children.length === 0)\n    return [{...apiAccess, shapeTree: apiAccess.shapeTree.id, children: apiAccess.children?.map(c => c.id) || []}];\n\n  else {\n    // collect and recurse\n    const newAccess: AccessNeed = {...apiAccess, shapeTree: apiAccess.shapeTree.id, children: apiAccess.children?.map(c => c.id) || []};\n    const convertedChildren = children.map(c => flatAccessNeed(c)).flat();\n\n    return [newAccess, ...convertedChildren];\n  }\n}\n\nconst flatShapeTrees = (apiAccess: ApiAccessNeed): ShapeTree[] => {\n  const children = apiAccess.children;\n\n  if (!children || children.length === 0)\n    return [{id: apiAccess.shapeTree.id, label: apiAccess.shapeTree.label}]\n\n  else {\n    const thisShapeTree = {id: apiAccess.shapeTree.id, label: apiAccess.shapeTree.label};\n    const childrenShapeTrees = children.map(c => flatShapeTrees(c)).flat();\n\n    return [thisShapeTree, ...childrenShapeTrees];\n  }\n}\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -594,7 +618,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 17,
+                "line": 16,
                 "jsdoctags": [
                     {
                         "name": "actions$",
@@ -1749,7 +1773,7 @@
     "components": [
         {
             "name": "AccessNeedViewComponent",
-            "id": "component-AccessNeedViewComponent-2c7047c3458e9fc54fa33b2c438657bac232932fd8c35e88c26484dc2dfe74a60bb1668742de47eb3173a8a97177ef7ac0313b88e6cd0f992b2dbe408bf60bbe",
+            "id": "component-AccessNeedViewComponent-011e65257c71cfb2648c8c9d10ca7dfb9f3f7153542dff613f8f22f2198be95396334c2793f37f0f1839a914673135e2470a12846ee0c686113abf86a318b678",
             "file": "src/app/views/access-need-view/access-need-view.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1812,7 +1836,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 25,
+                    "line": 35,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -1842,7 +1866,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 34,
+                    "line": 30,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -1870,7 +1894,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 29,
+                    "line": 25,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -1893,11 +1917,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';\nimport {IRI} from \"@janeirodigital/sai-api-messages\";\nimport {AccessNeed, ShapeTree} from \"../../state/models/index\";\nimport {MatSlideToggleChange} from \"@angular/material/slide-toggle\";\n\n@Component({\n  selector: 'sai-access-need-view',\n  templateUrl: './access-need-view.component.html',\n  styleUrls: ['./access-need-view.component.scss']\n})\nexport class AccessNeedViewComponent implements OnInit {\n\n  @Input() need!: AccessNeed;\n  @Input() shapetree!: ShapeTree;\n  // Toggling the full need means removing all the access\n  @Output() changed = new EventEmitter<{id: IRI, access: Array<IRI>}>();\n\n  checkedAccess: IRI[] = [];\n  constructor() { }\n\n  ngOnInit(): void {\n    this.checkedAccess = this.need.access;\n  }\n\n  private emitUpdate(): void {\n    this.changed.emit({id: this.need.id, access: this.checkedAccess})\n  }\n\n  toggleNeed(change: MatSlideToggleChange): void {\n    this.checkedAccess = change.checked ? this.need.access : [];\n    this.emitUpdate();\n  }\n\n  removeAccess(access: IRI): void {\n    this.checkedAccess = this.checkedAccess.filter(v => v != access);\n    this.emitUpdate();\n  }\n}\n",
+            "sourceCode": "import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';\nimport {IRI} from \"@janeirodigital/sai-api-messages\";\nimport {AccessNeed, ShapeTree} from \"../../state/models/index\";\nimport {MatSlideToggleChange} from \"@angular/material/slide-toggle\";\n\n@Component({\n  selector: 'sai-access-need-view',\n  templateUrl: './access-need-view.component.html',\n  styleUrls: ['./access-need-view.component.scss']\n})\nexport class AccessNeedViewComponent implements OnInit {\n\n  @Input() need!: AccessNeed;\n  @Input() shapetree!: ShapeTree;\n  // Toggling the full need means removing all the access\n  @Output() changed = new EventEmitter<{id: IRI, access: Array<IRI>}>();\n\n  checkedAccess: IRI[] = [];\n  constructor() { }\n\n  ngOnInit(): void {\n    this.checkedAccess = this.need.access;\n  }\n\n  toggleNeed(change: MatSlideToggleChange): void {\n    this.checkedAccess = change.checked ? this.need.access : [];\n    this.emitUpdate();\n  }\n\n  removeAccess(access: IRI): void {\n    this.checkedAccess = this.checkedAccess.filter(v => v != access);\n    this.emitUpdate();\n  }\n\n  private emitUpdate(): void {\n    this.changed.emit({id: this.need.id, access: this.checkedAccess})\n  }\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "\n.row {\n  display: flex;\n  align-items: center;\n  * {\n    margin-left: 10px;\n  }\n}\n",
+                    "data": "\n#container {\n  border: solid darkgray 1px;\n}\n\n.row {\n  display: flex;\n  align-items: center;\n  * {\n    margin-left: 10px;\n  }\n}\n\nmat-expansion-panel-header {\n  background: blue;\n}\n",
                     "styleUrl": "./access-need-view.component.scss"
                 }
             ],
@@ -1913,7 +1937,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<div>\n  <div>\n    <div class=\"row\">\n      <h3>{{shapetree.label}}</h3>\n      <mat-slide-toggle [checked]=\"checkedAccess.length > 0\" [disabled]=\"need.required\" (change)=\"toggleNeed($event)\"></mat-slide-toggle>\n      <mat-icon *ngIf=\"need.required\" matTooltip=\"This access is required and cannot be disabled\" matTooltipPosition=\"left\">info</mat-icon>\n    </div>\n    <mat-chip-list>\n<!--      TODO after updating to Angular 15 change to use mat-chip-options to enable/disable the access levels -->\n      <mat-chip *ngFor=\"let access of checkedAccess\" (removed)=\"removeAccess(access)\">\n        {{access.split('#').pop()}}\n        <button matChipRemove *ngIf=\"!need.required\"><mat-icon>cancel</mat-icon></button>\n      </mat-chip>\n    </mat-chip-list>\n  </div>\n  <p>{{need.label}}</p>\n</div>\n"
+            "templateData": "<div>\n  <div>\n    <mat-expansion-panel togglePosition=\"before\">\n      <mat-expansion-panel-header>\n        <mat-panel-title>\n          {{shapetree.label}}\n        </mat-panel-title>\n        <mat-panel-description>\n          {{need.label}}\n        </mat-panel-description>\n      </mat-expansion-panel-header>\n<!--      TODO-->\n<!--      <mat-slide-toggle *ngIf=\"!need.required\"-->\n<!--                        [checked]=\"checkedAccess.length > 0\"-->\n<!--                        [disabled]=\"need.required\"-->\n<!--                        (change)=\"toggleNeed($event)\">-->\n<!--      </mat-slide-toggle>-->\n      <mat-chip-list>\n        <mat-chip *ngFor=\"let access of need.access\">\n<!--                  (removed)=\"removeAccess(access)\"-->\n<!--                  [disabled]=\"need.required\">-->\n          {{access.split('#').pop()}}\n        </mat-chip>\n      </mat-chip-list>\n    </mat-expansion-panel>\n  </div>\n</div>\n"
         },
         {
             "name": "AddSocialAgentComponent",
@@ -2164,7 +2188,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<mat-card>\n  <mat-card-title>\n    <h2>Add Social Agent</h2>\n  </mat-card-title>\n  <mat-card-content>\n    <form [formGroup]=\"form\" (ngSubmit)=\"onSubmit()\">\n      <mat-form-field class=\"full-width-input\">\n        <mat-label>WebId</mat-label>\n        <input matInput required formControlName=\"webid\">\n        <mat-error>WebId is required</mat-error>\n      </mat-form-field>\n      <mat-form-field class=\"full-width-input\">\n        <mat-label>Name</mat-label>\n        <input matInput required formControlName=\"label\">\n        <mat-error>Name is required</mat-error>\n      </mat-form-field>\n      <mat-form-field class=\"full-width-input\">\n        <mat-label>Note</mat-label>\n        <textarea matInput formControlName=\"note\"></textarea>\n      </mat-form-field>\n      <button mat-raised-button color=\"primary\">Accept</button>\n    </form>\n  </mat-card-content>\n</mat-card>\n"
+            "templateData": "<mat-card>\n  <mat-card-title>\n    <h2>Add Social Agent</h2>\n  </mat-card-title>\n  <mat-card-content>\n    <form [formGroup]=\"form\" (ngSubmit)=\"onSubmit()\">\n      <mat-form-field class=\"full-width-input\">\n        <mat-label>WebId</mat-label>\n        <input matInput required formControlName=\"webid\">\n        <mat-error>WebId is required</mat-error>\n      </mat-form-field>\n      <mat-form-field class=\"full-width-input\">\n        <mat-label>Name</mat-label>\n        <input matInput required formControlName=\"label\">\n        <mat-error>Name is required</mat-error>\n      </mat-form-field>\n      <mat-form-field class=\"full-width-input\">\n        <mat-label>Note</mat-label>\n        <textarea matInput formControlName=\"note\"></textarea>\n      </mat-form-field>\n      <button mat-raised-button color=\"primary\">Add</button>\n    </form>\n  </mat-card-content>\n</mat-card>\n"
         },
         {
             "name": "AppComponent",
@@ -2357,7 +2381,7 @@
         },
         {
             "name": "ApplicationsComponent",
-            "id": "component-ApplicationsComponent-75765b787a859784dbd193e56993fb0f6a75227aefa4b0838f2b25a3b75925ce7290ad8fab7a0eeb87b6df158af4939872ebaa2c0ad0b13d08c0c9041bad5728",
+            "id": "component-ApplicationsComponent-1a89a0793ca6f6536e00d603aa3f5f81cae16c6e7eee289e9cf4deae3fdb08ee9b1e49b2d074ca5beb0efae3ed4451821d55d8b48b7e697b82496884d0497d52",
             "file": "src/app/components/applications/applications.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2377,34 +2401,44 @@
             "outputsClass": [],
             "propertiesClass": [
                 {
-                    "name": "accessNeedGroup$",
-                    "defaultValue": "this.store.select(selectDescriptions).pipe(\n    map(authorizationData => authorizationData.accessNeedGroup),\n  )",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 17
-                },
-                {
-                    "name": "accessNeeds$",
-                    "defaultValue": "this.store.select(selectDescriptions).pipe(\n    map(authorizationData => authorizationData.accessNeedGroup.needs),\n  )",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 20
-                },
-                {
-                    "name": "applications$",
+                    "name": "allApps$",
                     "defaultValue": "this.store.select(selectApplications)",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 16
+                    "line": 21
+                },
+                {
+                    "name": "currentGroup$",
+                    "defaultValue": "this.store.select(selectCurrentGroup)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 23
+                },
+                {
+                    "name": "currentNeeds$",
+                    "defaultValue": "this.store.select(selectCurrentNeeds)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 24
+                },
+                {
+                    "name": "currentShapeTrees$",
+                    "defaultValue": "this.store.select(selectCurrentShapeTrees)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 25
                 },
                 {
                     "name": "store",
@@ -2413,7 +2447,7 @@
                     "type": "Store",
                     "optional": false,
                     "description": "",
-                    "line": 25,
+                    "line": 28,
                     "modifierKind": [
                         123
                     ]
@@ -2426,7 +2460,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 28,
+                    "line": 31,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -2434,7 +2468,7 @@
                     "name": "requestDescriptions",
                     "args": [
                         {
-                            "name": "applicationId",
+                            "name": "id",
                             "type": "string",
                             "deprecated": false,
                             "deprecationMessage": ""
@@ -2443,12 +2477,12 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 32,
+                    "line": 35,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
                         {
-                            "name": "applicationId",
+                            "name": "id",
                             "type": "string",
                             "deprecated": false,
                             "deprecationMessage": "",
@@ -2466,7 +2500,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component, OnInit} from '@angular/core';\nimport {Store} from \"@ngrx/store\";\nimport {selectApplications} from 'src/app/state/selectors/application.selectors';\nimport {DataActions} from 'src/app/state/actions/application.actions';\nimport {DescActions} from \"../../state/actions/description.actions\";\nimport {selectDescriptions} from \"../../state/selectors/description.selectors\";\nimport {map} from \"rxjs\";\n\n@Component({\n  selector: 'sai-applications',\n  templateUrl: './applications.component.html',\n  styleUrls: ['./applications.component.scss']\n})\nexport class ApplicationsComponent implements OnInit {\n\n  applications$ = this.store.select(selectApplications);\n  accessNeedGroup$ = this.store.select(selectDescriptions).pipe(\n    map(authorizationData => authorizationData.accessNeedGroup),\n  );\n  accessNeeds$ = this.store.select(selectDescriptions).pipe(\n    map(authorizationData => authorizationData.accessNeedGroup.needs),\n  );\n\n  constructor(\n    public store: Store,\n  ) { }\n\n  ngOnInit(): void {\n    this.store.dispatch(DataActions.applicationsPanelLoaded())\n  }\n\n  requestDescriptions(applicationId: string): void {\n    this.store.dispatch(DescActions.descriptionsNeeded({applicationId}));\n  }\n}\n",
+            "sourceCode": "import {Component, OnInit} from '@angular/core';\nimport {Store} from \"@ngrx/store\";\nimport {selectApplications} from 'src/app/state/selectors/application.selectors';\nimport {DataActions} from 'src/app/state/actions/application.actions';\nimport {DescActions} from \"../../state/actions/description.actions\";\nimport {selectDescriptions} from \"../../state/selectors/description.selectors\";\nimport {map} from \"rxjs\";\nimport {\n  selectCurrentGroup,\n  selectCurrentNeeds,\n  selectCurrentShapeTrees\n} from \"../../state/selectors/access-needs.selectors\";\n\n@Component({\n  selector: 'sai-applications',\n  templateUrl: './applications.component.html',\n  styleUrls: ['./applications.component.scss']\n})\nexport class ApplicationsComponent implements OnInit {\n\n  allApps$ = this.store.select(selectApplications);\n\n  currentGroup$ = this.store.select(selectCurrentGroup);\n  currentNeeds$ = this.store.select(selectCurrentNeeds);\n  currentShapeTrees$ = this.store.select(selectCurrentShapeTrees);\n\n  constructor(\n    public store: Store,\n  ) { }\n\n  ngOnInit(): void {\n    this.store.dispatch(DataActions.applicationsPanelLoaded())\n  }\n\n  requestDescriptions(id: string): void {\n    this.store.dispatch(DescActions.descriptionsNeeded({applicationId: id}));\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -2488,7 +2522,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 22,
+                "line": 25,
                 "jsdoctags": [
                     {
                         "name": "store",
@@ -2504,11 +2538,11 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<div *ngFor=\"let application of applications$ | async\">\n  <sai-app-view (click)=\"requestDescriptions(application.id)\"\n                [application]=\"application\"\n                [accessNeedGroup]=\"accessNeedGroup$ | async\"\n                [accessNeeds]=\"accessNeeds$ | async\"\n  ></sai-app-view>\n</div>\n"
+            "templateData": "<div *ngFor=\"let app of allApps$ | async\">\n  <sai-app-view (click)=\"requestDescriptions(app.id)\"\n                [application]=\"app\"\n                [group]=\"currentGroup$ | async\"\n                [needs]=\"currentNeeds$ | async\"\n                [shapetrees]=\"currentShapeTrees$ | async\"\n  ></sai-app-view>\n</div>\n"
         },
         {
             "name": "AppViewComponent",
-            "id": "component-AppViewComponent-979d6e8e409496b4dcd2185a7b90ed9118bfa8396e2c6b8915a05624507b76d74b51ebc6ee5132c76ce2be2c99208043f98eb5f6ff2aaa13e0c0f6b49d09c3c7",
+            "id": "component-AppViewComponent-28243c74d70b6869185437285a8b3f5345ae56b172df36b912244d893f15946871f5e491566b8a9ffa68c328dc312b334ec146d79ab950e1e831894041a1702f",
             "file": "src/app/views/app-view/app-view.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2526,28 +2560,10 @@
             "viewProviders": [],
             "inputsClass": [
                 {
-                    "name": "accessNeedGroup",
-                    "defaultValue": "null",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "line": 20,
-                    "type": "AccessNeedGroup | null",
-                    "decorators": []
-                },
-                {
-                    "name": "accessNeeds",
-                    "defaultValue": "null",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "line": 21,
-                    "type": "AccessNeed[] | null",
-                    "decorators": []
-                },
-                {
                     "name": "application",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 19,
+                    "line": 16,
                     "type": "Application",
                     "decorators": []
                 },
@@ -2556,8 +2572,35 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 18,
+                    "line": 15,
                     "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "group",
+                    "defaultValue": "null",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 17,
+                    "type": "AccessNeedGroup | null",
+                    "decorators": []
+                },
+                {
+                    "name": "needs",
+                    "defaultValue": "null",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 18,
+                    "type": "AccessNeed[] | null",
+                    "decorators": []
+                },
+                {
+                    "name": "shapetrees",
+                    "defaultValue": "null",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 19,
+                    "type": "ShapeTree[] | null",
                     "decorators": []
                 }
             ],
@@ -2567,7 +2610,7 @@
                     "defaultValue": "new EventEmitter<{id: IRI}>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 24,
+                    "line": 22,
                     "type": "EventEmitter"
                 },
                 {
@@ -2575,7 +2618,7 @@
                     "defaultValue": "new EventEmitter<{changeSet: AppChangeSet}>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 25,
+                    "line": 23,
                     "type": "EventEmitter"
                 }
             ],
@@ -2588,7 +2631,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 28,
+                    "line": 26,
                     "modifierKind": [
                         123
                     ]
@@ -2601,7 +2644,7 @@
                     "type": "AppChangeSet",
                     "optional": false,
                     "description": "",
-                    "line": 27,
+                    "line": 25,
                     "modifierKind": [
                         123
                     ]
@@ -2609,12 +2652,40 @@
             ],
             "methodsClass": [
                 {
+                    "name": "getShapetreesForNeed",
+                    "args": [
+                        {
+                            "name": "need",
+                            "type": "AccessNeed",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "ShapeTree",
+                    "typeParameters": [],
+                    "line": 48,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "need",
+                            "type": "AccessNeed",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
                     "name": "handleDiscard",
                     "args": [],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 40,
+                    "line": 38,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -2631,7 +2702,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 35,
+                    "line": 33,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2652,7 +2723,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 32,
+                    "line": 30,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -2662,7 +2733,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 46,
+                    "line": 44,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -2674,7 +2745,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';\nimport {\n  AccessNeed,\n  AccessNeedGroup,\n  Application,\n  IRI,\n} from \"@janeirodigital/sai-api-messages\";\n\nexport type AppChangeSet = {[AccessNeedId: IRI]: IRI[]};\n\n@Component({\n  selector: 'sai-app-view',\n  templateUrl: './app-view.component.html',\n  styleUrls: ['./app-view.component.scss']\n})\nexport class AppViewComponent implements OnInit {\n\n  @Input() expanded = false;\n  @Input() application!: Application;\n  @Input() accessNeedGroup: AccessNeedGroup | null = null;\n  @Input() accessNeeds: AccessNeed[] | null = null;\n\n  // TODO prompt for confirmation\n  @Output() remove = new EventEmitter<{id: IRI}>();\n  @Output() save = new EventEmitter<{changeSet: AppChangeSet}>();\n\n  public changeSet: AppChangeSet = {};\n  public changed = false;\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n  handleNeedChange(changed: {id: IRI, access: IRI[]}): void {\n    this.changed = true;\n    this.changeSet[changed.id] = changed.access;\n  }\n\n  handleDiscard(): void {\n    this.changed = false;\n    this.expanded = false;\n    this.changeSet = {};\n  }\n\n  submit(): void {\n    // TODO\n  }\n}\n",
+            "sourceCode": "import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';\nimport {Application, IRI} from \"@janeirodigital/sai-api-messages\";\n\nimport {AccessNeed, AccessNeedGroup, ShapeTree} from \"../../state/models\";\n\nexport type AppChangeSet = {[AccessNeedId: IRI]: IRI[]};\n\n@Component({\n  selector: 'sai-app-view',\n  templateUrl: './app-view.component.html',\n  styleUrls: ['./app-view.component.scss']\n})\nexport class AppViewComponent implements OnInit {\n\n  @Input() expanded = false;\n  @Input() application!: Application;\n  @Input() group: AccessNeedGroup | null = null;\n  @Input() needs: AccessNeed[] | null = null;\n  @Input() shapetrees: ShapeTree[] | null = null;\n\n  // TODO prompt for confirmation\n  @Output() remove = new EventEmitter<{id: IRI}>();\n  @Output() save = new EventEmitter<{changeSet: AppChangeSet}>();\n\n  public changeSet: AppChangeSet = {};\n  public changed = false;\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n  handleNeedChange(changed: {id: IRI, access: IRI[]}): void {\n    this.changed = true;\n    this.changeSet[changed.id] = changed.access;\n  }\n\n  handleDiscard(): void {\n    this.changed = false;\n    this.expanded = false;\n    this.changeSet = {};\n  }\n\n  submit(): void {\n    // TODO\n  }\n\n  getShapetreesForNeed(need: AccessNeed): ShapeTree {\n    const match = this.shapetrees!.filter(tree => need.shapeTree.includes(tree.id)).pop()!;\n    return match;\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -2689,16 +2760,16 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 28
+                "line": 26
             },
             "implements": [
                 "OnInit"
             ],
-            "templateData": "\n<mat-card>\n  <mat-card-header>\n    <img mat-card-avatar class=\"header-image\" src=\"{{application.logo}}\">\n    <mat-card-title>{{application.name}}</mat-card-title>\n    <mat-card-subtitle>Last updated on: {{(application.lastUpdateDate || application.authorizationDate) | date}}</mat-card-subtitle>\n    <mat-card-actions align=\"end\">\n      <button mat-button *ngIf=\"!expanded\" (click)=\"expanded = !expanded\">Edit</button>\n      <button mat-button *ngIf=\"expanded\" [disabled]=\"!changed\" (click)=\"submit()\">Save</button>\n      <button mat-button *ngIf=\"expanded\" (click)=\"handleDiscard()\">\n        <span *ngIf=\"changed\">Discard</span>\n        <span *ngIf=\"!changed\">Cancel</span>\n      </button>\n\n      <button mat-button color=\"warn\" (click)=\"remove.emit({id: application.id})\">Remove</button>\n    </mat-card-actions>\n  </mat-card-header>\n  <mat-card-content *ngIf=\"expanded && accessNeedGroup\">\n    <p>{{application.name}} has the following access needs</p>\n    <div>\n      <h3>{{accessNeedGroup.label}}</h3>\n      <p>{{accessNeedGroup.description}}</p>\n    </div>\n    <ng-container *ngIf=\"accessNeeds; else loadingNeeds\">\n        <sai-access-need-view *ngFor=\"let need of accessNeeds\" [need]=\"need\" (changed)=\"handleNeedChange($event)\"></sai-access-need-view>\n    </ng-container>\n  </mat-card-content>\n</mat-card>\n\n<ng-template #loadingNeeds>\n  <div class=\"centered\">\n    <mat-spinner></mat-spinner>\n  </div>\n</ng-template>\n"
+            "templateData": "\n<mat-card>\n  <mat-card-header>\n    <img mat-card-avatar class=\"header-image\" alt=\"application logo\" src=\"{{application.logo}}\">\n    <mat-card-title>{{application.name}}</mat-card-title>\n    <mat-card-subtitle>Last updated on: {{(application.lastUpdateDate || application.authorizationDate) | date}}</mat-card-subtitle>\n    <mat-card-actions align=\"end\">\n      <button mat-button *ngIf=\"!expanded\" (click)=\"expanded = !expanded\">Edit</button>\n      <button mat-button *ngIf=\"expanded\" [disabled]=\"!changed\" (click)=\"submit()\">Save</button>\n      <button mat-button *ngIf=\"expanded\" (click)=\"handleDiscard()\">\n        <span *ngIf=\"changed\">Discard</span>\n        <span *ngIf=\"!changed\">Cancel</span>\n      </button>\n\n      <button mat-button color=\"warn\" (click)=\"remove.emit({id: application.id})\">Remove</button>\n    </mat-card-actions>\n  </mat-card-header>\n  <mat-card-content *ngIf=\"expanded && group\">\n    <p>{{application.name}} has the following access needs</p>\n    <div>\n      <h3>{{group.label}}</h3>\n      <p>{{group.description}}</p>\n    </div>\n    <ng-container *ngIf=\"needs; else loadingNeeds\">\n        <sai-access-need-view *ngFor=\"let need of needs\" [need]=\"need\" [shapetree]=\"getShapetreesForNeed(need)\" (changed)=\"handleNeedChange($event)\"></sai-access-need-view>\n    </ng-container>\n  </mat-card-content>\n</mat-card>\n\n<ng-template #loadingNeeds>\n  <div class=\"centered\">\n    <mat-spinner></mat-spinner>\n  </div>\n</ng-template>\n"
         },
         {
             "name": "AuthorizationComponent",
-            "id": "component-AuthorizationComponent-8b0fa61398a3f9c3cb01681d110f36b039a3c1f6d4cc656ec15e6f32a15c0db47d7530cd1e820f23dc20848183865f6f46b631e0a1d772674ed2ed7ca5013e49",
+            "id": "component-AuthorizationComponent-71fdee6ebf608d56812660ea28848523ae74c88ceaca79e872229f3d0c58833610c84c9a8835cb1b82c73cf3ffb6f3d9acc4a818c53c0c1a6e60e4950e1fdb2a",
             "file": "src/app/components/authorization/authorization.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2724,7 +2795,7 @@
                     "type": "AuthorizationData",
                     "optional": true,
                     "description": "",
-                    "line": 22
+                    "line": 21
                 },
                 {
                     "name": "authorizationData$",
@@ -2734,7 +2805,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 21
+                    "line": 20
                 },
                 {
                     "name": "clientId",
@@ -2743,7 +2814,7 @@
                     "type": "IRI",
                     "optional": true,
                     "description": "",
-                    "line": 18
+                    "line": 17
                 },
                 {
                     "name": "clientIdInput",
@@ -2753,7 +2824,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 19
+                    "line": 18
                 },
                 {
                     "name": "dataSource",
@@ -2763,7 +2834,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 25
+                    "line": 24
                 },
                 {
                     "name": "hasChild",
@@ -2773,7 +2844,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 27
+                    "line": 26
                 },
                 {
                     "name": "treeControl",
@@ -2783,7 +2854,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 24
+                    "line": 23
                 }
             ],
             "methodsClass": [
@@ -2807,7 +2878,7 @@
                     "optional": false,
                     "returnType": "DataAuthorization[]",
                     "typeParameters": [],
-                    "line": 62,
+                    "line": 58,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2845,7 +2916,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 75,
+                    "line": 71,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2873,7 +2944,7 @@
                     "optional": false,
                     "returnType": "string",
                     "typeParameters": [],
-                    "line": 56,
+                    "line": 52,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2894,7 +2965,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 42,
+                    "line": 41,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -2904,7 +2975,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 81,
+                    "line": 77,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -2916,11 +2987,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {NestedTreeControl} from '@angular/cdk/tree';\nimport {Component, OnInit} from '@angular/core';\nimport {MatTreeNestedDataSource} from '@angular/material/tree';\nimport {ActivatedRoute, Router} from '@angular/router';\nimport {AccessNeed, AuthorizationData, DataAuthorization, IRI} from '@janeirodigital/sai-api-messages';\nimport {Store} from \"@ngrx/store\";\nimport {DescActions} from 'src/app/state/actions/description.actions';\nimport {selectDescriptions} from 'src/app/state/selectors/description.selectors'\nimport {DataActions} from 'src/app/state/actions/application.actions';\n\n@Component({\n  selector: 'sai-authorization',\n  templateUrl: './authorization.component.html',\n  styleUrls: ['./authorization.component.scss']\n})\nexport class AuthorizationComponent implements OnInit {\n\n  clientId?: IRI;\n  clientIdInput: string = '';\n\n  authorizationData$ = this.store.select(selectDescriptions);\n  authorizationData?: AuthorizationData\n\n  treeControl = new NestedTreeControl<AccessNeed>(node => node.children);\n  dataSource = new MatTreeNestedDataSource<AccessNeed>();\n\n  hasChild = (_: number, node: AccessNeed) => !!node.children && node.children.length > 0;\n\n  constructor(\n    private route: ActivatedRoute,\n    private router: Router,\n    private store: Store,\n    ) {\n      this.authorizationData$.subscribe(data => {\n        if (data) {\n          this.authorizationData = data\n          this.dataSource.data = data.accessNeedGroup.needs;\n        }\n      });\n    }\n\n  ngOnInit(): void {\n    const clientId = this.route.snapshot.queryParamMap.get('client_id')\n    if (clientId) this.fetchApplication(clientId);\n\n    // if (clientId) {\n    //   this.clientId = clientId\n    //   this.store.dispatch(DescActions.descriptionsNeeded({\n    //     applicationId: clientId\n    //   }))\n    // } else {\n    //   throw new Error('authorization requires client_id query parameter')\n    // }\n  }\n\n  getScope(accessNeed: AccessNeed): string {\n    if (accessNeed.parent) return 'Inherited'\n    // TODO based on user input\n    return 'All'\n  }\n\n  createDataAuthorizations(accessNeed: AccessNeed, parent?: AccessNeed): DataAuthorization[] {\n    const dataAuthorization = {\n      accessNeed: accessNeed.id,\n      scope: this.getScope(accessNeed), // TODO\n    } as DataAuthorization\n    let children: DataAuthorization[] = []\n    if (accessNeed.children) {\n      children = accessNeed.children.flatMap(childAccessNeed => this.createDataAuthorizations(childAccessNeed, accessNeed))\n    }\n\n    return [ dataAuthorization, ...children]\n  }\n\n  fetchApplication(clientId: IRI): void {\n      this.store.dispatch(DescActions.descriptionsNeeded({\n        applicationId: clientId\n      }));\n  }\n\n  onSubmit() {\n    if (this.authorizationData) {\n      const dataAuthorizations: DataAuthorization[] = []\n\n      this.store.dispatch(DataActions.authorizeApplication({\n        authorization: {\n          grantee: this.authorizationData.id,\n          accessNeedGroup: this.authorizationData.accessNeedGroup.id,\n          dataAuthorizations: this.authorizationData.accessNeedGroup.needs.flatMap(accessNeed => this.createDataAuthorizations(accessNeed))\n        }\n      }));\n      // TODO: show spinner\n    }\n  }\n\n}\n",
+            "sourceCode": "import {NestedTreeControl} from '@angular/cdk/tree';\nimport {Component, OnInit} from '@angular/core';\nimport {MatTreeNestedDataSource} from '@angular/material/tree';\nimport {ActivatedRoute, Router} from '@angular/router';\nimport {AccessNeed, AuthorizationData, DataAuthorization, IRI} from '@janeirodigital/sai-api-messages';\nimport {Store} from \"@ngrx/store\";\nimport {DescActions} from 'src/app/state/actions/description.actions';\nimport {selectDescriptions} from 'src/app/state/selectors/description.selectors'\nimport {DataActions} from 'src/app/state/actions/application.actions';\n\n@Component({\n  selector: 'sai-authorization',\n  templateUrl: './authorization.component.html',\n  styleUrls: ['./authorization.component.scss']\n})\nexport class AuthorizationComponent implements OnInit {\n  clientId?: IRI;\n  clientIdInput: string = '';\n\n  authorizationData$ = this.store.select(selectDescriptions);\n  authorizationData?: AuthorizationData\n\n  treeControl = new NestedTreeControl<AccessNeed>(node => node.children);\n  dataSource = new MatTreeNestedDataSource<AccessNeed>();\n\n  hasChild = (_: number, node: AccessNeed) => !!node.children && node.children.length > 0;\n\n  constructor(\n    private route: ActivatedRoute,\n    private router: Router,\n    private store: Store,\n    ) {\n      this.authorizationData$.subscribe(data => {\n        if (data) {\n          this.authorizationData = data\n          this.dataSource.data = data.accessNeedGroup.needs;\n        }\n      });\n    }\n\n  ngOnInit(): void {\n    this.route.queryParams.subscribe(params => {\n      const clientId = params['client_id'];\n\n      if (clientId) {\n        this.clientId = clientId;\n        this.fetchApplication(clientId);\n      }\n    })\n  }\n\n  getScope(accessNeed: AccessNeed): string {\n    if (accessNeed.parent) return 'Inherited'\n    // TODO based on user input\n    return 'All'\n  }\n\n  createDataAuthorizations(accessNeed: AccessNeed, parent?: AccessNeed): DataAuthorization[] {\n    const dataAuthorization = {\n      accessNeed: accessNeed.id,\n      scope: this.getScope(accessNeed), // TODO\n    } as DataAuthorization\n    let children: DataAuthorization[] = []\n    if (accessNeed.children) {\n      children = accessNeed.children.flatMap(childAccessNeed => this.createDataAuthorizations(childAccessNeed, accessNeed))\n    }\n\n    return [ dataAuthorization, ...children]\n  }\n\n  fetchApplication(clientId: IRI): void {\n      this.store.dispatch(DescActions.descriptionsNeeded({\n        applicationId: clientId\n      }));\n  }\n\n  onSubmit() {\n    if (this.authorizationData) {\n      const dataAuthorizations: DataAuthorization[] = []\n\n      this.store.dispatch(DataActions.authorizeApplication({\n        authorization: {\n          grantee: this.authorizationData.id,\n          accessNeedGroup: this.authorizationData.accessNeedGroup.id,\n          dataAuthorizations: this.authorizationData.accessNeedGroup.needs.flatMap(accessNeed => this.createDataAuthorizations(accessNeed))\n        }\n      }));\n      // TODO: show spinner\n    }\n  }\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "mat-card {\n  margin-bottom: 1rem;\n}\n\n.example-tree ul,\n.example-tree li {\n  margin-top: 0;\n  margin-bottom: 0;\n  list-style-type: none;\n}\n\n/*\n * This padding sets alignment of the nested nodes.\n */\n.example-tree .mat-nested-tree-node div[role=group] {\n  padding-left: 40px;\n}\n\n/*\n * Padding for leaf nodes.\n * Leaf nodes need to have padding so as to align with other non-leaf nodes\n * under the same parent.\n */\n.example-tree div[role=group] > .mat-tree-node {\n  padding-left: 40px;\n}\n\n",
+                    "data": "mat-card {\n  margin-bottom: 1rem;\n}\n\n.example-tree ul,\n.example-tree li {\n  margin-top: 0;\n  margin-bottom: 0;\n  list-style-type: none;\n}\n\n/*\n * This padding sets alignment of the nested nodes.\n */\n.example-tree .mat-nested-tree-node div[role=group] {\n  padding-left: 40px;\n}\n\n/*\n * Padding for leaf nodes.\n * Leaf nodes need to have padding so as to align with other non-leaf nodes\n * under the same parent.\n */\n.example-tree div[role=group] > .mat-tree-node {\n  padding-left: 40px;\n}\n\n.form-container {\n  display: flex;\n  flex-direction: column;\n  justify-content: center;\n}\n\n",
                     "styleUrl": "./authorization.component.scss"
                 }
             ],
@@ -2950,7 +3021,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 27,
+                "line": 26,
                 "jsdoctags": [
                     {
                         "name": "route",
@@ -2984,7 +3055,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "\n<div *ngIf=\"clientId; else noClientId\">\n  <h1>{{ (authorizationData$ | async)?.accessNeedGroup?.label }}</h1>\n  <h2>{{ (authorizationData$ | async)?.accessNeedGroup?.description }}</h2>\n\n  <mat-tree [dataSource]=\"dataSource\" [treeControl]=\"treeControl\" class=\"example-tree\">\n    <!-- This is the tree node template for leaf nodes -->\n    <!-- There is inline padding applied to this node using styles.\n      This padding value depends on the mat-icon-button width. -->\n    <mat-tree-node *matTreeNodeDef=\"let node\" matTreeNodeToggle>\n      <mat-card>\n        <mat-card-title>{{node.shapeTree.label}}</mat-card-title>\n        <mat-card-content>{{node.label}}</mat-card-content>\n      </mat-card>\n    </mat-tree-node>\n    <!-- This is the tree node template for expandable nodes -->\n    <mat-nested-tree-node *matTreeNodeDef=\"let node; when: hasChild\">\n      <div class=\"mat-tree-node\">\n        <mat-card>\n          <mat-card-title>{{node.shapeTree.label}}</mat-card-title>\n          <mat-card-content>{{node.label}}</mat-card-content>\n        </mat-card>\n      </div>\n      <!-- There is inline padding applied to this div using styles.\n          This padding value depends on the mat-icon-button width.  -->\n      <div class=\"mat-nested-tree-node\"\n           role=\"group\">\n        <ng-container matTreeNodeOutlet></ng-container>\n      </div>\n    </mat-nested-tree-node>\n  </mat-tree>\n  <button mat-raised-button color=\"primary\">Authorize</button>\n</div>\n\n<!--<div>-->\n<!--  <sai-app-view expanded=\"true\" [application]=\"applications$ | async\">-->\n\n<!--  </sai-app-view>-->\n\n<!--</div>-->\n\n\n<ng-template #noClientId>\n  <h3 class=\"missing-client-warn\">Please provide a client id</h3>\n  <form routerLink=\"/authorize\" [queryParams]=\"{client_id: clientIdInput}\">\n    <mat-form-field class=\"full-width-input\">\n      <mat-label>Application ID</mat-label>\n      <input matInput required [(ngModel)]=\"clientIdInput\">\n      <mat-error>Application ID is required</mat-error>\n    </mat-form-field>\n    <button mat-raised-button color=\"primary\">Search</button>\n  </form>\n</ng-template>\n"
+            "templateData": "\n<div *ngIf=\"clientId; else noClientId\">\n  <h1>{{ (authorizationData$ | async)?.accessNeedGroup?.label }}</h1>\n  <h2>{{ (authorizationData$ | async)?.accessNeedGroup?.description }}</h2>\n\n  <mat-tree [dataSource]=\"dataSource\" [treeControl]=\"treeControl\" class=\"example-tree\">\n    <!-- This is the tree node template for leaf nodes -->\n    <!-- There is inline padding applied to this node using styles.\n      This padding value depends on the mat-icon-button width. -->\n    <mat-tree-node *matTreeNodeDef=\"let node\" matTreeNodeToggle>\n      <mat-card>\n        <mat-card-title>{{node.shapeTree.label}}</mat-card-title>\n        <mat-card-content>{{node.label}}</mat-card-content>\n      </mat-card>\n    </mat-tree-node>\n    <!-- This is the tree node template for expandable nodes -->\n    <mat-nested-tree-node *matTreeNodeDef=\"let node; when: hasChild\">\n      <div class=\"mat-tree-node\">\n        <mat-card>\n          <mat-card-title>{{node.shapeTree.label}}</mat-card-title>\n          <mat-card-content>{{node.label}}</mat-card-content>\n        </mat-card>\n      </div>\n      <!-- There is inline padding applied to this div using styles.\n          This padding value depends on the mat-icon-button width.  -->\n      <div class=\"mat-nested-tree-node\"\n           role=\"group\">\n        <ng-container matTreeNodeOutlet></ng-container>\n      </div>\n    </mat-nested-tree-node>\n  </mat-tree>\n  <button mat-raised-button color=\"primary\" (click)=\"onSubmit()\">Authorize</button>\n</div>\n\n<!--<div>-->\n<!--  <sai-app-view expanded=\"true\" [application]=\"applications$ | async\">-->\n\n<!--  </sai-app-view>-->\n\n<!--</div>-->\n\n\n<ng-template #noClientId>\n  <div class=\"form-container\">\n    <h3 class=\"missing-client-warn\">Please provide a client id</h3>\n    <form [routerLink]=\"'/authorize'\" [queryParams]=\"{client_id: clientIdInput}\">\n      <mat-form-field class=\"full-width-input\">\n        <mat-label>Application ID</mat-label>\n        <input matInput required [(ngModel)]=\"clientIdInput\" [ngModelOptions]=\"{standalone: true}\">\n        <mat-error>Application ID is required</mat-error>\n      </mat-form-field>\n      <button mat-raised-button>Search</button>\n    </form>\n  </div>\n</ng-template>\n"
         },
         {
             "name": "ButtonComponent",
@@ -3425,6 +3496,125 @@
                 }
             ],
             "stylesData": ""
+        },
+        {
+            "name": "InstanceSelectorComponent",
+            "id": "component-InstanceSelectorComponent-910ed92506a54bb04120e5579d7e3807d00d527e39afa5eb9696063ecfd38106ff96191a2cb0d3cc105361ae3c6190f27f8788ec19fd2e89d4e32c436507546a",
+            "file": "src/app/views/instance-selector/instance-selector.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "sai-instance-selector",
+            "styleUrls": [
+                "./instance-selector.component.scss"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./instance-selector.component.html"
+            ],
+            "viewProviders": [],
+            "inputsClass": [
+                {
+                    "name": "registryIds",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 19,
+                    "type": "string[]",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "selected",
+                    "defaultValue": "new EventEmitter<string[]>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 22,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [
+                {
+                    "name": "selectAll",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 16
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "handleToggle",
+                    "args": [
+                        {
+                            "name": "change",
+                            "type": "MatCheckboxChange",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 29,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "change",
+                            "type": "MatCheckboxChange",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 26,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "description": "<p>While this component is intended to display up-to individual instances of data, for now it displays\nup-to the data registry because sai-js/service does not expose more fine-grained data</p>\n",
+            "rawdescription": "\n\nWhile this component is intended to display up-to individual instances of data, for now it displays\nup-to the data registry because sai-js/service does not expose more fine-grained data\n",
+            "type": "component",
+            "sourceCode": "import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';\nimport {Instance} from \"../../state/models\";\nimport {MatCheckboxChange} from \"@angular/material/checkbox\";\n\n/**\n * While this component is intended to display up-to individual instances of data, for now it displays\n * up-to the data registry because sai-js/service does not expose more fine-grained data\n */\n@Component({\n  selector: 'sai-instance-selector',\n  templateUrl: './instance-selector.component.html',\n  styleUrls: ['./instance-selector.component.scss']\n})\nexport class InstanceSelectorComponent implements OnInit {\n\n  selectAll = false;\n\n  // @Input() instances!: Instance[];\n  @Input() registryIds!: string[];\n\n  // List of the selected instances ids\n  @Output() selected = new EventEmitter<string[]>();\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n  handleToggle(change: MatCheckboxChange): void {\n    const id = change.source.id;\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": "\n.container {\n  border: solid darkgray 1px;\n  padding: 5px;\n}\n\nul {\n  list-style-type: none;\n}\n\nmat-radio-group {\n  display: flex;\n  gap: 10px 10px;\n}\n\n\ndiv > mat-checkbox,\ndiv > ul\nli {\n  padding-left: 50px;\n}\n",
+                    "styleUrl": "./instance-selector.component.scss"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [],
+                "line": 22
+            },
+            "implements": [
+                "OnInit"
+            ],
+            "templateData": "\n\n<div class=\"container\">\n  <p>Select the data registries you want to share from</p>\n  <div>\n  <mat-checkbox [(ngModel)]=\"selectAll\" [ngModelOptions]=\"{standalone: true}\">Select all</mat-checkbox>\n  <ul>\n    <li *ngFor=\"let instance of registryIds\">\n      <mat-checkbox [id]=\"instance\" [disabled]=\"selectAll\" [checked]=\"selectAll\" (change)=\"handleToggle($event)\">\n        {{instance}}<a [href]=\"instance\" target=\"_blank\">\n        <button mat-icon-button><mat-icon>open_in_new</mat-icon></button></a>\n      </mat-checkbox>\n    </li>\n  </ul>\n</div>\n"
         },
         {
             "name": "LanguageComponent",
@@ -4038,7 +4228,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<mat-card *ngFor=\"let agent of socialAgents$ | async\">\n  <mat-card-header>\n    <mat-card-title>{{agent.label}}</mat-card-title>\n    <mat-card-subtitle>Authorized on {{agent.authorizationDate | date}}</mat-card-subtitle>\n  </mat-card-header>\n  <mat-card-content>\n    <p>{{agent.label}}</p>\n    <p>{{agent.note}}</p>\n  </mat-card-content>\n</mat-card>\n"
+            "templateData": "<mat-card *ngFor=\"let agent of socialAgents$ | async\">\n  <mat-card-header>\n    <mat-card-title>{{agent.label}} <a mat-icon-button target=\"_blank\" href=\"{{agent.id}}\"><mat-icon>link</mat-icon></a></mat-card-title>\n    <mat-card-subtitle>Authorized on {{agent.authorizationDate | date}}</mat-card-subtitle>\n  </mat-card-header>\n  <mat-card-content>\n    <p>{{agent.label}}</p>\n    <p>{{agent.note}}</p>\n  </mat-card-content>\n</mat-card>\n"
         },
         {
             "name": "StartComponent",
@@ -4109,13 +4299,13 @@
     "modules": [
         {
             "name": "AppModule",
-            "id": "module-AppModule-1c84e7c32346806f5d5cb6383deafcc80f1f660b9822c72fe06cec214380eb7da2a2f71748cd66fbf808022db1565192323397a72326cd5dba1f5c81e779cad1",
+            "id": "module-AppModule-419831108cc6663deeb0cb20815c4e8ba199c5970bbe8c24c6ef2c796b27c36c34d59e55081df7029cc971efb0c8eca3dd4142878ba8b022be778d70ea4923e4",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\n\nimport { AppRoutingModule } from './app-routing.module';\nimport { AppComponent } from './app.component';\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\nimport {HTTP_INTERCEPTORS, HttpClientModule} from \"@angular/common/http\";\nimport {MatButtonModule} from \"@angular/material/button\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {NavbarComponent} from \"./views/navbar/navbar.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {MatCardModule} from \"@angular/material/card\";\nimport { MatListModule } from '@angular/material/list';\nimport { MatTreeModule } from '@angular/material/tree';\nimport {ReactiveFormsModule} from \"@angular/forms\";\nimport {MatFormFieldModule} from \"@angular/material/form-field\";\nimport {MatInputModule} from \"@angular/material/input\";\nimport { DashboardComponent } from './components/dashboard/dashboard.component';\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport { StoreModule } from '@ngrx/store';\nimport { reducers, metaReducers } from './state/reducers';\nimport { StoreDevtoolsModule } from '@ngrx/store-devtools';\nimport { ENV } from '../environments/environment';\nimport { EffectsModule } from '@ngrx/effects';\nimport {AuthInterceptor} from \"./interceptors/auth.interceptor\";\nimport {Effects} from \"./state/effects\";\nimport {MatIconModule} from \"@angular/material/icon\";\nimport { FormsModule } from \"@angular/forms\";\nimport { RedirectHandlerComponent } from './components/redirect-handler/redirect-handler.component';\nimport {SolidClient} from \"./utils/solid-client\";\nimport { AuthorizationComponent } from './components/authorization/authorization.component';\nimport {MatProgressSpinnerModule} from '@angular/material/progress-spinner';\nimport { StartComponent } from './components/start/start.component';\nimport { ConnectServerComponent } from './components/connect-server/connect-server.component';\nimport { ServiceWorkerModule } from '@angular/service-worker';\nimport { AddSocialAgentComponent } from './components/add-social-agent/add-social-agent.component';\nimport { SocialAgentsComponent } from './components/social-agents/social-agents.component';\nimport { ApplicationsComponent } from './components/applications/applications.component';\nimport { DataComponent } from './components/data/data.component';\nimport { LanguageComponent } from './views/language/language.component';\nimport { AppViewComponent } from './views/app-view/app-view.component';\nimport {MatChipsModule} from \"@angular/material/chips\";\nimport { AccessNeedViewComponent } from './views/access-need-view/access-need-view.component';\nimport {MatSlideToggleModule} from \"@angular/material/slide-toggle\";\nimport {MatTooltipModule} from \"@angular/material/tooltip\";\nimport {DemoMaterialModule} from \"../material-module\";\nimport { AddSocialAgentFormComponent } from './views/add-social-agent-form/add-social-agent-form.component';\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    NavbarComponent,\n    LoginComponent,\n    DashboardComponent,\n    RedirectHandlerComponent,\n    AuthorizationComponent,\n    StartComponent,\n    ConnectServerComponent,\n    AddSocialAgentComponent,\n    SocialAgentsComponent,\n    ApplicationsComponent,\n    DataComponent,\n    LanguageComponent,\n    AppViewComponent,\n    AccessNeedViewComponent,\n    AddSocialAgentFormComponent,\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    BrowserAnimationsModule,\n    HttpClientModule,\n    MatButtonModule,\n    MatToolbarModule,\n    MatCardModule,\n    MatListModule,\n    MatTreeModule,\n    ReactiveFormsModule,\n    MatFormFieldModule,\n    MatInputModule,\n    MatIconModule,\n    MatExpansionModule,\n    MatChipsModule,\n    MatProgressSpinnerModule,\n    FormsModule,\n    StoreModule.forRoot(reducers, {\n      metaReducers\n    }),\n    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: ENV.production}),\n    EffectsModule.forRoot(Effects),\n    ServiceWorkerModule.register('ngsw-worker.js', {\n      enabled: ENV.production,\n      // Register the ServiceWorker as soon as the application is stable\n      // or after 30 seconds (whichever comes first).\n      registrationStrategy: 'registerWhenStable:30000'\n    }),\n    MatSlideToggleModule,\n    MatTooltipModule,\n  ],\n  providers: [\n    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},\n    SolidClient,\n  ],\n  bootstrap: [AppComponent],\n  exports: [BrowserModule, DemoMaterialModule],\n})\nexport class AppModule { }\n",
+            "sourceCode": "import {NgModule} from '@angular/core';\nimport {BrowserModule} from '@angular/platform-browser';\n\nimport {AppRoutingModule} from './app-routing.module';\nimport {AppComponent} from './app.component';\nimport {BrowserAnimationsModule} from '@angular/platform-browser/animations';\nimport {HTTP_INTERCEPTORS, HttpClientModule} from \"@angular/common/http\";\nimport {MatButtonModule} from \"@angular/material/button\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {NavbarComponent} from \"./views/navbar/navbar.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {MatCardModule} from \"@angular/material/card\";\nimport {MatListModule} from '@angular/material/list';\nimport {MatTreeModule} from '@angular/material/tree';\nimport {FormsModule, ReactiveFormsModule} from \"@angular/forms\";\nimport {MatFormFieldModule} from \"@angular/material/form-field\";\nimport {MatInputModule} from \"@angular/material/input\";\nimport {DashboardComponent} from './components/dashboard/dashboard.component';\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport {StoreModule} from '@ngrx/store';\nimport {metaReducers, reducers} from './state/reducers';\nimport {StoreDevtoolsModule} from '@ngrx/store-devtools';\nimport {ENV} from '../environments/environment';\nimport {EffectsModule} from '@ngrx/effects';\nimport {AuthInterceptor} from \"./interceptors/auth.interceptor\";\nimport {Effects} from \"./state/effects\";\nimport {MatIconModule} from \"@angular/material/icon\";\nimport {RedirectHandlerComponent} from './components/redirect-handler/redirect-handler.component';\nimport {SolidClient} from \"./utils/solid-client\";\nimport {AuthorizationComponent} from './components/authorization/authorization.component';\nimport {MatProgressSpinnerModule} from '@angular/material/progress-spinner';\nimport {StartComponent} from './components/start/start.component';\nimport {ConnectServerComponent} from './components/connect-server/connect-server.component';\nimport {ServiceWorkerModule} from '@angular/service-worker';\nimport {AddSocialAgentComponent} from './components/add-social-agent/add-social-agent.component';\nimport {SocialAgentsComponent} from './components/social-agents/social-agents.component';\nimport {ApplicationsComponent} from './components/applications/applications.component';\nimport {DataComponent} from './components/data/data.component';\nimport {LanguageComponent} from './views/language/language.component';\nimport {AppViewComponent} from './views/app-view/app-view.component';\nimport {MatChipsModule} from \"@angular/material/chips\";\nimport {AccessNeedViewComponent} from './views/access-need-view/access-need-view.component';\nimport {MatSlideToggleModule} from \"@angular/material/slide-toggle\";\nimport {MatTooltipModule} from \"@angular/material/tooltip\";\nimport {DemoMaterialModule} from \"../material-module\";\nimport {AddSocialAgentFormComponent} from './views/add-social-agent-form/add-social-agent-form.component';\nimport {InstanceSelectorComponent} from './views/instance-selector/instance-selector.component';\nimport {MatCheckboxModule} from \"@angular/material/checkbox\";\nimport {MatRadioModule} from \"@angular/material/radio\";\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    NavbarComponent,\n    LoginComponent,\n    DashboardComponent,\n    RedirectHandlerComponent,\n    AuthorizationComponent,\n    StartComponent,\n    ConnectServerComponent,\n    AddSocialAgentComponent,\n    SocialAgentsComponent,\n    ApplicationsComponent,\n    DataComponent,\n    LanguageComponent,\n    AppViewComponent,\n    AccessNeedViewComponent,\n    AddSocialAgentFormComponent,\n    InstanceSelectorComponent,\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    BrowserAnimationsModule,\n    HttpClientModule,\n    MatButtonModule,\n    MatToolbarModule,\n    MatCardModule,\n    MatListModule,\n    MatTreeModule,\n    ReactiveFormsModule,\n    MatFormFieldModule,\n    MatInputModule,\n    MatIconModule,\n    MatExpansionModule,\n    MatChipsModule,\n    MatProgressSpinnerModule,\n    FormsModule,\n    MatCheckboxModule,\n    MatRadioModule,\n    StoreModule.forRoot(reducers, {\n      metaReducers\n    }),\n    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: ENV.production}),\n    EffectsModule.forRoot(Effects),\n    ServiceWorkerModule.register('ngsw-worker.js', {\n      enabled: ENV.production,\n      // Register the ServiceWorker as soon as the application is stable\n      // or after 30 seconds (whichever comes first).\n      registrationStrategy: 'registerWhenStable:30000'\n    }),\n    MatSlideToggleModule,\n    MatTooltipModule,\n  ],\n  providers: [\n    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},\n    SolidClient,\n  ],\n  bootstrap: [AppComponent],\n  exports: [BrowserModule, DemoMaterialModule],\n})\nexport class AppModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -4160,6 +4350,9 @@
                         },
                         {
                             "name": "DataComponent"
+                        },
+                        {
+                            "name": "InstanceSelectorComponent"
                         },
                         {
                             "name": "LanguageComponent"
@@ -4249,13 +4442,13 @@
         },
         {
             "name": "DemoMaterialModule",
-            "id": "module-DemoMaterialModule-60996bf5d16f8329771a4630f52ebd1559fb9d1e365e3017ad4496d2660c57a17ed799c8e68920db1a797d04e552ca9ecf75e0b8c4ddc71bc689d2bd5314227a",
+            "id": "module-DemoMaterialModule-8244866c69a5508c989cfbdc750d86727382c0d2452d5b5c610a25ac9753bda659ecf9b0b8ab28f1069a9703b5738711b793cb354f331476ad8d4d1a3a4834c2",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/material-module.ts",
             "methods": [],
-            "sourceCode": "import {DragDropModule} from '@angular/cdk/drag-drop';\nimport {ScrollingModule} from '@angular/cdk/scrolling';\nimport {CdkTableModule} from '@angular/cdk/table';\nimport {CdkTreeModule} from '@angular/cdk/tree';\nimport {NgModule} from '@angular/core';\nimport {MatAutocompleteModule} from \"@angular/material/autocomplete\";\nimport { MatButtonModule } from '@angular/material/button';\nimport { MatCardModule } from '@angular/material/card';\nimport { MatBadgeModule } from \"@angular/material/badge\";\nimport { MatBottomSheetModule } from \"@angular/material/bottom-sheet\";\nimport { MatButtonToggleModule } from \"@angular/material/button-toggle\";\nimport { MatCheckboxModule } from \"@angular/material/checkbox\";\nimport { MatChipsModule } from \"@angular/material/chips\";\nimport { MatStepperModule } from \"@angular/material/stepper\";\nimport { MatDatepickerModule } from \"@angular/material/datepicker\";\nimport { MatDialogModule } from \"@angular/material/dialog\";\nimport { MatDividerModule } from \"@angular/material/divider\";\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport {MatGridListModule} from \"@angular/material/grid-list\";\nimport {MatIconModule} from \"@angular/material/icon\";\nimport {MatInputModule} from \"@angular/material/input\";\nimport {MatListModule} from \"@angular/material/list\";\nimport {MatMenuModule} from \"@angular/material/menu\";\nimport {MatNativeDateModule, MatRippleModule} from \"@angular/material/core\";\nimport {MatPaginatorModule} from \"@angular/material/paginator\";\nimport {MatProgressBarModule} from \"@angular/material/progress-bar\";\nimport {MatProgressSpinnerModule} from \"@angular/material/progress-spinner\";\nimport {MatRadioModule} from \"@angular/material/radio\";\nimport {MatSelectModule} from \"@angular/material/select\";\nimport {MatSidenavModule} from \"@angular/material/sidenav\";\nimport {MatSliderModule} from \"@angular/material/slider\";\nimport {MatSlideToggleModule} from \"@angular/material/slide-toggle\";\nimport {MatSnackBarModule} from \"@angular/material/snack-bar\";\nimport {MatSortModule} from \"@angular/material/sort\";\nimport {MatTableModule} from \"@angular/material/table\";\nimport {MatTabsModule} from \"@angular/material/tabs\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {MatTooltipModule} from \"@angular/material/tooltip\";\nimport {MatTreeModule} from \"@angular/material/tree\";\nimport {BrowserAnimationsModule} from \"@angular/platform-browser/animations\";\nimport {ReactiveFormsModule} from \"@angular/forms\";\n\n@NgModule({\n  exports: [\n    CdkTableModule,\n    CdkTreeModule,\n    DragDropModule,\n    MatAutocompleteModule,\n    MatBadgeModule,\n    MatBottomSheetModule,\n    MatButtonModule,\n    MatButtonToggleModule,\n    MatCardModule,\n    MatCheckboxModule,\n    MatChipsModule,\n    MatStepperModule,\n    MatDatepickerModule,\n    MatDialogModule,\n    MatDividerModule,\n    MatExpansionModule,\n    MatGridListModule,\n    MatIconModule,\n    MatInputModule,\n    MatListModule,\n    MatMenuModule,\n    MatNativeDateModule,\n    MatPaginatorModule,\n    MatProgressBarModule,\n    MatProgressSpinnerModule,\n    MatRadioModule,\n    MatRippleModule,\n    MatSelectModule,\n    MatSidenavModule,\n    MatSliderModule,\n    MatSlideToggleModule,\n    MatSnackBarModule,\n    MatSortModule,\n    MatTableModule,\n    MatTabsModule,\n    MatToolbarModule,\n    MatTooltipModule,\n    MatTreeModule,\n    ScrollingModule,\n    BrowserAnimationsModule,\n    ReactiveFormsModule,\n  ]\n})\nexport class DemoMaterialModule {}\n",
+            "sourceCode": "import {DragDropModule} from '@angular/cdk/drag-drop';\nimport {ScrollingModule} from '@angular/cdk/scrolling';\nimport {CdkTableModule} from '@angular/cdk/table';\nimport {CdkTreeModule} from '@angular/cdk/tree';\nimport {NgModule} from '@angular/core';\nimport {MatAutocompleteModule} from \"@angular/material/autocomplete\";\nimport { MatButtonModule } from '@angular/material/button';\nimport { MatCardModule } from '@angular/material/card';\nimport { MatBadgeModule } from \"@angular/material/badge\";\nimport { MatBottomSheetModule } from \"@angular/material/bottom-sheet\";\nimport { MatButtonToggleModule } from \"@angular/material/button-toggle\";\nimport { MatCheckboxModule } from \"@angular/material/checkbox\";\nimport { MatChipsModule } from \"@angular/material/chips\";\nimport { MatStepperModule } from \"@angular/material/stepper\";\nimport { MatDatepickerModule } from \"@angular/material/datepicker\";\nimport { MatDialogModule } from \"@angular/material/dialog\";\nimport { MatDividerModule } from \"@angular/material/divider\";\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport {MatGridListModule} from \"@angular/material/grid-list\";\nimport {MatIconModule} from \"@angular/material/icon\";\nimport {MatInputModule} from \"@angular/material/input\";\nimport {MatListModule} from \"@angular/material/list\";\nimport {MatMenuModule} from \"@angular/material/menu\";\nimport {MatNativeDateModule, MatRippleModule} from \"@angular/material/core\";\nimport {MatPaginatorModule} from \"@angular/material/paginator\";\nimport {MatProgressBarModule} from \"@angular/material/progress-bar\";\nimport {MatProgressSpinnerModule} from \"@angular/material/progress-spinner\";\nimport {MatRadioModule} from \"@angular/material/radio\";\nimport {MatSelectModule} from \"@angular/material/select\";\nimport {MatSidenavModule} from \"@angular/material/sidenav\";\nimport {MatSliderModule} from \"@angular/material/slider\";\nimport {MatSlideToggleModule} from \"@angular/material/slide-toggle\";\nimport {MatSnackBarModule} from \"@angular/material/snack-bar\";\nimport {MatSortModule} from \"@angular/material/sort\";\nimport {MatTableModule} from \"@angular/material/table\";\nimport {MatTabsModule} from \"@angular/material/tabs\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {MatTooltipModule} from \"@angular/material/tooltip\";\nimport {MatTreeModule} from \"@angular/material/tree\";\nimport {BrowserAnimationsModule} from \"@angular/platform-browser/animations\";\nimport {ReactiveFormsModule, FormsModule} from \"@angular/forms\";\n\n@NgModule({\n  exports: [\n    CdkTableModule,\n    CdkTreeModule,\n    DragDropModule,\n    MatAutocompleteModule,\n    MatBadgeModule,\n    MatBottomSheetModule,\n    MatButtonModule,\n    MatButtonToggleModule,\n    MatCardModule,\n    MatCheckboxModule,\n    MatChipsModule,\n    MatStepperModule,\n    MatDatepickerModule,\n    MatDialogModule,\n    MatDividerModule,\n    MatExpansionModule,\n    MatGridListModule,\n    MatIconModule,\n    MatInputModule,\n    MatListModule,\n    MatMenuModule,\n    MatNativeDateModule,\n    MatPaginatorModule,\n    MatProgressBarModule,\n    MatProgressSpinnerModule,\n    MatRadioModule,\n    MatRippleModule,\n    MatSelectModule,\n    MatSidenavModule,\n    MatSliderModule,\n    MatSlideToggleModule,\n    MatSnackBarModule,\n    MatSortModule,\n    MatTableModule,\n    MatTabsModule,\n    MatToolbarModule,\n    MatTooltipModule,\n    MatTreeModule,\n    ScrollingModule,\n    BrowserAnimationsModule,\n    ReactiveFormsModule,\n    FormsModule,\n  ]\n})\nexport class DemoMaterialModule {}\n",
             "children": [
                 {
                     "type": "providers",
@@ -4309,26 +4502,6 @@
                 "defaultValue": "'access-needs'"
             },
             {
-                "name": "accessNeedAdapter",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/state/reducers/access-needs.reducer.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "createEntityAdapter<AccessNeed>()"
-            },
-            {
-                "name": "accessNeedGroupAdapter",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/state/reducers/access-needs.reducer.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "createEntityAdapter<AccessNeedGroup>()"
-            },
-            {
                 "name": "accessNeedsGroupReducer",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -4336,7 +4509,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "createReducer(\n  accessNeedsGroupsInitialState,\n)"
+                "defaultValue": "createReducer(\n  accessNeedsGroupsInitialState,\n  on(Actions.addAccessNeedGroup, (state, {group}) => groupsAdapter.addOne(group, state)),\n)"
             },
             {
                 "name": "accessNeedsGroupsInitialState",
@@ -4345,8 +4518,8 @@
                 "file": "src/app/state/reducers/access-needs.reducer.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "type": "AccessNeedsGroupState",
-                "defaultValue": "accessNeedGroupAdapter.getInitialState()"
+                "type": "AccessNeedGroupState",
+                "defaultValue": "groupsAdapter.getInitialState()"
             },
             {
                 "name": "accessNeedsInitialState",
@@ -4356,7 +4529,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "AccessNeedsState",
-                "defaultValue": "accessNeedAdapter.getInitialState()"
+                "defaultValue": "needsAdapter.getInitialState()"
             },
             {
                 "name": "accessNeedsReducer",
@@ -4366,7 +4539,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "createReducer(\n  accessNeedsInitialState,\n  on(Actions.addAccessNeed, (state, {need}) => accessNeedAdapter.addOne(need, state)),\n)"
+                "defaultValue": "createReducer(\n  accessNeedsInitialState,\n  on(Actions.addAccessNeed, (state, {need}) => needsAdapter.addOne(need, state)),\n)"
             },
             {
                 "name": "adapter",
@@ -4519,6 +4692,18 @@
                 "defaultValue": "createSelector(\n  selectCore,\n  core => core.isLoggedIn && core.isServerLoggedIn\n)"
             },
             {
+                "name": "childrenOf",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/state/selectors/access-needs.selectors.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(state: AccessNeedsState, ids: string[]): AccessNeed[] => {\n  const needs = ids.map(id => state.entities[id] as AccessNeed);\n  const children = needs.reduce((acc, current) => ([...acc, ...current.children]), [] as string[]);\n\n  if (children.length > 0) {\n    return [...needs, ...childrenOf(state, children)];\n  }\n\n  return needs;\n}",
+                "rawdescription": "Recursively traverses the needs and their children through their ids to find all the access needs related to\na group regardless of how deep it is.\nTODO check for infinite loops, if a access need is already present then don add it again",
+                "description": "<p>Recursively traverses the needs and their children through their ids to find all the access needs related to\na group regardless of how deep it is.\nTODO check for infinite loops, if a access need is already present then don add it again</p>\n"
+            },
+            {
                 "name": "CORE_STATE_KEY",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -4613,6 +4798,16 @@
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "src/app/views/app-view/app-view.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "Template.bind({})"
+            },
+            {
+                "name": "Default",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/views/instance-selector/instance-selector.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -4716,7 +4911,17 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "(apiAccess: ApiAccessNeed): AccessNeed[] => {\n  const children = apiAccess.children;\n\n  if (!children || children.length === 0)\n    return [{...apiAccess, shapeTree: apiAccess.shapeTree.id, children: apiAccess.children?.map(c => c.id)}];\n\n  else {\n    // collect and recurse\n    const newAccess: AccessNeed = {...apiAccess, shapeTree: apiAccess.shapeTree.id, children: apiAccess.children?.map(c => c.id)};\n    const convertedChildren = children.map(c => flatAccessNeed(c)).flat();\n\n    return [newAccess, ...convertedChildren];\n  }\n}"
+                "defaultValue": "(apiAccess: ApiAccessNeed): AccessNeed[] => {\n  const children = apiAccess.children;\n\n  if (!children || children.length === 0)\n    return [{...apiAccess, shapeTree: apiAccess.shapeTree.id, children: apiAccess.children?.map(c => c.id) || []}];\n\n  else {\n    // collect and recurse\n    const newAccess: AccessNeed = {...apiAccess, shapeTree: apiAccess.shapeTree.id, children: apiAccess.children?.map(c => c.id) || []};\n    const convertedChildren = children.map(c => flatAccessNeed(c)).flat();\n\n    return [newAccess, ...convertedChildren];\n  }\n}"
+            },
+            {
+                "name": "flatAccessNeedGroup",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/state/effects/application.effects.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "(apiGroup: ApiGroup): AccessNeedGroup => {\n  return {...apiGroup, needs: apiGroup.needs.map(need => need.id)};\n}"
             },
             {
                 "name": "flatShapeTrees",
@@ -4736,17 +4941,17 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "createSelector(\n  selectApplicationsFeature,\n  getSelectedApplicationId,\n  (state, id) => id ? state.entities[id] : null,\n)"
+                "defaultValue": "createSelector(\n  selectApplicationsFeature,\n  // getSelectedApplicationId,\n  selectCurrentApplication,\n  (state, id) => id ? state.entities[id] : null,\n)"
             },
             {
-                "name": "getSelectedApplicationId",
+                "name": "groupsAdapter",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/state/selectors/application.selectors.ts",
+                "file": "src/app/state/reducers/access-needs.reducer.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "createSelector(\n  selectApplicationsFeature,\n  state => state.selectedApplication,\n)"
+                "defaultValue": "createEntityAdapter<AccessNeedGroup>()"
             },
             {
                 "name": "incomingLoginRedirect",
@@ -4998,7 +5203,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "(data: AuthorizationData) => {\n  const needs = data.accessNeedGroup.needs;\n\n  const shapeTrees = needs.map(need => flatShapeTrees(need)).flat();\n  const accessNeeds = needs.map(need => flatAccessNeed(need)).flat();\n\n  const shapeTreeActions = shapeTrees.map(tree => NeedActions.addShapeTree({tree}));\n  const needsActions = accessNeeds.map(need => NeedActions.addAccessNeed({need}));\n\n  return [shapeTreeActions, needsActions];\n}"
+                "defaultValue": "(data: AuthorizationData) => {\n  const needs = data.accessNeedGroup.needs;\n\n  const shapeTrees = needs.map(need => flatShapeTrees(need)).flat();\n  const accessNeeds = needs.map(need => flatAccessNeed(need)).flat();\n\n  const shapeTreeActions = shapeTrees.map(tree => NeedActions.addShapeTree({tree}));\n  const needsActions = accessNeeds.map(need => NeedActions.addAccessNeed({need}));\n\n  const group = flatAccessNeedGroup(data.accessNeedGroup);\n  const groupAction = NeedActions.addAccessNeedGroup({group});\n  return [shapeTreeActions, needsActions, groupAction];\n}"
             },
             {
                 "name": "metaReducers",
@@ -5009,6 +5214,16 @@
                 "deprecationMessage": "",
                 "type": "MetaReducer[]",
                 "defaultValue": "!ENV.production ? [localStorageSyncReducer] : [localStorageSyncReducer]"
+            },
+            {
+                "name": "needsAdapter",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/state/reducers/access-needs.reducer.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createEntityAdapter<AccessNeed>()"
             },
             {
                 "name": "oidcInfoReceived",
@@ -5151,6 +5366,26 @@
                 "defaultValue": "Template.bind({})"
             },
             {
+                "name": "selectAccessNeedGroupFeature",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/state/selectors/access-needs.selectors.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createFeatureSelector<AccessNeedGroupState>(ACCESS_NEEDS_GROUPS_STATE_KEY)"
+            },
+            {
+                "name": "selectAccessNeedsFeature",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/state/selectors/access-needs.selectors.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createFeatureSelector<AccessNeedsState>(ACCESS_NEEDS_STATE_KEY)"
+            },
+            {
                 "name": "selectApplications",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -5179,6 +5414,46 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "createFeatureSelector<CoreState>(CORE_STATE_KEY)"
+            },
+            {
+                "name": "selectCurrentApplication",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/state/selectors/description.selectors.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createSelector(\n  selectDescriptionsFeature,\n  state => state.selectedApplication,\n)"
+            },
+            {
+                "name": "selectCurrentGroup",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/state/selectors/access-needs.selectors.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createSelector(\n  selectAccessNeedGroupFeature,\n  getSelectedApplication,\n  (state, app) => app ? state.entities[app.accessNeedGroup] as AccessNeedGroup : null\n)"
+            },
+            {
+                "name": "selectCurrentNeeds",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/state/selectors/access-needs.selectors.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createSelector(\n  selectAccessNeedsFeature,\n  selectCurrentGroup,\n  (state, group) => group ? childrenOf(state, group.needs): null,\n)"
+            },
+            {
+                "name": "selectCurrentShapeTrees",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/state/selectors/access-needs.selectors.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createSelector(\n  selectShapetreeFeature,\n  selectCurrentNeeds,\n  // TODO ! is it possible to ensure that shapetree is always defined/work around the undefined?\n  function (state, needs) {\n    return needs ? needs.map(need => state.entities[need!.shapeTree]) as ShapeTree[] : null;\n  },\n)"
             },
             {
                 "name": "selectDataRegistries",
@@ -5229,6 +5504,16 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "socialAgentAdapter.getSelectors()"
+            },
+            {
+                "name": "selectShapetreeFeature",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/state/selectors/access-needs.selectors.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "createFeatureSelector<ShapetreesState>(SHAPE_TREE_STATE_KEY)"
             },
             {
                 "name": "selectSocialAgents",
@@ -5478,6 +5763,16 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "src/app/views/instance-selector/instance-selector.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "(args) => ({props: args})"
+            },
+            {
+                "name": "Template",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "src/app/views/language/language.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -5628,26 +5923,6 @@
                     "defaultValue": "'access-needs'"
                 },
                 {
-                    "name": "accessNeedAdapter",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/state/reducers/access-needs.reducer.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "createEntityAdapter<AccessNeed>()"
-                },
-                {
-                    "name": "accessNeedGroupAdapter",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/state/reducers/access-needs.reducer.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "createEntityAdapter<AccessNeedGroup>()"
-                },
-                {
                     "name": "accessNeedsGroupReducer",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
@@ -5655,7 +5930,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "createReducer(\n  accessNeedsGroupsInitialState,\n)"
+                    "defaultValue": "createReducer(\n  accessNeedsGroupsInitialState,\n  on(Actions.addAccessNeedGroup, (state, {group}) => groupsAdapter.addOne(group, state)),\n)"
                 },
                 {
                     "name": "accessNeedsGroupsInitialState",
@@ -5664,8 +5939,8 @@
                     "file": "src/app/state/reducers/access-needs.reducer.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "AccessNeedsGroupState",
-                    "defaultValue": "accessNeedGroupAdapter.getInitialState()"
+                    "type": "AccessNeedGroupState",
+                    "defaultValue": "groupsAdapter.getInitialState()"
                 },
                 {
                     "name": "accessNeedsInitialState",
@@ -5675,7 +5950,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "AccessNeedsState",
-                    "defaultValue": "accessNeedAdapter.getInitialState()"
+                    "defaultValue": "needsAdapter.getInitialState()"
                 },
                 {
                     "name": "accessNeedsReducer",
@@ -5685,7 +5960,27 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "createReducer(\n  accessNeedsInitialState,\n  on(Actions.addAccessNeed, (state, {need}) => accessNeedAdapter.addOne(need, state)),\n)"
+                    "defaultValue": "createReducer(\n  accessNeedsInitialState,\n  on(Actions.addAccessNeed, (state, {need}) => needsAdapter.addOne(need, state)),\n)"
+                },
+                {
+                    "name": "groupsAdapter",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/state/reducers/access-needs.reducer.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createEntityAdapter<AccessNeedGroup>()"
+                },
+                {
+                    "name": "needsAdapter",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/state/reducers/access-needs.reducer.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createEntityAdapter<AccessNeed>()"
                 },
                 {
                     "name": "SHAPE_TREE_STATE_KEY",
@@ -6090,6 +6385,80 @@
                     "defaultValue": "createSelector(\n  selectCore,\n  core => core.webId,\n)"
                 }
             ],
+            "src/app/state/selectors/access-needs.selectors.ts": [
+                {
+                    "name": "childrenOf",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/state/selectors/access-needs.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(state: AccessNeedsState, ids: string[]): AccessNeed[] => {\n  const needs = ids.map(id => state.entities[id] as AccessNeed);\n  const children = needs.reduce((acc, current) => ([...acc, ...current.children]), [] as string[]);\n\n  if (children.length > 0) {\n    return [...needs, ...childrenOf(state, children)];\n  }\n\n  return needs;\n}",
+                    "rawdescription": "Recursively traverses the needs and their children through their ids to find all the access needs related to\na group regardless of how deep it is.\nTODO check for infinite loops, if a access need is already present then don add it again",
+                    "description": "<p>Recursively traverses the needs and their children through their ids to find all the access needs related to\na group regardless of how deep it is.\nTODO check for infinite loops, if a access need is already present then don add it again</p>\n"
+                },
+                {
+                    "name": "selectAccessNeedGroupFeature",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/state/selectors/access-needs.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createFeatureSelector<AccessNeedGroupState>(ACCESS_NEEDS_GROUPS_STATE_KEY)"
+                },
+                {
+                    "name": "selectAccessNeedsFeature",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/state/selectors/access-needs.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createFeatureSelector<AccessNeedsState>(ACCESS_NEEDS_STATE_KEY)"
+                },
+                {
+                    "name": "selectCurrentGroup",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/state/selectors/access-needs.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createSelector(\n  selectAccessNeedGroupFeature,\n  getSelectedApplication,\n  (state, app) => app ? state.entities[app.accessNeedGroup] as AccessNeedGroup : null\n)"
+                },
+                {
+                    "name": "selectCurrentNeeds",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/state/selectors/access-needs.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createSelector(\n  selectAccessNeedsFeature,\n  selectCurrentGroup,\n  (state, group) => group ? childrenOf(state, group.needs): null,\n)"
+                },
+                {
+                    "name": "selectCurrentShapeTrees",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/state/selectors/access-needs.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createSelector(\n  selectShapetreeFeature,\n  selectCurrentNeeds,\n  // TODO ! is it possible to ensure that shapetree is always defined/work around the undefined?\n  function (state, needs) {\n    return needs ? needs.map(need => state.entities[need!.shapeTree]) as ShapeTree[] : null;\n  },\n)"
+                },
+                {
+                    "name": "selectShapetreeFeature",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/state/selectors/access-needs.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createFeatureSelector<ShapetreesState>(SHAPE_TREE_STATE_KEY)"
+                }
+            ],
             "src/app/state/reducers/core.reducer.ts": [
                 {
                     "name": "CORE_STATE_KEY",
@@ -6364,6 +6733,28 @@
                     "defaultValue": "(args) => ({props: args})"
                 }
             ],
+            "src/app/views/instance-selector/instance-selector.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/views/instance-selector/instance-selector.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/views/instance-selector/instance-selector.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "(args) => ({props: args})"
+                }
+            ],
             "src/app/state/actions/description.actions.ts": [
                 {
                     "name": "DescActions",
@@ -6473,7 +6864,17 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "(apiAccess: ApiAccessNeed): AccessNeed[] => {\n  const children = apiAccess.children;\n\n  if (!children || children.length === 0)\n    return [{...apiAccess, shapeTree: apiAccess.shapeTree.id, children: apiAccess.children?.map(c => c.id)}];\n\n  else {\n    // collect and recurse\n    const newAccess: AccessNeed = {...apiAccess, shapeTree: apiAccess.shapeTree.id, children: apiAccess.children?.map(c => c.id)};\n    const convertedChildren = children.map(c => flatAccessNeed(c)).flat();\n\n    return [newAccess, ...convertedChildren];\n  }\n}"
+                    "defaultValue": "(apiAccess: ApiAccessNeed): AccessNeed[] => {\n  const children = apiAccess.children;\n\n  if (!children || children.length === 0)\n    return [{...apiAccess, shapeTree: apiAccess.shapeTree.id, children: apiAccess.children?.map(c => c.id) || []}];\n\n  else {\n    // collect and recurse\n    const newAccess: AccessNeed = {...apiAccess, shapeTree: apiAccess.shapeTree.id, children: apiAccess.children?.map(c => c.id) || []};\n    const convertedChildren = children.map(c => flatAccessNeed(c)).flat();\n\n    return [newAccess, ...convertedChildren];\n  }\n}"
+                },
+                {
+                    "name": "flatAccessNeedGroup",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/state/effects/application.effects.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "(apiGroup: ApiGroup): AccessNeedGroup => {\n  return {...apiGroup, needs: apiGroup.needs.map(need => need.id)};\n}"
                 },
                 {
                     "name": "flatShapeTrees",
@@ -6493,7 +6894,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "(data: AuthorizationData) => {\n  const needs = data.accessNeedGroup.needs;\n\n  const shapeTrees = needs.map(need => flatShapeTrees(need)).flat();\n  const accessNeeds = needs.map(need => flatAccessNeed(need)).flat();\n\n  const shapeTreeActions = shapeTrees.map(tree => NeedActions.addShapeTree({tree}));\n  const needsActions = accessNeeds.map(need => NeedActions.addAccessNeed({need}));\n\n  return [shapeTreeActions, needsActions];\n}"
+                    "defaultValue": "(data: AuthorizationData) => {\n  const needs = data.accessNeedGroup.needs;\n\n  const shapeTrees = needs.map(need => flatShapeTrees(need)).flat();\n  const accessNeeds = needs.map(need => flatAccessNeed(need)).flat();\n\n  const shapeTreeActions = shapeTrees.map(tree => NeedActions.addShapeTree({tree}));\n  const needsActions = accessNeeds.map(need => NeedActions.addAccessNeed({need}));\n\n  const group = flatAccessNeedGroup(data.accessNeedGroup);\n  const groupAction = NeedActions.addAccessNeedGroup({group});\n  return [shapeTreeActions, needsActions, groupAction];\n}"
                 }
             ],
             "src/app/state/selectors/application.selectors.ts": [
@@ -6505,17 +6906,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "createSelector(\n  selectApplicationsFeature,\n  getSelectedApplicationId,\n  (state, id) => id ? state.entities[id] : null,\n)"
-                },
-                {
-                    "name": "getSelectedApplicationId",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/state/selectors/application.selectors.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "createSelector(\n  selectApplicationsFeature,\n  state => state.selectedApplication,\n)"
+                    "defaultValue": "createSelector(\n  selectApplicationsFeature,\n  // getSelectedApplicationId,\n  selectCurrentApplication,\n  (state, id) => id ? state.entities[id] : null,\n)"
                 },
                 {
                     "name": "internalSelectors",
@@ -6824,6 +7215,38 @@
                     "defaultValue": "(args) => ({props: args})"
                 }
             ],
+            "src/app/state/selectors/description.selectors.ts": [
+                {
+                    "name": "selectCurrentApplication",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/state/selectors/description.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createSelector(\n  selectDescriptionsFeature,\n  state => state.selectedApplication,\n)"
+                },
+                {
+                    "name": "selectDescriptions",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/state/selectors/description.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createSelector(\n  selectDescriptionsFeature,\n  state => (state.byId[state.selectedApplication!]),\n)"
+                },
+                {
+                    "name": "selectDescriptionsFeature",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/state/selectors/description.selectors.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "createFeatureSelector<DescriptionsState>(DESCRIPTIONS_STATE_KEY)"
+                }
+            ],
             "src/app/state/selectors/data.selectors.ts": [
                 {
                     "name": "selectDataRegistries",
@@ -6844,28 +7267,6 @@
                     "deprecationMessage": "",
                     "type": "",
                     "defaultValue": "createFeatureSelector<DataRegistryState>(DATA_REGISTRY_STATE_KEY)"
-                }
-            ],
-            "src/app/state/selectors/description.selectors.ts": [
-                {
-                    "name": "selectDescriptions",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/state/selectors/description.selectors.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "createSelector(\n  selectDescriptionsFeature,\n  state => (state.byId[state.selectedApplication!]),\n)"
-                },
-                {
-                    "name": "selectDescriptionsFeature",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/state/selectors/description.selectors.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "createFeatureSelector<DescriptionsState>(DESCRIPTIONS_STATE_KEY)"
                 }
             ],
             "src/app/state/selectors/social-agent.selectors.ts": [
@@ -7089,7 +7490,7 @@
                 "linktype": "component",
                 "name": "ApplicationsComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/8",
+                "coverageCount": "0/9",
                 "status": "low"
             },
             {
@@ -7552,6 +7953,16 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
+                "name": "flatAccessNeedGroup",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/state/effects/application.effects.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
                 "name": "flatShapeTrees",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
@@ -7608,6 +8019,15 @@
                 "filePath": "src/app/state/models/index.ts",
                 "type": "interface",
                 "linktype": "interface",
+                "name": "Instance",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/state/models/index.ts",
+                "type": "interface",
+                "linktype": "interface",
                 "name": "ShapeTree",
                 "coveragePercent": 0,
                 "coverageCount": "0/2",
@@ -7617,7 +8037,7 @@
                 "filePath": "src/app/state/reducers/access-needs.reducer.ts",
                 "type": "interface",
                 "linktype": "interface",
-                "name": "AccessNeedsGroupState",
+                "name": "AccessNeedGroupState",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -7665,26 +8085,6 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "accessNeedAdapter",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/state/reducers/access-needs.reducer.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "accessNeedGroupAdapter",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/state/reducers/access-needs.reducer.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
                 "name": "accessNeedsGroupReducer",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
@@ -7716,6 +8116,26 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "accessNeedsReducer",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/state/reducers/access-needs.reducer.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "groupsAdapter",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/state/reducers/access-needs.reducer.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "needsAdapter",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -8094,11 +8514,71 @@
                 "status": "low"
             },
             {
-                "filePath": "src/app/state/selectors/application.selectors.ts",
+                "filePath": "src/app/state/selectors/access-needs.selectors.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "getSelectedApplication",
+                "name": "childrenOf",
+                "coveragePercent": 100,
+                "coverageCount": "1/1",
+                "status": "very-good"
+            },
+            {
+                "filePath": "src/app/state/selectors/access-needs.selectors.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "selectAccessNeedGroupFeature",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/state/selectors/access-needs.selectors.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "selectAccessNeedsFeature",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/state/selectors/access-needs.selectors.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "selectCurrentGroup",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/state/selectors/access-needs.selectors.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "selectCurrentNeeds",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/state/selectors/access-needs.selectors.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "selectCurrentShapeTrees",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/state/selectors/access-needs.selectors.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "selectShapetreeFeature",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -8108,7 +8588,7 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "getSelectedApplicationId",
+                "name": "getSelectedApplication",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -8259,6 +8739,16 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "selectDataRegistriesFeature",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/state/selectors/description.selectors.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "selectCurrentApplication",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -8425,7 +8915,7 @@
                 "linktype": "component",
                 "name": "AppViewComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/14",
+                "coverageCount": "0/16",
                 "status": "low"
             },
             {
@@ -8450,6 +8940,35 @@
             },
             {
                 "filePath": "src/app/views/app-view/app-view.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Template",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/views/instance-selector/instance-selector.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "InstanceSelectorComponent",
+                "coveragePercent": 14,
+                "coverageCount": "1/7",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/views/instance-selector/instance-selector.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Default",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/views/instance-selector/instance-selector.stories.ts",
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",

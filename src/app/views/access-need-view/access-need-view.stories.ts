@@ -31,7 +31,12 @@ Required.args = {
   shapetree: {
     id: 'http://localhost:3000/shapetrees/trees/Project',
     label: 'Projects',
-  }
+  },
+  registryIds: [
+    'https://alice.pod.me/projects/personal',
+    'https://alice.pod.me/projects/work',
+    'https://bob.pod.me/projects/shared',
+  ]
 }
 
 export const Optional = Template.bind({});
@@ -41,4 +46,5 @@ Optional.args = {
     required: false,
   },
   shapetree: Required.args['shapetree'],
+  registryIds: Required.args['registryIds']
 }

@@ -12,6 +12,7 @@ export class AccessNeedViewComponent implements OnInit {
 
   @Input() need!: AccessNeed;
   @Input() shapetree!: ShapeTree;
+  @Input() registryIds!: string[]
   // Toggling the full need means removing all the access
   @Output() changed = new EventEmitter<{id: IRI, access: Array<IRI>}>();
 
@@ -34,6 +35,14 @@ export class AccessNeedViewComponent implements OnInit {
 
   private emitUpdate(): void {
     this.changed.emit({id: this.need.id, access: this.checkedAccess})
+  }
+
+  private save(): void {
+
+  }
+
+  private cancel(): void {
+    
   }
 
 }

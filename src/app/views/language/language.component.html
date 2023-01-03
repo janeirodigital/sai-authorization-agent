@@ -1,9 +1,10 @@
 <ng-container>
   <div class="languageSelector">
     <mat-icon matListIcon>language</mat-icon>
-    <select #selectLanguage (change)="handleSelectLanguage(selectLanguage.value)">
-      <option *ngFor="let language of languages" [value]="language">
-        {{language}}
+<!--    <select #selectLanguage (change)="handleSelectLanguage(selectLanguage.value)">-->
+      <select #selectLanguage>
+      <option *ngFor="let language of languages" [value]="language.id">
+        {{language.label}}
       </option>
     </select>
   </div>

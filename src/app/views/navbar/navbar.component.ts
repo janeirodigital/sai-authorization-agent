@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Languages} from "../../models/languages";
 
 @Component({
   selector: 'sai-navbar',
@@ -9,6 +9,10 @@ import { Store } from '@ngrx/store';
 export class NavbarComponent implements OnInit {
 
   @Input() webId!: string | null;
+  // @Input() languageSelect = Array<Languages>();
+  @Input() languageSelect = Languages;
+  // @Input() languageSelect = AllLanguages;
+  // @Output() selectedLanguage = new EventEmitter<Languages>();
 
   constructor(
   ) {}

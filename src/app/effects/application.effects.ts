@@ -56,6 +56,6 @@ export class ApplicationProfileEffects {
 
   redirectToCallbackEndpoint =  createEffect(() => this.actions$.pipe(
     ofType(DataActions.authorizationReceived),
-    tap(({accessAuthorization}) => window.location.href = accessAuthorization.callbackEndpoint!)
+    //tap(({accessAuthorization}) => window.location.href = accessAuthorization.callbackEndpoint!)
   ), {dispatch: false});
 }

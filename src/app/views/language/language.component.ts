@@ -1,7 +1,5 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-
-// TODO export type somewhere more visible
-export type Language = string;
+import {Languages} from "../../models/languages";
 
 @Component({
   selector: 'sai-language',
@@ -10,16 +8,21 @@ export type Language = string;
 })
 export class LanguageComponent implements OnInit {
 
-  @Input() languages = new Array<Language>();
-  @Output() selectedLanguage = new EventEmitter<Language>();
+  @Input() languages = Languages;
+  // @Output() selectedLanguage = new EventEmitter<Languages>();
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  public handleSelectLanguage(language: Language): void {
-    this.selectedLanguage.emit(language);
-  }
+  // public handleSelectLanguage(language: Languages): void {
+    //this.selectedLanguage.emit(language);
+  // }
+
+  // export const LanguageSelectClose = Template.bind({});
+  // LanguageSelectClose.args = {
+  //   languages: ['English', 'Español'],
+  // };
 
 }

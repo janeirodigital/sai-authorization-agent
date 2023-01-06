@@ -1,5 +1,6 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {Languages} from "../../models/languages";
+import {Languages} from "../../languages";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'sai-language',
@@ -9,20 +10,15 @@ import {Languages} from "../../models/languages";
 export class LanguageComponent implements OnInit {
 
   @Input() languages = Languages;
-  // @Output() selectedLanguage = new EventEmitter<Languages>();
 
-  constructor() { }
+  constructor(public translate: TranslateService) {
+    translate.setDefaultLang('en');
+
+    const browserLang: any  = translate.getBrowserLang();
+    translate.use(browserLang.match(/en|es/) ? browserLang : 'en');
+  }
 
   ngOnInit(): void {
   }
-
-  // public handleSelectLanguage(language: Languages): void {
-    //this.selectedLanguage.emit(language);
-  // }
-
-  // export const LanguageSelectClose = Template.bind({});
-  // LanguageSelectClose.args = {
-  //   languages: ['English', 'Español'],
-  // };
 
 }

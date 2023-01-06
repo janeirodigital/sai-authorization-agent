@@ -1,13 +1,19 @@
 import { Story, moduleMetadata } from "@storybook/angular";
 import { LanguageComponent } from "./language.component";
 import { DemoMaterialModule } from "../../../material-module";
+import {TranslateModule, TranslateService} from "@ngx-translate/core";
 
 export default {
   title: 'Language Selector',
   component: LanguageComponent,
   decorators: [
     moduleMetadata({
-      imports: [DemoMaterialModule],
+      imports: [DemoMaterialModule,
+        TranslateModule.forRoot({
+          defaultLanguage: 'en'
+        }),
+      ],
+      providers: [TranslateService],
     })
   ]
 }
@@ -19,11 +25,11 @@ LanguageSelectClose.args = {
   languages: [
     {
       label: 'English',
-      id: 'en-US'
+      id: 'en'
     },
     {
       label: 'Español',
-      id: 'es-PR'
+      id: 'es'
     }
   ],
 };

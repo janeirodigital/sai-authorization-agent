@@ -1,10 +1,10 @@
 export const Languages: Array<any> = [
   {
     label: 'English',
-    id: 'en-US'
+    id: 'en'
   },
   {
     label: 'Español',
-    id: 'es-PR'
+    id: 'es'
   }
 ]

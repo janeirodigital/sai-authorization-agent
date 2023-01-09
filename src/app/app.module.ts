@@ -38,7 +38,7 @@ import { SocialAgentsComponent } from './components/social-agents/social-agents.
 import { ApplicationsComponent } from './components/applications/applications.component';
 import { DataComponent } from './components/data/data.component';
 import { LanguageComponent } from './views/language/language.component';
-import {TranslateLoader, TranslateModule} from "@ngx-translate/core";
+import {TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 export function HttpLoaderFactory(http: HttpClient) {

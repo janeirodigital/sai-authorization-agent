@@ -184,12 +184,12 @@
         },
         {
             "name": "CoreState",
-            "id": "interface-CoreState-66b597d66bf604f2748a06e43dd1a237c6df98801b789ed82ab7fa7b924383f0d1686c26b6032884537751e84203de6186ab7bbf161129ece39c7501639c5dbe",
+            "id": "interface-CoreState-6148a95a6f93fd646e7c4632f2e2c5afb1e2be50614ae8d598fdce603938df3d4bbdcea791e16945730e5ad22d8120940baa3c2b8fdfa93aedfa8c7cf8e25a93",
             "file": "src/app/state/reducers/core.reducer.ts",
             "deprecated": false,
             "deprecationMessage": "",
             "type": "interface",
-            "sourceCode": "import {createReducer, on} from \"@ngrx/store\";\nimport {CoreActions} from \"../actions\";\n\nexport const CORE_STATE_KEY = 'core';\n\nexport interface CoreState {\n  oidcIssuer: string;\n  webId: string;\n  loginKnown: boolean;\n  isLoggedIn: boolean;\n  isServerLoggedIn: boolean;\n  redirectUrl: string;\n  requestedPath: string;\n  language: string;\n}\n\nexport const initialState: CoreState = {\n  oidcIssuer: '',\n  webId: '',\n  loginKnown: false,\n  isLoggedIn: false,\n  isServerLoggedIn: false,\n  redirectUrl: '',\n  requestedPath: '/dashboard',\n  language: 'en', // TODO allow user to set it\n}\n\nconst excludedPaths = ['/', '/start', '/redirect', '/login', '/connect']\n\nexport const coreReducer = createReducer(\n  initialState,\n  on(CoreActions.loginInitiated, (state, {oidcIssuer}) => ({...state, oidcIssuer})),\n  on(CoreActions.webIdReceived, (state, {webId}) => ({...state, webId})),\n  on(CoreActions.loginStatusChanged, (state, {loggedIn}) => ({...state, isLoggedIn: loggedIn, loginKnown: true})),\n  on(CoreActions.serverSessionReceived, (state, {isServerLoggedIn, redirectUrl}) => ({...state, isServerLoggedIn, redirectUrl: redirectUrl ? redirectUrl : ''})),\n  on(CoreActions.pathRequested, (state, {requestedPath}) => ({\n    ...state,\n    requestedPath: excludedPaths.includes(requestedPath) ? '/dashboard' : requestedPath\n  }))\n)\n",
+            "sourceCode": "import {createReducer, on} from \"@ngrx/store\";\nimport {CoreActions} from \"../actions\";\n\nexport const CORE_STATE_KEY = 'core';\nexport const CORE_LANGUAGE_KEY = 'coreLanguage';\n\nexport const preferLanguage = JSON.parse(localStorage.getItem(CORE_LANGUAGE_KEY) || '{}');\n\nexport interface CoreState {\n  oidcIssuer: string;\n  webId: string;\n  loginKnown: boolean;\n  isLoggedIn: boolean;\n  isServerLoggedIn: boolean;\n  redirectUrl: string;\n  requestedPath: string;\n  language: string;\n}\n\nexport const initialState: CoreState = {\n  oidcIssuer: '',\n  webId: '',\n  loginKnown: false,\n  isLoggedIn: false,\n  isServerLoggedIn: false,\n  redirectUrl: '',\n  requestedPath: '/dashboard',\n  language: preferLanguage.language === '' || preferLanguage.language === undefined ? navigator.language.split('-')[0] : preferLanguage.language,\n}\n\nconst excludedPaths = ['/', '/start', '/redirect', '/login', '/connect']\n\nexport const coreReducer = createReducer(\n  initialState,\n  on(CoreActions.loginInitiated, (state, {oidcIssuer}) => ({...state, oidcIssuer})),\n  on(CoreActions.webIdReceived, (state, {webId}) => ({...state, webId})),\n  on(CoreActions.loginStatusChanged, (state, {loggedIn}) => ({...state, isLoggedIn: loggedIn, loginKnown: true})),\n  on(CoreActions.serverSessionReceived, (state, {isServerLoggedIn, redirectUrl}) => ({...state, isServerLoggedIn, redirectUrl: redirectUrl ? redirectUrl : ''})),\n  on(CoreActions.pathRequested, (state, {requestedPath}) => ({\n    ...state,\n    requestedPath: excludedPaths.includes(requestedPath) ? '/dashboard' : requestedPath\n  }))\n)\n",
             "properties": [
                 {
                     "name": "isLoggedIn",
@@ -198,7 +198,7 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "",
-                    "line": 10
+                    "line": 13
                 },
                 {
                     "name": "isServerLoggedIn",
@@ -207,7 +207,7 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "",
-                    "line": 11
+                    "line": 14
                 },
                 {
                     "name": "language",
@@ -216,7 +216,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 14
+                    "line": 17
                 },
                 {
                     "name": "loginKnown",
@@ -225,7 +225,7 @@
                     "type": "boolean",
                     "optional": false,
                     "description": "",
-                    "line": 9
+                    "line": 12
                 },
                 {
                     "name": "oidcIssuer",
@@ -234,7 +234,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 7
+                    "line": 10
                 },
                 {
                     "name": "redirectUrl",
@@ -243,7 +243,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 12
+                    "line": 15
                 },
                 {
                     "name": "requestedPath",
@@ -252,7 +252,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 13
+                    "line": 16
                 },
                 {
                     "name": "webId",
@@ -261,7 +261,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 8
+                    "line": 11
                 }
             ],
             "indexSignatures": [],
@@ -1773,7 +1773,7 @@
     "components": [
         {
             "name": "AccessNeedViewComponent",
-            "id": "component-AccessNeedViewComponent-011e65257c71cfb2648c8c9d10ca7dfb9f3f7153542dff613f8f22f2198be95396334c2793f37f0f1839a914673135e2470a12846ee0c686113abf86a318b678",
+            "id": "component-AccessNeedViewComponent-544fa3eb51f20227c3c0ed1b16766fd211fe5a4d8b2bc5377710739e127c7d645a97f6739a024a03d1efff9e90d62a95dfea8d815a06b13f8684b9551145b87f",
             "file": "src/app/views/access-need-view/access-need-view.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -1799,6 +1799,14 @@
                     "decorators": []
                 },
                 {
+                    "name": "registryIds",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 15,
+                    "type": "string[]",
+                    "decorators": []
+                },
+                {
                     "name": "shapetree",
                     "deprecated": false,
                     "deprecationMessage": "",
@@ -1813,7 +1821,7 @@
                     "defaultValue": "new EventEmitter<{id: IRI, access: Array<IRI>}>()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 16,
+                    "line": 17,
                     "type": "EventEmitter"
                 }
             ],
@@ -1826,17 +1834,30 @@
                     "type": "IRI[]",
                     "optional": false,
                     "description": "",
-                    "line": 18
+                    "line": 19
                 }
             ],
             "methodsClass": [
+                {
+                    "name": "cancel",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 44,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        123
+                    ]
+                },
                 {
                     "name": "emitUpdate",
                     "args": [],
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 35,
+                    "line": 36,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -1849,7 +1870,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 21,
+                    "line": 22,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -1866,7 +1887,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 30,
+                    "line": 31,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -1882,6 +1903,19 @@
                     ]
                 },
                 {
+                    "name": "save",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 40,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
                     "name": "toggleNeed",
                     "args": [
                         {
@@ -1894,7 +1928,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 25,
+                    "line": 26,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -1917,11 +1951,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';\nimport {IRI} from \"@janeirodigital/sai-api-messages\";\nimport {AccessNeed, ShapeTree} from \"../../state/models/index\";\nimport {MatSlideToggleChange} from \"@angular/material/slide-toggle\";\n\n@Component({\n  selector: 'sai-access-need-view',\n  templateUrl: './access-need-view.component.html',\n  styleUrls: ['./access-need-view.component.scss']\n})\nexport class AccessNeedViewComponent implements OnInit {\n\n  @Input() need!: AccessNeed;\n  @Input() shapetree!: ShapeTree;\n  // Toggling the full need means removing all the access\n  @Output() changed = new EventEmitter<{id: IRI, access: Array<IRI>}>();\n\n  checkedAccess: IRI[] = [];\n  constructor() { }\n\n  ngOnInit(): void {\n    this.checkedAccess = this.need.access;\n  }\n\n  toggleNeed(change: MatSlideToggleChange): void {\n    this.checkedAccess = change.checked ? this.need.access : [];\n    this.emitUpdate();\n  }\n\n  removeAccess(access: IRI): void {\n    this.checkedAccess = this.checkedAccess.filter(v => v != access);\n    this.emitUpdate();\n  }\n\n  private emitUpdate(): void {\n    this.changed.emit({id: this.need.id, access: this.checkedAccess})\n  }\n\n}\n",
+            "sourceCode": "import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';\nimport {IRI} from \"@janeirodigital/sai-api-messages\";\nimport {AccessNeed, ShapeTree} from \"../../state/models/index\";\nimport {MatSlideToggleChange} from \"@angular/material/slide-toggle\";\n\n@Component({\n  selector: 'sai-access-need-view',\n  templateUrl: './access-need-view.component.html',\n  styleUrls: ['./access-need-view.component.scss']\n})\nexport class AccessNeedViewComponent implements OnInit {\n\n  @Input() need!: AccessNeed;\n  @Input() shapetree!: ShapeTree;\n  @Input() registryIds!: string[]\n  // Toggling the full need means removing all the access\n  @Output() changed = new EventEmitter<{id: IRI, access: Array<IRI>}>();\n\n  checkedAccess: IRI[] = [];\n  constructor() { }\n\n  ngOnInit(): void {\n    this.checkedAccess = this.need.access;\n  }\n\n  toggleNeed(change: MatSlideToggleChange): void {\n    this.checkedAccess = change.checked ? this.need.access : [];\n    this.emitUpdate();\n  }\n\n  removeAccess(access: IRI): void {\n    this.checkedAccess = this.checkedAccess.filter(v => v != access);\n    this.emitUpdate();\n  }\n\n  private emitUpdate(): void {\n    this.changed.emit({id: this.need.id, access: this.checkedAccess})\n  }\n\n  public save(): void {\n\n  }\n\n  public cancel(): void {\n\n  }\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "\n#container {\n  border: solid darkgray 1px;\n}\n\n.row {\n  display: flex;\n  align-items: center;\n  * {\n    margin-left: 10px;\n  }\n}\n\nmat-expansion-panel-header {\n  background: blue;\n}\n",
+                    "data": "\n#container {\n  border: solid darkgray 1px;\n}\n\n.row {\n  display: flex;\n  align-items: center;\n  * {\n    margin-left: 10px;\n  }\n}\n\nmat-chip-list {\n  display: flex;\n  justify-content: center;\n}\n\nul {\n list-style-type: none;\n  padding: 0\n}\n\n.side-by-side {\n  display: flex;\n  justify-content: space-around;\n}\n\nsection {\n  display: flex;\n  flex-direction: column;\n  //justify-content: left;\n}\n\n.buttons {\n  display: flex;\n  justify-content: center;\n  gap: 10px;\n\n  button {\n    min-width: 10%;\n  }\n}\n",
                     "styleUrl": "./access-need-view.component.scss"
                 }
             ],
@@ -1932,12 +1966,12 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 18
+                "line": 19
             },
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<div>\n  <div>\n    <mat-expansion-panel togglePosition=\"before\">\n      <mat-expansion-panel-header>\n        <mat-panel-title>\n          {{shapetree.label}}\n        </mat-panel-title>\n        <mat-panel-description>\n          {{need.label}}\n        </mat-panel-description>\n      </mat-expansion-panel-header>\n<!--      TODO-->\n<!--      <mat-slide-toggle *ngIf=\"!need.required\"-->\n<!--                        [checked]=\"checkedAccess.length > 0\"-->\n<!--                        [disabled]=\"need.required\"-->\n<!--                        (change)=\"toggleNeed($event)\">-->\n<!--      </mat-slide-toggle>-->\n      <mat-chip-list>\n        <mat-chip *ngFor=\"let access of need.access\">\n<!--                  (removed)=\"removeAccess(access)\"-->\n<!--                  [disabled]=\"need.required\">-->\n          {{access.split('#').pop()}}\n        </mat-chip>\n      </mat-chip-list>\n    </mat-expansion-panel>\n  </div>\n</div>\n"
+            "templateData": "<div>\n  <div>\n    <mat-expansion-panel togglePosition=\"before\" [expanded]=\"true\">\n      <mat-expansion-panel-header>\n        <mat-panel-title>\n          {{shapetree.label}}\n        </mat-panel-title>\n        <mat-panel-description>\n          {{need.label}}\n        </mat-panel-description>\n      </mat-expansion-panel-header>\n      <div class=\"side-by-side\">\n        <section class=\"registries\">\n          <h3>Registries to share from:</h3>\n          <ul>\n            <li *ngFor=\"let registry of registryIds\">\n              <mat-checkbox [id]=\"registry\" disabled checked>\n                {{registry}}<a [href]=\"registry\" target=\"_blank\">\n                <button mat-icon-button><mat-icon>open_in_new</mat-icon></button></a>\n              </mat-checkbox>\n            </li>\n          </ul>\n        </section>\n        <section class=\"access-levels\">\n          <h3>Access level to grant</h3>\n          <ul>\n            <li *ngFor=\"let access of need.access\">\n              <mat-checkbox checked disabled>\n                {{access.split(\"#\").pop()}}\n              </mat-checkbox>\n            </li>\n          </ul>\n        </section>\n      </div>\n      <div class=\"buttons\">\n        <button mat-raised-button color=\"primary\" (click)=\"save()\">Save</button>\n        <button mat-raised-button color=\"warn\" (click)=\"cancel()\">Cancel</button>\n      </div>\n    </mat-expansion-panel>\n  </div>\n</div>\n"
         },
         {
             "name": "AddSocialAgentComponent",
@@ -2192,7 +2226,7 @@
         },
         {
             "name": "AppComponent",
-            "id": "component-AppComponent-1d42381bd6e8d8daf9e794e53ebbcdf23f4cfeed56bbeb43e795d61a041201800ba0cd1a162270bd8c280b3b9b717952e28be4a6b0a2446a3360d4a9c25a5a53",
+            "id": "component-AppComponent-1b2e3074fb2504faeeb13db46c89eee4bb2021fd5c171428def3d6176cf109d16b5e8836dda2898c6dfdd93443bff954db842eda83257cc43c17a8c996e05220",
             "file": "src/app/app.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2219,7 +2253,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 20
+                    "line": 21
                 },
                 {
                     "name": "oidcIssuer",
@@ -2229,7 +2263,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 18
+                    "line": 19
                 },
                 {
                     "name": "subscription$",
@@ -2239,7 +2273,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 22
+                    "line": 23
                 },
                 {
                     "name": "title",
@@ -2249,7 +2283,7 @@
                     "type": "string",
                     "optional": false,
                     "description": "",
-                    "line": 17
+                    "line": 18
                 },
                 {
                     "name": "webId",
@@ -2259,7 +2293,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 19
+                    "line": 20
                 }
             ],
             "methodsClass": [
@@ -2269,7 +2303,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 42,
+                    "line": 50,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -2279,7 +2313,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 49,
+                    "line": 57,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -2294,7 +2328,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component, OnInit} from '@angular/core';\nimport {Router} from \"@angular/router\";\nimport {Store} from \"@ngrx/store\";\nimport {onSessionRestore} from '@inrupt/solid-client-authn-browser';\nimport {CoreActions} from \"./state/actions\";\nimport {loggedInStatus, oidcIssuer, webId} from \"./state/selectors\";\nimport {SwPush} from '@angular/service-worker';\nimport {PushService} from \"./services/push.service\";\nimport {ENV} from \"../environments/environment\";\n\n@Component({\n  selector: 'app-root',\n  templateUrl: './app.component.html',\n  styleUrls: ['./app.component.scss']\n})\nexport class AppComponent implements OnInit{\n  title = 'sai-web-app';\n  oidcIssuer = this.store.select(oidcIssuer);\n  webId = this.store.select(webId);\n  isLoggedIn = this.store.select(loggedInStatus);\n\n  subscription$ = this.swPush.subscription;\n\n  constructor(\n    private router: Router,\n    private store: Store,\n    private swPush: SwPush,\n    private push: PushService,\n  ) {\n    // TODO ensure that requestedPath gets set even if oidc session can't be restored\n    onSessionRestore((currentUrl: string) => {\n      const url = new URL(currentUrl)\n      let requestedPath = url.pathname + url.search\n      this.store.dispatch(CoreActions.pathRequested({ requestedPath }))\n    })\n\n    this.swPush.notificationClicks.subscribe(({ notification }) => {\n      this.router.navigateByUrl(`/add-social-agent?webid=${notification.data.webId}`)\n    });\n  }\n\n  ngOnInit() {\n    // '/' doesn't trigger any guards and we want to trigger start guard\n    if (window.location.pathname === '/') {\n      this.router.navigateByUrl('/start')\n    }\n  }\n\n  async subscribeToNotifications() {\n    const subscription = await this.swPush.requestSubscription({\n      serverPublicKey: ENV.VAPID_PUBLIC_KEY\n    });\n    await this.push.subscribe(subscription)\n  }\n}\n",
+            "sourceCode": "import {Component, OnInit} from '@angular/core';\nimport {Router} from \"@angular/router\";\nimport {Store} from \"@ngrx/store\";\nimport {onSessionRestore} from '@inrupt/solid-client-authn-browser';\nimport {CoreActions} from \"./state/actions\";\nimport {loggedInStatus, oidcIssuer, webId} from \"./state/selectors\";\nimport {SwPush} from '@angular/service-worker';\nimport {PushService} from \"./services/push.service\";\nimport {ENV} from \"../environments/environment\";\nimport { TranslateService } from \"@ngx-translate/core\";\n\n@Component({\n  selector: 'app-root',\n  templateUrl: './app.component.html',\n  styleUrls: ['./app.component.scss']\n})\nexport class AppComponent implements OnInit{\n  title = 'sai-web-app';\n  oidcIssuer = this.store.select(oidcIssuer);\n  webId = this.store.select(webId);\n  isLoggedIn = this.store.select(loggedInStatus);\n\n  subscription$ = this.swPush.subscription;\n\n  constructor(\n    private router: Router,\n    private store: Store,\n    private swPush: SwPush,\n    private push: PushService,\n    translate: TranslateService,\n  ) {\n    // TODO ensure that requestedPath gets set even if oidc session can't be restored\n    onSessionRestore((currentUrl: string) => {\n      const url = new URL(currentUrl)\n      let requestedPath = url.pathname + url.search\n      this.store.dispatch(CoreActions.pathRequested({ requestedPath }))\n    })\n\n    this.swPush.notificationClicks.subscribe(({ notification }) => {\n      this.router.navigateByUrl(`/add-social-agent?webid=${notification.data.webId}`)\n    });\n\n    // this language will be used as a fallback when a translation isn't found in the current language\n    translate.setDefaultLang('en');\n\n    // the lang to use, if the lang isn't available, it will use the current loader to get them\n    translate.use('en');\n  }\n\n  ngOnInit() {\n    // '/' doesn't trigger any guards and we want to trigger start guard\n    if (window.location.pathname === '/') {\n      this.router.navigateByUrl('/start')\n    }\n  }\n\n  async subscribeToNotifications() {\n    const subscription = await this.swPush.requestSubscription({\n      serverPublicKey: ENV.VAPID_PUBLIC_KEY\n    });\n    await this.push.subscribe(subscription)\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -2332,9 +2366,15 @@
                         "type": "PushService",
                         "deprecated": false,
                         "deprecationMessage": ""
+                    },
+                    {
+                        "name": "translate",
+                        "type": "TranslateService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
                     }
                 ],
-                "line": 22,
+                "line": 23,
                 "jsdoctags": [
                     {
                         "name": "router",
@@ -2366,6 +2406,15 @@
                     {
                         "name": "push",
                         "type": "PushService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    },
+                    {
+                        "name": "translate",
+                        "type": "TranslateService",
                         "deprecated": false,
                         "deprecationMessage": "",
                         "tagName": {
@@ -3618,7 +3667,7 @@
         },
         {
             "name": "LanguageComponent",
-            "id": "component-LanguageComponent-e0bf82467e1b64333000c6ab968d91c983e7872b6c2e31d32c0fe1b4ae16eab363ad71e2df6e6442cd19988325700afb0dfde7e8d5d7841b5eaec26cf45bb7a2",
+            "id": "component-LanguageComponent-b87396a702a6650847319fc022c31e0f7c68cc5ecd4a2ad019e5673155ad66de5ac7f4161bb5d1323f392553cc46ec7cf730d59d62e6058453814e7c776ba030",
             "file": "src/app/views/language/language.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3637,7 +3686,7 @@
             "inputsClass": [
                 {
                     "name": "languages",
-                    "defaultValue": "new Array<Language>()",
+                    "defaultValue": "Languages",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "line": 13,
@@ -3645,24 +3694,38 @@
                     "decorators": []
                 }
             ],
-            "outputsClass": [
+            "outputsClass": [],
+            "propertiesClass": [
                 {
-                    "name": "selectedLanguage",
-                    "defaultValue": "new EventEmitter<Language>()",
+                    "name": "translate",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 14,
-                    "type": "EventEmitter"
+                    "type": "TranslateService",
+                    "optional": false,
+                    "description": "",
+                    "line": 15,
+                    "modifierKind": [
+                        123
+                    ]
                 }
             ],
-            "propertiesClass": [],
             "methodsClass": [
                 {
-                    "name": "handleSelectLanguage",
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 20,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "onChange",
                     "args": [
                         {
-                            "name": "language",
-                            "type": "Language",
+                            "name": "languageValue",
+                            "type": "any",
                             "deprecated": false,
                             "deprecationMessage": ""
                         }
@@ -3670,16 +3733,13 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 21,
+                    "line": 23,
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "modifierKind": [
-                        123
-                    ],
                     "jsdoctags": [
                         {
-                            "name": "language",
-                            "type": "Language",
+                            "name": "languageValue",
+                            "type": "any",
                             "deprecated": false,
                             "deprecationMessage": "",
                             "tagName": {
@@ -3687,16 +3747,6 @@
                             }
                         }
                     ]
-                },
-                {
-                    "name": "ngOnInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 18,
-                    "deprecated": false,
-                    "deprecationMessage": ""
                 }
             ],
             "deprecated": false,
@@ -3706,11 +3756,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';\n\n// TODO export type somewhere more visible\nexport type Language = string;\n\n@Component({\n  selector: 'sai-language',\n  templateUrl: './language.component.html',\n  styleUrls: ['./language.component.scss']\n})\nexport class LanguageComponent implements OnInit {\n\n  @Input() languages = new Array<Language>();\n  @Output() selectedLanguage = new EventEmitter<Language>();\n\n  constructor() { }\n\n  ngOnInit(): void {\n  }\n\n  public handleSelectLanguage(language: Language): void {\n    this.selectedLanguage.emit(language);\n  }\n\n}\n",
+            "sourceCode": "import {Component, OnInit, Input} from '@angular/core';\nimport {Languages} from \"../../languages\";\nimport {TranslateService} from \"@ngx-translate/core\";\nimport {CORE_LANGUAGE_KEY, initialState, preferLanguage} from \"../../state/reducers/core.reducer\";\n\n@Component({\n  selector: 'sai-language',\n  templateUrl: './language.component.html',\n  styleUrls: ['./language.component.scss']\n})\nexport class LanguageComponent implements OnInit {\n\n  @Input() languages = Languages;\n\n  constructor(public translate: TranslateService) {\n    const browserLang: string = initialState.language;\n    translate.use(browserLang.match(/en|es/) ? browserLang : 'en');\n  }\n\n  ngOnInit(): void {\n  }\n\n  onChange(languageValue: any) {\n    //Set user prefer language\n    const languageSelectedValue: string = languageValue.target.value;\n    this.translate.use(languageSelectedValue);\n    //Set localStorage with user prefer language\n    preferLanguage.language = languageSelectedValue;\n    window.localStorage.setItem(CORE_LANGUAGE_KEY, JSON.stringify(preferLanguage));\n  }\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": ".languageSelector {\n  display: flex;\n  border: 1px solid #333;\n  border-radius: 5px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0 0 0 1px inset;\n  padding: 5px;\n  min-width: 6%;\n  max-width: 15%;\n  width: auto;\n\n  select {\n    border: none;\n    width: 80%;\n    &:focus-visible {\n      outline: none;\n    }\n    option {\n      display: flex;\n      justify-content: center;\n    }\n  }\n}\n",
+                    "data": ".languageSelector {\n  display: flex;\n  border: 1px solid #333;\n  border-radius: 5px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0 0 0 1px inset;\n  padding: 5px;\n  width: 130px;\n  background: #fff;\n  justify-content: flex-end;\n\n  .mat-icon {\n    color: #000;\n  }\n\n  select {\n    border: none;\n    width: 80%;\n    &:focus-visible {\n      outline: none;\n    }\n    option {\n      display: flex;\n      justify-content: center;\n    }\n  }\n}\n",
                     "styleUrl": "./language.component.scss"
                 }
             ],
@@ -3720,13 +3770,31 @@
                 "description": "",
                 "deprecated": false,
                 "deprecationMessage": "",
-                "args": [],
-                "line": 14
+                "args": [
+                    {
+                        "name": "translate",
+                        "type": "TranslateService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 13,
+                "jsdoctags": [
+                    {
+                        "name": "translate",
+                        "type": "TranslateService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
             },
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<ng-container>\n  <div class=\"languageSelector\">\n    <mat-icon matListIcon>language</mat-icon>\n    <select #selectLanguage (change)=\"handleSelectLanguage(selectLanguage.value)\">\n      <option *ngFor=\"let language of languages\" [value]=\"language\">\n        {{language}}\n      </option>\n    </select>\n  </div>\n</ng-container>\n"
+            "templateData": "<ng-container>\n  <div class=\"languageSelector\">\n    <mat-icon matListIcon>language</mat-icon>\n    <select #langSelect (change)=\"onChange($event)\">\n      <option *ngFor=\"let language of languages\" [value]=\"language.id\" [selected]=\"language.id === translate.currentLang\">{{ language.label }}</option>\n    </select>\n  </div>\n</ng-container>\n"
         },
         {
             "name": "LoginComponent",
@@ -3837,11 +3905,11 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "\n<mat-card>\n  <mat-card-content>\n    <form [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">\n      <h2>Log In</h2>\n      <mat-form-field class=\"full-width-input\">\n        <input matInput [placeholder]=\"defaultIdP\" formControlName=\"issuer\">\n        <mat-error>Please provide a valid Solid Provider</mat-error>\n      </mat-form-field>\n      <button mat-raised-button color=\"primary\">Login</button>\n    </form>\n  </mat-card-content>\n</mat-card>\n"
+            "templateData": "<mat-card>\n  <mat-card-content>\n    <form [formGroup]=\"loginForm\" (ngSubmit)=\"onSubmit()\">\n      <h2>{{'LOGIN.TITLE' | translate}}</h2>\n      <mat-form-field class=\"full-width-input\">\n        <input matInput [placeholder]=\"defaultIdP\" formControlName=\"issuer\">\n        <mat-error>Please provide a valid Solid Provider</mat-error>\n      </mat-form-field>\n      <button mat-raised-button color=\"primary\">{{'LOGIN.CTA' | translate}}</button>\n    </form>\n  </mat-card-content>\n</mat-card>\n"
         },
         {
             "name": "NavbarComponent",
-            "id": "component-NavbarComponent-2f156389aa70eb70501f5997709cb11566927c1a85c95eda98e799d8e8330dbebd35f05b6b444cb6822363dd664a4f7b040faba7459d608ca17d7ef7ce82e1bd",
+            "id": "component-NavbarComponent-1e02868212d9ec9ea9fb65a98ae531f613586b5dd7701476a8385cb658e8bb10ced3b383c624e9e638fed8206174daf98afd18c5cf2ba3a6e74faeef214d3698",
             "file": "src/app/views/navbar/navbar.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3863,15 +3931,24 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 13,
+                    "line": 14,
                     "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "languageSelect",
+                    "defaultValue": "Languages",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 16,
+                    "type": "any",
                     "decorators": []
                 },
                 {
                     "name": "webId",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 12,
+                    "line": 13,
                     "type": "string | null",
                     "decorators": []
                 },
@@ -3880,7 +3957,7 @@
                     "defaultValue": "true",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 14,
+                    "line": 15,
                     "type": "boolean",
                     "decorators": []
                 }
@@ -3891,7 +3968,7 @@
                     "defaultValue": "new EventEmitter()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 16,
+                    "line": 18,
                     "type": "EventEmitter"
                 }
             ],
@@ -3903,7 +3980,7 @@
                     "type": "Router",
                     "optional": false,
                     "description": "",
-                    "line": 19,
+                    "line": 22,
                     "modifierKind": [
                         123
                     ]
@@ -3916,7 +3993,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 22,
+                    "line": 25,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -3928,11 +4005,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';\nimport { Store } from '@ngrx/store';\nimport {Router} from \"@angular/router\";\n\n@Component({\n  selector: 'sai-navbar',\n  templateUrl: './navbar.component.html',\n  styleUrls: ['./navbar.component.scss']\n})\nexport class NavbarComponent implements OnInit {\n\n  @Input() webId!: string | null;\n  @Input() isLoggedIn : boolean = false;\n  @Input() withNotificationsAction: boolean = true;\n\n  @Output() notifications = new EventEmitter();\n\n  constructor(\n    public router: Router,\n  ) {}\n\n  ngOnInit(): void {}\n}\n",
+            "sourceCode": "import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';\nimport { Store } from '@ngrx/store';\nimport {Router} from \"@angular/router\";\nimport { Languages } from \"../../languages\";\n\n@Component({\n  selector: 'sai-navbar',\n  templateUrl: './navbar.component.html',\n  styleUrls: ['./navbar.component.scss']\n})\nexport class NavbarComponent implements OnInit {\n\n  @Input() webId!: string | null;\n  @Input() isLoggedIn : boolean = false;\n  @Input() withNotificationsAction: boolean = true;\n  @Input() languageSelect = Languages;\n  \n  @Output() notifications = new EventEmitter();\n\n\n  constructor(\n    public router: Router,\n  ) {}\n\n  ngOnInit(): void {}\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "\nh6 {\n  font-size: 0.7rem;\n  margin-left: 15px;\n}\n\np {\n  font-size: 0.7rem;\n  margin: 0 auto;\n}\n\n.spacer {\n  flex: 1 1 auto;\n}\n",
+                    "data": "h6 {\n  font-size: 0.7rem;\n  margin-left: 15px;\n}\n\np {\n  font-size: 0.7rem;\n  margin: 0 auto;\n}\n\n.spacer {\n  flex: 1 1 auto;\n}\n\n.languageWrapper {\n  flex: 1 1;\n}\n",
                     "styleUrl": "./navbar.component.scss"
                 }
             ],
@@ -3950,7 +4027,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 16,
+                "line": 18,
                 "jsdoctags": [
                     {
                         "name": "router",
@@ -3966,7 +4043,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<mat-toolbar color=\"primary\">\n  <h3>Solid Authorization Agent</h3>\n  <div *ngIf=\"isLoggedIn\">\n    <button mat-button routerLink=\"/dashboard\">\n      <mat-icon fontIcon=\"home\"></mat-icon>\n    </button>\n    <button mat-button routerLink=\"/applications\">Applications</button>\n    <button mat-button routerLink=\"/social-agents\">Social Agents</button>\n    <button mat-button routerLink=\"/data\">Data</button>\n    <button mat-raised-button color=\"accent\" *ngIf=\"withNotificationsAction\" (click)=\"notifications.emit()\">\n      <mat-icon>notification_important</mat-icon>\n      Enable Notifications\n    </button>\n  </div>\n</mat-toolbar>\n"
+            "templateData": "<mat-toolbar color=\"primary\">\n  <h3>Solid Authorization Agent</h3>\n  <div *ngIf=\"isLoggedIn\">\n    <button mat-button routerLink=\"/dashboard\">\n      <mat-icon fontIcon=\"home\"></mat-icon>\n    </button>\n    <button mat-button routerLink=\"/applications\">Applications</button>\n    <button mat-button routerLink=\"/social-agents\">Social Agents</button>\n    <button mat-button routerLink=\"/data\">Data</button>\n    <button mat-raised-button color=\"accent\" *ngIf=\"withNotificationsAction\" (click)=\"notifications.emit()\">\n      <mat-icon>notification_important</mat-icon>\n      Enable Notifications\n    </button>\n  </div>\n  <span class=\"spacer\"></span>\n  <span>\n  \t<sai-language\n  \t  [languages]=\"languageSelect\">\n  \t</sai-language>\n  </span>\n</mat-toolbar>\n"
         },
         {
             "name": "PageComponent",
@@ -4299,13 +4376,13 @@
     "modules": [
         {
             "name": "AppModule",
-            "id": "module-AppModule-419831108cc6663deeb0cb20815c4e8ba199c5970bbe8c24c6ef2c796b27c36c34d59e55081df7029cc971efb0c8eca3dd4142878ba8b022be778d70ea4923e4",
+            "id": "module-AppModule-66480a9e0b601c1981d8f67ce515229cf9a7c9fe719d025e68e9f2f22656df7d94035895c1a529a8690ca81bfc234f0b26d610d3e7cad4a9fb6dbad632136c7d",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app.module.ts",
             "methods": [],
-            "sourceCode": "import {NgModule} from '@angular/core';\nimport {BrowserModule} from '@angular/platform-browser';\n\nimport {AppRoutingModule} from './app-routing.module';\nimport {AppComponent} from './app.component';\nimport {BrowserAnimationsModule} from '@angular/platform-browser/animations';\nimport {HTTP_INTERCEPTORS, HttpClientModule} from \"@angular/common/http\";\nimport {MatButtonModule} from \"@angular/material/button\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {NavbarComponent} from \"./views/navbar/navbar.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {MatCardModule} from \"@angular/material/card\";\nimport {MatListModule} from '@angular/material/list';\nimport {MatTreeModule} from '@angular/material/tree';\nimport {FormsModule, ReactiveFormsModule} from \"@angular/forms\";\nimport {MatFormFieldModule} from \"@angular/material/form-field\";\nimport {MatInputModule} from \"@angular/material/input\";\nimport {DashboardComponent} from './components/dashboard/dashboard.component';\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport {StoreModule} from '@ngrx/store';\nimport {metaReducers, reducers} from './state/reducers';\nimport {StoreDevtoolsModule} from '@ngrx/store-devtools';\nimport {ENV} from '../environments/environment';\nimport {EffectsModule} from '@ngrx/effects';\nimport {AuthInterceptor} from \"./interceptors/auth.interceptor\";\nimport {Effects} from \"./state/effects\";\nimport {MatIconModule} from \"@angular/material/icon\";\nimport {RedirectHandlerComponent} from './components/redirect-handler/redirect-handler.component';\nimport {SolidClient} from \"./utils/solid-client\";\nimport {AuthorizationComponent} from './components/authorization/authorization.component';\nimport {MatProgressSpinnerModule} from '@angular/material/progress-spinner';\nimport {StartComponent} from './components/start/start.component';\nimport {ConnectServerComponent} from './components/connect-server/connect-server.component';\nimport {ServiceWorkerModule} from '@angular/service-worker';\nimport {AddSocialAgentComponent} from './components/add-social-agent/add-social-agent.component';\nimport {SocialAgentsComponent} from './components/social-agents/social-agents.component';\nimport {ApplicationsComponent} from './components/applications/applications.component';\nimport {DataComponent} from './components/data/data.component';\nimport {LanguageComponent} from './views/language/language.component';\nimport {AppViewComponent} from './views/app-view/app-view.component';\nimport {MatChipsModule} from \"@angular/material/chips\";\nimport {AccessNeedViewComponent} from './views/access-need-view/access-need-view.component';\nimport {MatSlideToggleModule} from \"@angular/material/slide-toggle\";\nimport {MatTooltipModule} from \"@angular/material/tooltip\";\nimport {DemoMaterialModule} from \"../material-module\";\nimport {AddSocialAgentFormComponent} from './views/add-social-agent-form/add-social-agent-form.component';\nimport {InstanceSelectorComponent} from './views/instance-selector/instance-selector.component';\nimport {MatCheckboxModule} from \"@angular/material/checkbox\";\nimport {MatRadioModule} from \"@angular/material/radio\";\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    NavbarComponent,\n    LoginComponent,\n    DashboardComponent,\n    RedirectHandlerComponent,\n    AuthorizationComponent,\n    StartComponent,\n    ConnectServerComponent,\n    AddSocialAgentComponent,\n    SocialAgentsComponent,\n    ApplicationsComponent,\n    DataComponent,\n    LanguageComponent,\n    AppViewComponent,\n    AccessNeedViewComponent,\n    AddSocialAgentFormComponent,\n    InstanceSelectorComponent,\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    BrowserAnimationsModule,\n    HttpClientModule,\n    MatButtonModule,\n    MatToolbarModule,\n    MatCardModule,\n    MatListModule,\n    MatTreeModule,\n    ReactiveFormsModule,\n    MatFormFieldModule,\n    MatInputModule,\n    MatIconModule,\n    MatExpansionModule,\n    MatChipsModule,\n    MatProgressSpinnerModule,\n    FormsModule,\n    MatCheckboxModule,\n    MatRadioModule,\n    StoreModule.forRoot(reducers, {\n      metaReducers\n    }),\n    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: ENV.production}),\n    EffectsModule.forRoot(Effects),\n    ServiceWorkerModule.register('ngsw-worker.js', {\n      enabled: ENV.production,\n      // Register the ServiceWorker as soon as the application is stable\n      // or after 30 seconds (whichever comes first).\n      registrationStrategy: 'registerWhenStable:30000'\n    }),\n    MatSlideToggleModule,\n    MatTooltipModule,\n  ],\n  providers: [\n    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},\n    SolidClient,\n  ],\n  bootstrap: [AppComponent],\n  exports: [BrowserModule, DemoMaterialModule],\n})\nexport class AppModule { }\n",
+            "sourceCode": "import {NgModule} from '@angular/core';\nimport {BrowserModule} from '@angular/platform-browser';\n\nimport {AppRoutingModule} from './app-routing.module';\nimport {AppComponent} from './app.component';\nimport {BrowserAnimationsModule} from '@angular/platform-browser/animations';\nimport {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from \"@angular/common/http\";\nimport {MatButtonModule} from \"@angular/material/button\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {NavbarComponent} from \"./views/navbar/navbar.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {MatCardModule} from \"@angular/material/card\";\nimport {MatListModule} from '@angular/material/list';\nimport {MatTreeModule} from '@angular/material/tree';\nimport {FormsModule, ReactiveFormsModule} from \"@angular/forms\";\nimport {MatFormFieldModule} from \"@angular/material/form-field\";\nimport {MatInputModule} from \"@angular/material/input\";\nimport {DashboardComponent} from './components/dashboard/dashboard.component';\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport {StoreModule} from '@ngrx/store';\nimport {metaReducers, reducers} from './state/reducers';\nimport {StoreDevtoolsModule} from '@ngrx/store-devtools';\nimport {ENV} from '../environments/environment';\nimport {EffectsModule} from '@ngrx/effects';\nimport {AuthInterceptor} from \"./interceptors/auth.interceptor\";\nimport {Effects} from \"./state/effects\";\nimport {MatIconModule} from \"@angular/material/icon\";\nimport {RedirectHandlerComponent} from './components/redirect-handler/redirect-handler.component';\nimport {SolidClient} from \"./utils/solid-client\";\nimport {AuthorizationComponent} from './components/authorization/authorization.component';\nimport {MatProgressSpinnerModule} from '@angular/material/progress-spinner';\nimport {StartComponent} from './components/start/start.component';\nimport {ConnectServerComponent} from './components/connect-server/connect-server.component';\nimport {ServiceWorkerModule} from '@angular/service-worker';\nimport {AddSocialAgentComponent} from './components/add-social-agent/add-social-agent.component';\nimport {SocialAgentsComponent} from './components/social-agents/social-agents.component';\nimport {ApplicationsComponent} from './components/applications/applications.component';\nimport {DataComponent} from './components/data/data.component';\nimport {LanguageComponent} from './views/language/language.component';\nimport {AppViewComponent} from './views/app-view/app-view.component';\nimport {MatChipsModule} from \"@angular/material/chips\";\nimport {AccessNeedViewComponent} from './views/access-need-view/access-need-view.component';\nimport {MatSlideToggleModule} from \"@angular/material/slide-toggle\";\nimport {MatTooltipModule} from \"@angular/material/tooltip\";\nimport {DemoMaterialModule} from \"../material-module\";\nimport {AddSocialAgentFormComponent} from './views/add-social-agent-form/add-social-agent-form.component';\nimport {InstanceSelectorComponent} from './views/instance-selector/instance-selector.component';\nimport {MatCheckboxModule} from \"@angular/material/checkbox\";\nimport {MatRadioModule} from \"@angular/material/radio\";\n\nimport {TranslateLoader, TranslateModule} from \"@ngx-translate/core\";\nimport {TranslateHttpLoader} from '@ngx-translate/http-loader';\n\nexport function HttpLoaderFactory(http: HttpClient) {\n  return new TranslateHttpLoader(http);\n}\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    NavbarComponent,\n    LoginComponent,\n    DashboardComponent,\n    RedirectHandlerComponent,\n    AuthorizationComponent,\n    StartComponent,\n    ConnectServerComponent,\n    AddSocialAgentComponent,\n    SocialAgentsComponent,\n    ApplicationsComponent,\n    DataComponent,\n    LanguageComponent,\n    AppViewComponent,\n    AccessNeedViewComponent,\n    AddSocialAgentFormComponent,\n    InstanceSelectorComponent,\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    BrowserAnimationsModule,\n    HttpClientModule,\n    MatButtonModule,\n    MatToolbarModule,\n    MatCardModule,\n    MatListModule,\n    MatTreeModule,\n    ReactiveFormsModule,\n    MatFormFieldModule,\n    MatInputModule,\n    MatIconModule,\n    MatExpansionModule,\n    MatChipsModule,\n    MatProgressSpinnerModule,\n    FormsModule,\n    MatCheckboxModule,\n    MatRadioModule,\n    MatSlideToggleModule,\n    MatTooltipModule,\n\n    StoreModule.forRoot(reducers, {\n      metaReducers\n    }),\n    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: ENV.production}),\n    EffectsModule.forRoot(Effects),\n\n    ServiceWorkerModule.register('ngsw-worker.js', {\n      enabled: ENV.production,\n      // Register the ServiceWorker as soon as the application is stable\n      // or after 30 seconds (whichever comes first).\n      registrationStrategy: 'registerWhenStable:30000'\n    }),\n\n    TranslateModule.forRoot({\n      defaultLanguage: 'en',\n      loader: {\n        provide: TranslateLoader,\n        useFactory: HttpLoaderFactory,\n        deps: [HttpClient]\n      }\n    }),\n  ],\n  providers: [\n    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},\n    SolidClient,\n  ],\n  bootstrap: [AppComponent],\n  exports: [BrowserModule, DemoMaterialModule],\n})\nexport class AppModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -4406,13 +4483,13 @@
         },
         {
             "name": "AppRoutingModule",
-            "id": "module-AppRoutingModule-4895ac0e337c27bb28f1caaaf31ac74fba020b3add01a58bf9c9658eba2c6adb4783c087b40ef2955ac5488123e78667e96f8bd8412c9e3014a7a899a234d0b7",
+            "id": "module-AppRoutingModule-7a42e70b73f9f4eceb78c4c9b6b2d26685b91ac4a172da58b799e1db07250170dd27fe359a287a3ea461dea881a49c5501e69fe9f9ad682a13a794a83b010b6a",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app-routing.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { RouterModule, Routes } from '@angular/router';\nimport {StartComponent} from \"./components/start/start.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {ConnectServerComponent} from \"./components/connect-server/connect-server.component\";\nimport {DashboardComponent} from \"./components/dashboard/dashboard.component\";\nimport {StartGuard} from \"./guards/start.guard\";\nimport {AuthGuard} from \"./guards/auth.guard.service\";\nimport {RedirectHandlerComponent} from \"./components/redirect-handler/redirect-handler.component\";\nimport {AuthorizationComponent} from \"./components/authorization/authorization.component\";\nimport {AddSocialAgentComponent} from \"./components/add-social-agent/add-social-agent.component\";\nimport { SocialAgentsComponent } from './components/social-agents/social-agents.component';\nimport { ApplicationsComponent } from './components/applications/applications.component';\nimport { DataComponent } from './components/data/data.component';\n\nconst routes: Routes = [\n  {\n    path: '',\n    canActivateChild: [StartGuard] ,\n    children: [\n      {\n        path: 'start', component: StartComponent,\n      },\n      {\n        path: 'login', component: LoginComponent,\n      },\n      {\n        path: 'redirect', component: RedirectHandlerComponent,\n      },\n      {\n        path: 'connect', component: ConnectServerComponent,\n      },\n\n    ]\n  },\n  {\n    path: '',\n    canActivateChild: [AuthGuard] ,\n    children: [\n      {\n        path: 'dashboard', component: DashboardComponent,\n      },\n      {\n        path: 'authorize', component: AuthorizationComponent,\n      },\n      {\n        path: 'applications', component: ApplicationsComponent,\n      },\n      {\n        path: 'social-agents', component: SocialAgentsComponent,\n      },\n      {\n        path: 'add-social-agent', component: AddSocialAgentComponent,\n      },\n      {\n        path: 'data', component: DataComponent,\n      },\n    ]\n  }\n];\n\n@NgModule({\n  imports: [RouterModule.forRoot(routes)],\n  exports: [RouterModule]\n})\nexport class AppRoutingModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { RouterModule, Routes } from '@angular/router';\nimport {StartComponent} from \"./components/start/start.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {ConnectServerComponent} from \"./components/connect-server/connect-server.component\";\nimport {DashboardComponent} from \"./components/dashboard/dashboard.component\";\nimport {StartGuard} from \"./guards/start.guard\";\nimport {AuthGuard} from \"./guards/auth.guard.service\";\nimport {RedirectHandlerComponent} from \"./components/redirect-handler/redirect-handler.component\";\nimport {AuthorizationComponent} from \"./components/authorization/authorization.component\";\nimport {AddSocialAgentComponent} from \"./components/add-social-agent/add-social-agent.component\";\nimport { SocialAgentsComponent } from './components/social-agents/social-agents.component';\nimport { ApplicationsComponent } from './components/applications/applications.component';\nimport { DataComponent } from './components/data/data.component';\nimport {TranslateModule} from \"@ngx-translate/core\";\n\nconst routes: Routes = [\n  {\n    path: '',\n    canActivateChild: [StartGuard] ,\n    children: [\n      {\n        path: 'start', component: StartComponent,\n      },\n      {\n        path: 'login', component: LoginComponent,\n      },\n      {\n        path: 'redirect', component: RedirectHandlerComponent,\n      },\n      {\n        path: 'connect', component: ConnectServerComponent,\n      },\n\n    ]\n  },\n  {\n    path: '',\n    canActivateChild: [AuthGuard] ,\n    children: [\n      {\n        path: 'dashboard', component: DashboardComponent,\n      },\n      {\n        path: 'authorize', component: AuthorizationComponent,\n      },\n      {\n        path: 'applications', component: ApplicationsComponent,\n      },\n      {\n        path: 'social-agents', component: SocialAgentsComponent,\n      },\n      {\n        path: 'add-social-agent', component: AddSocialAgentComponent,\n      },\n      {\n        path: 'data', component: DataComponent,\n      },\n    ]\n  }\n];\n\n@NgModule({\n  imports: [RouterModule.forRoot(routes), TranslateModule],\n  exports: [RouterModule]\n})\nexport class AppRoutingModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -4704,6 +4781,16 @@
                 "description": "<p>Recursively traverses the needs and their children through their ids to find all the access needs related to\na group regardless of how deep it is.\nTODO check for infinite loops, if a access need is already present then don add it again</p>\n"
             },
             {
+                "name": "CORE_LANGUAGE_KEY",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/state/reducers/core.reducer.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "string",
+                "defaultValue": "'coreLanguage'"
+            },
+            {
                 "name": "CORE_STATE_KEY",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -4981,7 +5068,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "CoreState",
-                "defaultValue": "{\n  oidcIssuer: '',\n  webId: '',\n  loginKnown: false,\n  isLoggedIn: false,\n  isServerLoggedIn: false,\n  redirectUrl: '',\n  requestedPath: '/dashboard',\n  language: 'en', // TODO allow user to set it\n}"
+                "defaultValue": "{\n  oidcIssuer: '',\n  webId: '',\n  loginKnown: false,\n  isLoggedIn: false,\n  isServerLoggedIn: false,\n  redirectUrl: '',\n  requestedPath: '/dashboard',\n  language: preferLanguage.language === '' || preferLanguage.language === undefined ? navigator.language.split('-')[0] : preferLanguage.language,\n}"
             },
             {
                 "name": "initialState",
@@ -5042,6 +5129,16 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "applicationAdapter.getSelectors()"
+            },
+            {
+                "name": "Languages",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/languages.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Array<any>",
+                "defaultValue": "[\n  {\n    label: 'English',\n    id: 'en'\n  },\n  {\n    label: 'Español',\n    id: 'es'\n  }\n]"
             },
             {
                 "name": "LanguageSelectClose",
@@ -5264,6 +5361,16 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "createAction(\n  '[CORE] Path requested',\n  props<{requestedPath: string}>()\n)"
+            },
+            {
+                "name": "preferLanguage",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "src/app/state/reducers/core.reducer.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "",
+                "defaultValue": "JSON.parse(localStorage.getItem(CORE_LANGUAGE_KEY) || '{}')"
             },
             {
                 "name": "prefLanguage",
@@ -5822,6 +5929,34 @@
         ],
         "functions": [
             {
+                "name": "HttpLoaderFactory",
+                "file": "src/app/app.module.ts",
+                "ctype": "miscellaneous",
+                "subtype": "function",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "args": [
+                    {
+                        "name": "http",
+                        "type": "HttpClient",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "jsdoctags": [
+                    {
+                        "name": "http",
+                        "type": "HttpClient",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            {
                 "name": "localStorageSyncReducer",
                 "file": "src/app/state/reducers/index.ts",
                 "ctype": "miscellaneous",
@@ -5884,17 +6019,6 @@
                 "deprecationMessage": "",
                 "description": "",
                 "kind": 181
-            },
-            {
-                "name": "Language",
-                "ctype": "miscellaneous",
-                "subtype": "typealias",
-                "rawtype": "string",
-                "file": "src/app/views/language/language.component.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "description": "",
-                "kind": 149
             }
         ],
         "enumerations": [],
@@ -6461,6 +6585,16 @@
             ],
             "src/app/state/reducers/core.reducer.ts": [
                 {
+                    "name": "CORE_LANGUAGE_KEY",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/state/reducers/core.reducer.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "defaultValue": "'coreLanguage'"
+                },
+                {
                     "name": "CORE_STATE_KEY",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
@@ -6498,7 +6632,17 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "CoreState",
-                    "defaultValue": "{\n  oidcIssuer: '',\n  webId: '',\n  loginKnown: false,\n  isLoggedIn: false,\n  isServerLoggedIn: false,\n  redirectUrl: '',\n  requestedPath: '/dashboard',\n  language: 'en', // TODO allow user to set it\n}"
+                    "defaultValue": "{\n  oidcIssuer: '',\n  webId: '',\n  loginKnown: false,\n  isLoggedIn: false,\n  isServerLoggedIn: false,\n  redirectUrl: '',\n  requestedPath: '/dashboard',\n  language: preferLanguage.language === '' || preferLanguage.language === undefined ? navigator.language.split('-')[0] : preferLanguage.language,\n}"
+                },
+                {
+                    "name": "preferLanguage",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/state/reducers/core.reducer.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "JSON.parse(localStorage.getItem(CORE_LANGUAGE_KEY) || '{}')"
                 }
             ],
             "src/app/state/actions/core.actions.ts": [
@@ -6981,6 +7125,18 @@
                     "defaultValue": "<T extends UniqueId>(state: NormalizedState<T>, id: string): NormalizedState<T> => {\n\n  if (!state.allIds.includes(id)) return state;\n\n  const byId = {...state.byId};\n  const allIds = [...state.allIds].filter(_id => _id != id);\n\n  delete byId[id];\n  return {byId, allIds}\n}"
                 }
             ],
+            "src/app/languages.ts": [
+                {
+                    "name": "Languages",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/languages.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Array<any>",
+                    "defaultValue": "[\n  {\n    label: 'English',\n    id: 'en'\n  },\n  {\n    label: 'Español',\n    id: 'es'\n  }\n]"
+                }
+            ],
             "src/app/views/language/language.stories.ts": [
                 {
                     "name": "LanguageSelectClose",
@@ -7303,6 +7459,36 @@
             ]
         },
         "groupedFunctions": {
+            "src/app/app.module.ts": [
+                {
+                    "name": "HttpLoaderFactory",
+                    "file": "src/app/app.module.ts",
+                    "ctype": "miscellaneous",
+                    "subtype": "function",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "args": [
+                        {
+                            "name": "http",
+                            "type": "HttpClient",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "http",
+                            "type": "HttpClient",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
             "src/app/state/reducers/index.ts": [
                 {
                     "name": "localStorageSyncReducer",
@@ -7374,19 +7560,6 @@
                     "deprecationMessage": "",
                     "description": "",
                     "kind": 181
-                }
-            ],
-            "src/app/views/language/language.component.ts": [
-                {
-                    "name": "Language",
-                    "ctype": "miscellaneous",
-                    "subtype": "typealias",
-                    "rawtype": "string",
-                    "file": "src/app/views/language/language.component.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "description": "",
-                    "kind": 149
                 }
             ]
         }
@@ -7473,6 +7646,16 @@
                 "name": "AppComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/9",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/app.module.ts",
+                "type": "function",
+                "linktype": "miscellaneous",
+                "linksubtype": "function",
+                "name": "HttpLoaderFactory",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
@@ -7590,6 +7773,16 @@
                 "name": "AuthInterceptor",
                 "coveragePercent": 0,
                 "coverageCount": "0/3",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/languages.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Languages",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
                 "status": "low"
             },
             {
@@ -8253,6 +8446,16 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
+                "name": "CORE_LANGUAGE_KEY",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/state/reducers/core.reducer.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
                 "name": "CORE_STATE_KEY",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
@@ -8284,6 +8487,16 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
                 "name": "initialState",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "src/app/state/reducers/core.reducer.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "preferLanguage",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -8837,7 +9050,7 @@
                 "linktype": "component",
                 "name": "AccessNeedViewComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/10",
+                "coverageCount": "0/13",
                 "status": "low"
             },
             {
@@ -9012,7 +9225,7 @@
                 "linktype": "component",
                 "name": "NavbarComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/8",
+                "coverageCount": "0/9",
                 "status": "low"
             },
             {

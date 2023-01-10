@@ -39,14 +39,13 @@ export class AuthorizationComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-      const clientId = params['client_id'];
+    const params = this.route.snapshot.queryParams;
+    const clientId = params['client_id'];
 
-      if (clientId) {
-        this.clientId = clientId;
-        this.fetchApplication(clientId);
-      }
-    })
+    if (clientId) {
+      this.clientId = clientId;
+      this.fetchApplication(clientId);
+    }
   }
 
   getScope(accessNeed: AccessNeed): string {

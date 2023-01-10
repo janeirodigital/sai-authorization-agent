@@ -14,6 +14,7 @@ describe('AppViewComponent', () => {
 
     fixture = TestBed.createComponent(AppViewComponent);
     component = fixture.componentInstance;
+    component.application = {id: 'appId', logo: 'http://logo', name: 'App', authorizationDate: '', accessNeedGroup: 'ang'}
     fixture.detectChanges();
   });
 

@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {IRI} from "@janeirodigital/sai-api-messages";
-import {AccessNeed, ShapeTree} from "../../state/models/index";
+import {AccessNeed, ShapeTree} from "../../state/models";
 import {MatSlideToggleChange} from "@angular/material/slide-toggle";
 
 @Component({

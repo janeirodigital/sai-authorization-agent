@@ -1,7 +1,6 @@
 import {createReducer, on} from '@ngrx/store';
 import {SocialAgent} from '@janeirodigital/sai-api-messages';
 import {DataActions} from "../actions/application.actions";
-import {insertEntities, insertEntity} from "./utils";
 import {createEntityAdapter, EntityState} from "@ngrx/entity";
 
 export const SOCIAL_AGENT_STATE_KEY = 'social-agents';

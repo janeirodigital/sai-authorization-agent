@@ -37,12 +37,12 @@ export class AccessNeedViewComponent implements OnInit {
     this.changed.emit({id: this.need.id, access: this.checkedAccess})
   }
 
-  private save(): void {
+  public save(): void {
 
   }
 
-  private cancel(): void {
-    
+  public cancel(): void {
+
   }
 
 }

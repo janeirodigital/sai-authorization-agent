@@ -15,7 +15,7 @@ import {DataActions} from 'src/app/state/actions/application.actions';
 })
 export class AuthorizationComponent implements OnInit {
   clientId?: IRI;
-  clientIdInput: string = '';
+  clientIdInput = '';
 
   authorizationData$ = this.store.select(selectDescriptions);
   authorizationData?: AuthorizationData

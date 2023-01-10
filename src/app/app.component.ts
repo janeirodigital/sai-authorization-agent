@@ -32,7 +32,7 @@ export class AppComponent implements OnInit{
     // TODO ensure that requestedPath gets set even if oidc session can't be restored
     onSessionRestore((currentUrl: string) => {
       const url = new URL(currentUrl)
-      let requestedPath = url.pathname + url.search
+      const requestedPath = url.pathname + url.search
       this.store.dispatch(CoreActions.pathRequested({ requestedPath }))
     })
 

@@ -11,8 +11,8 @@ import { Languages } from "../../languages";
 export class NavbarComponent implements OnInit {
 
   @Input() webId!: string | null;
-  @Input() isLoggedIn : boolean = false;
-  @Input() withNotificationsAction: boolean = true;
+  @Input() isLoggedIn  = false;
+  @Input() withNotificationsAction = true;
   @Input() languageSelect = Languages;
   
   @Output() notifications = new EventEmitter();

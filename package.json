@@ -54,6 +54,7 @@
     "@angular/compiler-cli": "^14.2.0",
     "@babel/core": "^7.17.0",
     "@compodoc/compodoc": "^1.1.18",
+    "@ngrx/eslint-plugin": "^14.3.2",
     "@rdfjs/types": "^1.1.0",
     "@storybook/addon-actions": "^6.5.12",
     "@storybook/addon-essentials": "^6.5.12",

@@ -1,7 +1,7 @@
 import {map, mergeMap, switchMap, tap} from "rxjs";
 import {Injectable} from "@angular/core";
 import {Actions, concatLatestFrom, createEffect, ofType} from "@ngrx/effects";
-import {DataActions} from "../actions/application.actions";
+import * as DataActions from "../actions/application.actions";
 import {DescActions} from "../actions/description.actions";
 import * as NeedActions from "../actions/access-needs.actions"
 import {DataService} from "../../services/data.service";

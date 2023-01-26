@@ -6,7 +6,7 @@ import {AccessNeed, AuthorizationData, DataAuthorization, IRI} from '@janeirodig
 import {Store} from "@ngrx/store";
 import {DescActions} from 'src/app/state/actions/description.actions';
 import {selectDescriptions} from 'src/app/state/selectors/description.selectors'
-import {DataActions} from 'src/app/state/actions/application.actions';
+import * as DataActions from 'src/app/state/actions/application.actions';
 
 @Component({
   selector: 'sai-authorization',

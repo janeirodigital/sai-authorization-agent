@@ -4,7 +4,7 @@ import {MatTreeNestedDataSource} from '@angular/material/tree';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AccessNeed, AuthorizationData, DataAuthorization, IRI} from '@janeirodigital/sai-api-messages';
 import {Store} from "@ngrx/store";
-import {DescActions} from 'src/app/state/actions/description.actions';
+import * as DescActions from 'src/app/state/actions/description.actions';
 import {selectDescriptions} from 'src/app/state/selectors/description.selectors'
 import * as DataActions from 'src/app/state/actions/application.actions';
 

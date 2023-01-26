@@ -8,7 +8,7 @@ import {
   HttpEventType
 } from '@angular/common/http';
 import { Observable, tap} from 'rxjs';
-import { CoreActions } from '../state/actions';
+import * as CoreActions from '../state/actions';
 import { Store } from '@ngrx/store';
 
 @Injectable()

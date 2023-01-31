@@ -1,3 +1,5 @@
+@import "src/assets/styles/vars";
+
 @mixin change-border($color) {
   .mat-form-field-outline-start,
   .mat-form-field-outline-end {
@@ -20,7 +22,7 @@ label,
 .mat-form-field-label {
   color: $dark-color;
   font-size: 1rem;
-  font-family: $xfh-font-bold !important;
+  font-family: $theme-font-bold !important;
   em {
     font-size: 0.875rem;
   }
@@ -32,7 +34,7 @@ mat-form-field {
   @include change-border($mid-color);
 
   &.mat-focused {
-    @include change-border($xfh-primary-color);
+    @include change-border($theme-primary-color);
   }
 
   &[disabled] {
@@ -62,14 +64,14 @@ mat-form-field {
 textarea {
   border-radius: 3px;
   border: solid 1px $mid-color;
-  font-family: $xfh-font-regular;
+  font-family: $theme-font-regular;
   font-size: 1rem;
   line-height: 1.25;
   width: 100%;
 
   &[disabled] {
     resize: none;
-    border: solid 1px $xfh-secondary-color;
-    background-color: rgba($xfh-secondary-color, 0.2);
+    border: solid 1px $theme-secondary-color;
+    background-color: rgba($theme-secondary-color, 0.2);
   }
 }

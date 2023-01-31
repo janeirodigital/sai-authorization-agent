@@ -1,3 +1,5 @@
+@import "src/assets/styles/vars";
+
 /* variables */
 $font-size: 1rem;
 $ratio: 1.2;
@@ -24,7 +26,7 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   color: rgba(0, 0, 0, 0.87);
-  font-family: $xfh-font-bold;
+  font-family: $theme-font-bold;
   letter-spacing: -0.4px;
 }
 

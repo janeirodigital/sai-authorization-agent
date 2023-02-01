@@ -1,26 +1,14 @@
+@use '~@angular/material' as mat;
+@include mat.core();
+
+@import "src/assets/styles/sdk-theme";
+
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
-//mat-expansion-panel-header > .mat-content {
-//  justify-content: flex-start;
-//}
-
-//.mat-content > mat-panel-title, .mat-content > mat-panel-description {
-//  flex: 0 0 auto;
-//}
-
-//mat-expansion-panel-header-description, mat-expansion-panel-header-title {
-//  flex-basis: 0;
-//}
-
-
-@use '~@angular/material' as mat;
-@include mat.core();
-
-@import "src/assets/styles/sdk-theme";
 /*
 ** Theme Color Palette
 ** Use sdk-theme variables

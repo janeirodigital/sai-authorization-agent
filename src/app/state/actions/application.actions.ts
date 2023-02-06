@@ -15,6 +15,15 @@ export const applicationProfileReceived = createAction(
   props<{profile: Application}>(),
 )
 
+export const unregisteredApplicationProfileRequested = createAction(
+  '[APPLICATION] Unregistered Application Profile Requested',
+  props<{id: string }>(),
+)
+
+export const unregisteredApplicationProfileReceived = createAction(
+  '[APPLICATION] Unregistered Application Profile Received',
+  props<{profile: Partial<Application> }>(),
+)
 export const socialAgentsPanelLoaded = createAction(
   '[SOCIAL AGENT PROFILES] Social Agent Profiles Requested'
 );

@@ -34,6 +34,8 @@ export class AuthorizationComponent implements OnInit {
       this.authorizationData$.subscribe(data => {
         if (data) {
           this.authorizationData = data
+          // change-plan (1) instead of using the store to pull the data, take the id from the router and call the service to pull
+          //                 pull the data. Use the data to pass as inputs to the view-component
           this.dataSource.data = data.accessNeedGroup.needs;
         }
       });

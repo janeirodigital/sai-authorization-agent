@@ -1,33 +1,15 @@
-@use '~@angular/material' as mat;
+@use 'src/assets/styles/sdk-theme';
+@use '@angular/material' as mat;
 @include mat.core();
-
-@import "src/assets/styles/sdk-theme";
-
-/* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
-/*
-** Theme Color Palette
-** Use sdk-theme variables
-*/
-$theme-primary : mat.define-palette($theme-primary-color);
-$theme-secondary: mat.define-palette($theme-secondary-color);
-$theme-highlight-primary: mat.define-palette($theme-highlight-primary-color);
-$theme-highlight-secondary: mat.define-palette($theme-highlight-secondary-color);
-
-$theme-palette: mat.define-light-theme((
-  color: (
-    primary: $theme-primary,
-    secondary: $theme-secondary,
-    primary-highlight: $theme-highlight-primary,
-    secondary-highlight: $theme-highlight-secondary
-  )
-));
-
-@include mat.all-component-themes($theme-palette);
+$theme-primary: mat.define-palette(sdk-theme.$theme-primary-color);
+$theme-secondary: mat.define-palette(sdk-theme.$theme-secondary-color);
+$theme-highlight-primary: mat.define-palette(sdk-theme.$theme-highlight-primary-color);
+$theme-highlight-secondary: mat.define-palette(sdk-theme.$theme-highlight-secondary-color);
 
 $theme-typo-level: mat.define-typography-level(
   $font-family: Roboto,
@@ -37,3 +19,14 @@ $theme-typo-level: mat.define-typography-level(
   $letter-spacing: normal,
 );
 
+$theme-palette: mat.define-light-theme((
+  color: (
+    primary: $theme-primary,
+    secondary: $theme-secondary,
+    primary-highlight: $theme-highlight-primary,
+    secondary-highlight: $theme-highlight-secondary,
+    accent: $theme-highlight-primary,
+  )
+));
+
+@include mat.all-component-themes($theme-palette);

@@ -17,13 +17,17 @@ export const applicationProfileReceived = createAction(
 
 export const unregisteredApplicationProfileRequested = createAction(
   '[APPLICATION] Unregistered Application Profile Requested',
-  props<{id: string }>(),
+  props<{applicationId: string }>(),
 )
 
 export const unregisteredApplicationProfileReceived = createAction(
   '[APPLICATION] Unregistered Application Profile Received',
   props<{profile: Partial<Application> }>(),
 )
+
+export const unregisteredApplicationProfileError = createAction(
+  '[APPLICATION] Error retrieving Unregistered Application Profile'
+);
 export const socialAgentsPanelLoaded = createAction(
   '[SOCIAL AGENT PROFILES] Social Agent Profiles Requested'
 );

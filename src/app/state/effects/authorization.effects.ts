@@ -8,6 +8,7 @@ import {
   unregisteredApplicationProfileError,
   unregisteredApplicationProfileReceived
 } from "../actions/application.actions";
+import {descriptionsNeeded} from "../actions/description.actions";
 
 
 @Injectable()
@@ -26,4 +27,9 @@ export class AuthorizationEffects {
         )),
     catchError(() => of(unregisteredApplicationProfileError()))
   )});
+
+  requestUnregisteredApplicationNeeds$ = createEffect(() => { return this.actions$.pipe(
+    ofType(authorizationInitiated),
+    map((action) => descriptionsNeeded({applicationId: action.applicationId}))
+  )})
 }

@@ -10,9 +10,13 @@ import {
   unregisteredApplicationProfileError,
   unregisteredApplicationProfileReceived
 } from "../actions/application.actions";
+import {descriptionsNeeded} from "../actions/description.actions";
 
 const initialState = {}
-const dataSpy = jasmine.createSpyObj('data service', ['getUnregisteredApplicationProfile'])
+const dataSpy = jasmine.createSpyObj('data service', [
+  'getUnregisteredApplicationProfile',
+  'getDescriptions',
+])
 
 const applicationId = 'https://app.id'
 
@@ -76,6 +80,20 @@ describe('Authorization Effects', () => {
           expect(action.type).toEqual(unregisteredApplicationProfileError().type)
           done();
         })
+      })
+    })
+  })
+
+  describe('requestUnregisteredApplicationNeeds', () => {
+
+    beforeEach(() => {
+      actions$ = of(authorizationInitiated({applicationId}));
+    })
+
+    it('triggers a "descriptions needed" action with the right id', (done) => {
+      effects.requestUnregisteredApplicationNeeds$.subscribe(action => {
+        expect(action.type).toEqual(descriptionsNeeded({applicationId}).type)
+        done()
       })
     })
   })

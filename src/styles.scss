@@ -3,13 +3,8 @@
 @include mat.core();
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
-
-$theme-primary: mat.define-palette(sdk-theme.$theme-primary-color);
-$theme-secondary: mat.define-palette(sdk-theme.$theme-secondary-color);
-$theme-highlight-primary: mat.define-palette(sdk-theme.$theme-highlight-primary-color);
-$theme-highlight-secondary: mat.define-palette(sdk-theme.$theme-highlight-secondary-color);
 
 $theme-typo-level: mat.define-typography-level(
   $font-family: Roboto,
@@ -19,6 +14,11 @@ $theme-typo-level: mat.define-typography-level(
   $letter-spacing: normal,
 );
 
+$theme-primary: mat.define-palette(sdk-theme.$theme-primary-color);
+$theme-secondary: mat.define-palette(sdk-theme.$theme-secondary-color);
+$theme-highlight-primary: mat.define-palette(sdk-theme.$theme-highlight-primary-color);
+$theme-highlight-secondary: mat.define-palette(sdk-theme.$theme-highlight-secondary-color);
+
 $theme-palette: mat.define-light-theme((
   color: (
     primary: $theme-primary,
@@ -26,6 +26,21 @@ $theme-palette: mat.define-light-theme((
     primary-highlight: $theme-highlight-primary,
     secondary-highlight: $theme-highlight-secondary,
     accent: $theme-highlight-primary,
+  )
+));
+
+$second-theme-primary: mat.define-palette(sdk-theme.$second-theme-primary-color);
+$second-theme-secondary: mat.define-palette(sdk-theme.$theme-secondary-color);
+$second-theme-highlight-primary: mat.define-palette(sdk-theme.$theme-highlight-primary-color);
+$second-theme-highlight-secondary: mat.define-palette(sdk-theme.$theme-highlight-secondary-color);
+
+$second-theme-palette: mat.define-light-theme((
+  color: (
+    primary: $second-theme-primary,
+    secondary: $second-theme-secondary,
+    primary-highlight: $second-theme-highlight-primary,
+    secondary-highlight: $second-theme-highlight-secondary,
+    accent: $second-theme-highlight-primary,
   )
 ));
 

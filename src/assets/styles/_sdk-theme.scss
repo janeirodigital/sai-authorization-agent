@@ -83,3 +83,24 @@ $theme-highlight-secondary-color: (
     A600: white,
   )
 );
+
+$second-theme-primary-color: (
+  100: $second-theme-primary-light-color,
+  400: $second-theme-primary-light-color,
+  500: $second-theme-primary-color,
+  600: $second-theme-primary-dark-color,
+  700: $second-theme-primary-dark-color,
+  A400: $second-theme-primary-light-color,
+  A500: $second-theme-primary-color,
+  A600: $second-theme-primary-dark-color,
+  contrast: (
+    100: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    A400: white,
+    A500: white,
+    A600: white,
+  )
+);

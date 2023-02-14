@@ -6,25 +6,28 @@ $theme-primary-color: #005EB8;
 $theme-primary-light-color: #0072CE;
 $theme-primary-dark-color: #003087;
 
-// Secondaries
+// Accent
 $theme-secondary-color: #B6B6B6;
 $theme-secondary-light-color: #E8EDEE;
 $theme-secondary-dark-color: #758692;
 
-// Highlights
-$theme-highlight-color: #009639;
-$theme-highlight-light-color: #78BE21;
-$theme-highlight-dark-color: #006747;
-
-// Highlight secondaries
-$theme-highlight-secondary-color: #FFB81C;
-$theme-highlight-secondary-light-color: #FAE101;
-$theme-highlight-secondary-dark-color: #ED8B01;
-
-// Second Theme Pallet
+// Second Theme Pallet - Primary
 $second-theme-primary-color: #ed594f;
 $second-theme-primary-light-color: #DA291C;
 $second-theme-primary-dark-color: rgba(237, 89, 79, 0.3);
+
+// Second Theme Pallet - Accent
+$second-theme-secondary-color: #FFB81C;
+$second-theme-secondary-light-color: #FAE101;
+$second-theme-secondary-dark-color: #ED8B01;
+
+// Third Theme color
+$third-theme-highlight-color: #009639;
+$third-theme-highlight-light-color: #78BE21;
+$third-theme-highlight-dark-color: #006747;
+
+// Warn color
+$theme-warn-color: #DA291C;
 
 // Additional
 $dark-color: #131415;

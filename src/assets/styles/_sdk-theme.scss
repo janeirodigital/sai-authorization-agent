@@ -42,48 +42,6 @@ $theme-secondary-color: (
   )
 );
 
-$theme-highlight-primary-color: (
-  100: $theme-highlight-light-color,
-  400: $theme-highlight-light-color,
-  500: $theme-highlight-dark-color,
-  600: $theme-highlight-dark-color,
-  700: $theme-highlight-dark-color,
-  A400: $theme-highlight-light-color,
-  A500: $theme-highlight-dark-color,
-  A600: $theme-highlight-dark-color,
-  contrast: (
-    100: white,
-    400: white,
-    500: white,
-    600: white,
-    700: white,
-    A400: white,
-    A500: white,
-    A600: white,
-  )
-);
-
-$theme-highlight-secondary-color: (
-  100: $theme-highlight-secondary-light-color,
-  400: $theme-highlight-secondary-light-color,
-  500: $theme-highlight-secondary-dark-color,
-  600: $theme-highlight-secondary-dark-color,
-  700: $theme-highlight-secondary-dark-color,
-  A400: $theme-highlight-secondary-light-color,
-  A500: $theme-highlight-secondary-dark-color,
-  A600: $theme-highlight-secondary-dark-color,
-  contrast: (
-    100: white,
-    400: white,
-    500: white,
-    600: white,
-    700: white,
-    A400: white,
-    A500: white,
-    A600: white,
-  )
-);
-
 $second-theme-primary-color: (
   100: $second-theme-primary-light-color,
   400: $second-theme-primary-light-color,
@@ -93,6 +51,69 @@ $second-theme-primary-color: (
   A400: $second-theme-primary-light-color,
   A500: $second-theme-primary-color,
   A600: $second-theme-primary-dark-color,
+  contrast: (
+    100: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    A400: white,
+    A500: white,
+    A600: white,
+  )
+);
+
+$second-theme-secondary-color: (
+  100: $second-theme-secondary-light-color,
+  400: $second-theme-secondary-light-color,
+  500: $second-theme-secondary-dark-color,
+  600: $second-theme-secondary-dark-color,
+  700: $second-theme-secondary-dark-color,
+  A400: $second-theme-secondary-light-color,
+  A500: $second-theme-secondary-dark-color,
+  A600: $second-theme-secondary-dark-color,
+  contrast: (
+    100: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    A400: white,
+    A500: white,
+    A600: white,
+  )
+);
+
+$third-theme-highlight-primary-color: (
+  100: $third-theme-highlight-light-color,
+  400: $third-theme-highlight-light-color,
+  500: $third-theme-highlight-dark-color,
+  600: $third-theme-highlight-dark-color,
+  700: $third-theme-highlight-dark-color,
+  A400: $third-theme-highlight-light-color,
+  A500: $third-theme-highlight-dark-color,
+  A600: $third-theme-highlight-dark-color,
+  contrast: (
+    100: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    A400: white,
+    A500: white,
+    A600: white,
+  )
+);
+
+$theme-warn-color: (
+  100: $theme-warn-color,
+  400: $theme-warn-color,
+  500: $theme-warn-color,
+  600: $theme-warn-color,
+  700: $theme-warn-color,
+  A400: $theme-warn-color,
+  A500: $theme-warn-color,
+  A600: $theme-warn-color,
   contrast: (
     100: white,
     400: white,

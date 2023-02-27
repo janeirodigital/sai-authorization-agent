@@ -1,0 +1,23 @@
+<section>
+  <div class="item-header bg-color-light-grey">
+    <mat-checkbox
+      [checked]="allComplete"
+      (change)="setAll($event.checked)">
+      Select all
+    </mat-checkbox>
+  </div>
+  <ul class="list-wrapper">
+    <li class="item" *ngFor="let item of items">
+      <mat-checkbox
+        [(ngModel)]="item.selected"
+        (ngModelChange)="updateAllComplete()">
+      </mat-checkbox>
+      <mat-icon matListItemIcon>{{item.icon}}</mat-icon>
+      <div class="item-info">
+        <span class="small-title">{{item.title}}</span>
+        <span class="section-sub-title">{{item.description}}</span>
+        <span class="section-sub-title">{{item.content}}</span>
+      </div>
+    </li>
+  </ul>
+</section>

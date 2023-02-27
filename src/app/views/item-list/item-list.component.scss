@@ -1,0 +1,39 @@
+.item-header {
+  border: 1px solid #708090;
+  border-bottom: 0;
+  border-radius: 10px 10px 0 0;
+  min-height: 40px;
+  mat-checkbox {
+    margin: 1rem;
+  }
+}
+.list-wrapper {
+  list-style: none;
+  padding: 0;
+  margin-top: 0;
+  border: 1px solid #708090;
+
+  .item {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #708090;
+    padding-left: 1rem;
+    min-height: 70px;
+
+    &:first-child {
+      border-top: 0;
+    }
+
+    .item-info {
+      padding: 0.5rem 1rem;
+      span {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+
+    mat-checkbox {
+      margin-right: 1rem;
+    }
+  }
+}

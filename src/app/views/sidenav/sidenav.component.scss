@@ -1,0 +1,40 @@
+section {
+  height: 100vh;
+  width: 15%;
+  .list-wrapper {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    min-width: 15%;
+    width: auto;
+
+    li {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      a {
+        padding: 8px 16px;
+        color: #000;
+        border-radius: 6px;
+        width: 100%;
+        display: flex;
+        &.selected, &:hover {
+          color: #fff;
+          background: #0072CE;
+        }
+
+        span {
+          display: flex;
+          align-items: center;
+          &.label {
+            margin-left: 5%;
+          }
+          &.notificationCount {
+            margin-left: auto;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+<section>
+  <div class="cta-section">
+    <button mat-raised-button>All</button>
+    <button mat-raised-button>Unread</button>
+  </div>
+  <form>
+    <mat-icon>filter_list</mat-icon>
+    <input type="search" matInput placeholder="Filter">
+  </form>
+  <div class="cta-dropdown">
+    <mat-label>Group by:</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let item of items" [value]="item.title">
+        {{item.title}}
+      </mat-option>
+    </mat-select>
+  </div>
+
+</section>

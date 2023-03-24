@@ -1,14 +1,15 @@
 import {Actions, createEffect, ofType} from "@ngrx/effects";
 import {DataService} from "../../services/data.service";
-import {authorizationInitiated} from "../actions/authorization.actions";
+import {authorizationPageLoaded, authorizationRequested} from "../actions/authorization.actions";
 import {catchError, mergeMap} from "rxjs/operators";
-import {from, map, of} from "rxjs";
+import {EMPTY, from, map, of} from "rxjs";
 import {Injectable} from "@angular/core";
 import {
   unregisteredApplicationProfileError,
   unregisteredApplicationProfileReceived
 } from "../actions/application.actions";
 import {descriptionsNeeded} from "../actions/description.actions";
+import * as DataActions from "../actions/application.actions";
 
 
 @Injectable()
@@ -19,7 +20,7 @@ export class AuthorizationEffects {
   ) {}
 
   requestUnregisteredApplicationProfile$ = createEffect(() => { return this.actions$.pipe(
-    ofType(authorizationInitiated),
+    ofType(authorizationPageLoaded),
     mergeMap((action) =>
       from(
         this.data.getUnregisteredApplicationProfile(action.applicationId)).pipe(
@@ -29,7 +30,14 @@ export class AuthorizationEffects {
   )});
 
   requestUnregisteredApplicationNeeds$ = createEffect(() => { return this.actions$.pipe(
-    ofType(authorizationInitiated),
+    ofType(authorizationPageLoaded),
     map((action) => descriptionsNeeded({applicationId: action.applicationId}))
+  )})
+
+  requestAuthorization$ = createEffect(() => { return this.actions$.pipe(
+    ofType(authorizationRequested),
+    mergeMap(({ authorization }) => this.data.authorizeApplication(authorization)),
+    map(accessAuthorization => DataActions.authorizationReceived({ accessAuthorization })),
+    map(() => ({type: 'NOOP'}))
   )})
 }

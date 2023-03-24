@@ -5,17 +5,17 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
-import {MatButtonModule} from "@angular/material/button";
+import {MatLegacyButtonModule as MatButtonModule} from "@angular/material/legacy-button";
 import {MatToolbarModule} from "@angular/material/toolbar";
-import {NavbarComponent} from "./views/navbar/navbar.component";
+import {NavbarComponent} from "./components/navbar/navbar.component";
 import {LoginComponent} from "./components/login/login.component";
-import {MatCardModule} from "@angular/material/card";
-import {MatListModule} from '@angular/material/list';
+import {MatLegacyCardModule as MatCardModule} from "@angular/material/legacy-card";
+import {MatLegacyListModule as MatListModule} from '@angular/material/legacy-list';
 import {MatTreeModule} from '@angular/material/tree';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatInputModule} from "@angular/material/input";
-import {DashboardComponent} from './components/dashboard/dashboard.component';
+import {MatLegacyFormFieldModule as MatFormFieldModule} from "@angular/material/legacy-form-field";
+import {MatLegacyInputModule as MatInputModule} from "@angular/material/legacy-input";
+import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {StoreModule} from '@ngrx/store';
 import {metaReducers, reducers} from './state/reducers';
@@ -25,28 +25,30 @@ import {EffectsModule} from '@ngrx/effects';
 import {AuthInterceptor} from "./interceptors/auth.interceptor";
 import {Effects} from "./state/effects";
 import {MatIconModule} from "@angular/material/icon";
-import {RedirectHandlerComponent} from './components/redirect-handler/redirect-handler.component';
+import {RedirectHandlerComponent} from './pages/redirect-handler/redirect-handler.component';
 import {SolidClient} from "./utils/solid-client";
-import {AuthorizationComponent} from './components/authorization/authorization.component';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {StartComponent} from './components/start/start.component';
-import {ConnectServerComponent} from './components/connect-server/connect-server.component';
+import {AuthorizationPage} from './pages/authorization/authorization.page';
+import {MatLegacyProgressSpinnerModule as MatProgressSpinnerModule} from '@angular/material/legacy-progress-spinner';
+import {StartComponent} from './pages/start/start.component';
+import {ConnectServerPage} from './pages/connect-server/connect-server.page';
 import {ServiceWorkerModule} from '@angular/service-worker';
-import {AddSocialAgentComponent} from './components/add-social-agent/add-social-agent.component';
-import {SocialAgentsComponent} from './components/social-agents/social-agents.component';
-import {ApplicationsComponent} from './components/applications/applications.component';
-import {DataComponent} from './components/data/data.component';
-import {LanguageComponent} from './views/language/language.component';
-import {AppViewComponent} from './views/app-view/app-view.component';
-import {MatChipsModule} from "@angular/material/chips";
-import {AccessNeedViewComponent} from './views/access-need-view/access-need-view.component';
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {MatTooltipModule} from "@angular/material/tooltip";
+import {AddSocialAgentComponent} from './pages/add-social-agent/add-social-agent.component';
+import {SocialAgentsComponent} from './pages/social-agents/social-agents.component';
+import {ApplicationsComponent} from './pages/applications/applications.component';
+import {DataComponent} from './pages/data/data.component';
+import {LanguageComponent} from './components/language/language.component';
+import {AppViewComponent} from './components/app-view/app-view.component';
+import {MatLegacyChipsModule as MatChipsModule} from "@angular/material/legacy-chips";
+import {AccessNeedViewComponent} from './components/access-need-view/access-need-view.component';
+import {MatLegacySlideToggleModule as MatSlideToggleModule} from "@angular/material/legacy-slide-toggle";
+import {MatLegacyTooltipModule as MatTooltipModule} from "@angular/material/legacy-tooltip";
 import {DemoMaterialModule} from "../material-module";
-import {AddSocialAgentFormComponent} from './views/add-social-agent-form/add-social-agent-form.component';
-import {MatCheckboxModule} from "@angular/material/checkbox";
-import {MatRadioModule} from "@angular/material/radio";
+import {AddSocialAgentFormComponent} from './components/add-social-agent-form/add-social-agent-form.component';
+import {MatLegacyCheckboxModule as MatCheckboxModule} from "@angular/material/legacy-checkbox";
+import {MatLegacyRadioModule as MatRadioModule} from "@angular/material/legacy-radio";
 import {I18nModule} from "./i18n.module";
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { LoginPage } from './pages/login/login.page';
 
 @NgModule({
   declarations: [
@@ -55,9 +57,9 @@ import {I18nModule} from "./i18n.module";
     LoginComponent,
     DashboardComponent,
     RedirectHandlerComponent,
-    AuthorizationComponent,
+    AuthorizationPage,
     StartComponent,
-    ConnectServerComponent,
+    ConnectServerPage,
     AddSocialAgentComponent,
     SocialAgentsComponent,
     ApplicationsComponent,
@@ -66,6 +68,7 @@ import {I18nModule} from "./i18n.module";
     AppViewComponent,
     AccessNeedViewComponent,
     AddSocialAgentFormComponent,
+    LoginPage,
   ],
   imports: [
     BrowserModule,
@@ -103,6 +106,7 @@ import {I18nModule} from "./i18n.module";
       registrationStrategy: 'registerWhenStable:30000'
     }),
     I18nModule,
+    FontAwesomeModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},

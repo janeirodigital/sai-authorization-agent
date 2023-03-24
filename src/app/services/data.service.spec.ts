@@ -6,12 +6,12 @@ import { ApplicationsRequest,
   SocialAgentsRequest, SocialAgent,
   AddSocialAgentRequest, AuthorizationData,
   AccessAuthorization, Authorization,
-  ApplicationAuthorizationRequest, ResponseMessageTypes
+  ApplicationAuthorizationRequest, ResponseMessageTypes, UnregisteredApplicationProfileRequest
 } from '@janeirodigital/sai-api-messages'
 import { ENV } from 'src/environments/environment';
 
 let solidClientSpy: jasmine.SpyObj<SolidClient>;
-let dataService: DataService;
+let service: DataService;
 
 const apiUrl = `${ENV.SRV_BASE}/api`
 const commonOptions = {
@@ -23,7 +23,7 @@ const commonOptions = {
 
 beforeEach(() => {
   solidClientSpy = jasmine.createSpyObj('SolidClient', ['fetch']);
-  dataService = new DataService(solidClientSpy);
+  service = new DataService(solidClientSpy);
 });
 
 describe('getApplicationProfiles', () => {
@@ -33,7 +33,7 @@ describe('getApplicationProfiles', () => {
       payload: [ { id: 'app-1' }, { id: 'app-2' } ] as Application[]
     }
     solidClientSpy.fetch.and.resolveTo({ json: async () => message } as unknown as Response)
-    const payload = await dataService.getApplicationProfiles()
+    const payload = await service.getApplicationProfiles()
     expect(payload).toBe(message.payload)
     const options = {
       ...commonOptions,
@@ -49,7 +49,7 @@ describe('getApplicationProfiles', () => {
     }
     solidClientSpy.fetch.and.resolveTo({ json: async () => message } as unknown as Response)
     const errorMessage = new RegExp('Invalid message type!');
-    await expectAsync(dataService.getApplicationProfiles()).toBeRejectedWithError(Error, errorMessage)
+    await expectAsync(service.getApplicationProfiles()).toBeRejectedWithError(Error, errorMessage)
   })
 })
 
@@ -61,7 +61,7 @@ describe('getSocialAgentProfiles', () => {
       payload: [ { id: 'agent-1' }, { id: 'app-2' } ] as SocialAgent[]
     }
     solidClientSpy.fetch.and.resolveTo({ json: async () => message } as unknown as Response)
-    const payload = await dataService.getSocialAgentProfiles()
+    const payload = await service.getSocialAgentProfiles()
     expect(payload).toBe(message.payload)
     const options = {
       ...commonOptions,
@@ -77,7 +77,7 @@ describe('getSocialAgentProfiles', () => {
     }
     solidClientSpy.fetch.and.resolveTo({ json: async () => message } as unknown as Response)
     const errorMessage = new RegExp('Invalid message type!');
-    await expectAsync(dataService.getSocialAgentProfiles()).toBeRejectedWithError(Error, errorMessage)
+    await expectAsync(service.getSocialAgentProfiles()).toBeRejectedWithError(Error, errorMessage)
   })
 })
 
@@ -93,7 +93,7 @@ describe('addSocialAgent', () => {
       payload: { id: 'agent-1' } as SocialAgent,
     }
     solidClientSpy.fetch.and.resolveTo({ json: async () => message } as unknown as Response)
-    const payload = await dataService.addSocialAgent(webId, label, note)
+    const payload = await service.addSocialAgent(webId, label, note)
     expect(payload).toBe(message.payload)
     const options = {
       ...commonOptions,
@@ -109,7 +109,7 @@ describe('addSocialAgent', () => {
     }
     solidClientSpy.fetch.and.resolveTo({ json: async () => message } as unknown as Response)
     const errorMessage = new RegExp('Invalid message type!');
-    await expectAsync(dataService.addSocialAgent(webId, label, note)).toBeRejectedWithError(Error, errorMessage)
+    await expectAsync(service.addSocialAgent(webId, label, note)).toBeRejectedWithError(Error, errorMessage)
   })
 })
 
@@ -122,7 +122,7 @@ describe('getDataRegistries', () => {
       payload:[{ id: 'reg-1' }, { id: 'reg-2' }] as DataRegistry[],
     }
     solidClientSpy.fetch.and.resolveTo({ json: async () => message } as unknown as Response)
-    const payload = await dataService.getDataRegistries(lang)
+    const payload = await service.getDataRegistries(lang)
     expect(payload).toBe(message.payload)
     const options = {
       ...commonOptions,
@@ -138,7 +138,7 @@ describe('getDataRegistries', () => {
     }
     solidClientSpy.fetch.and.resolveTo({ json: async () => message } as unknown as Response)
     const errorMessage = new RegExp('Invalid message type!');
-    await expectAsync(dataService.getDataRegistries(lang)).toBeRejectedWithError(Error, errorMessage)
+    await expectAsync(service.getDataRegistries(lang)).toBeRejectedWithError(Error, errorMessage)
   })
 })
 
@@ -152,7 +152,7 @@ describe('getDescriptions', () => {
       payload: { id: '123' } as AuthorizationData,
     }
     solidClientSpy.fetch.and.resolveTo({ json: async () => message } as unknown as Response)
-    const payload = await dataService.getDescriptions(applicationId, lang);
+    const payload = await service.getDescriptions(applicationId, lang);
     expect(payload).toBe(message.payload)
     const options = {
       ...commonOptions,
@@ -168,7 +168,7 @@ describe('getDescriptions', () => {
     }
     solidClientSpy.fetch.and.resolveTo({ json: async () => message } as unknown as Response)
     const errorMessage = new RegExp('Invalid message type!');
-    await expectAsync(dataService.getDescriptions(applicationId, lang)).toBeRejectedWithError(Error, errorMessage)
+    await expectAsync(service.getDescriptions(applicationId, lang)).toBeRejectedWithError(Error, errorMessage)
   })
 })
 
@@ -184,7 +184,7 @@ describe('authorizeApplication', () => {
       payload: { grantee: 'https://projectron.example' } as AccessAuthorization,
     }
     solidClientSpy.fetch.and.resolveTo({ json: async () => message } as unknown as Response)
-    const payload = await dataService.authorizeApplication(authorization);
+    const payload = await service.authorizeApplication(authorization);
     expect(payload).toBe(message.payload)
     const options = {
       ...commonOptions,
@@ -200,6 +200,30 @@ describe('authorizeApplication', () => {
     }
     solidClientSpy.fetch.and.resolveTo({ json: async () => message } as unknown as Response)
     const errorMessage = new RegExp('Invalid message type!');
-    await expectAsync(dataService.authorizeApplication(authorization)).toBeRejectedWithError(Error, errorMessage)
+    await expectAsync(service.authorizeApplication(authorization)).toBeRejectedWithError(Error, errorMessage)
+  })
+})
+
+describe('getUnregisteredApplicationProfile', () => {
+  const applicationId = 'https://app.id'
+
+  describe('with a right response', () => {
+
+    let response: Response;
+
+    beforeEach(() => {
+      response = { json: async () => ({})} as Response;
+    })
+
+    it('should call the api with the right inputs', async () => {
+      const expectedOptions = {
+        ...commonOptions,
+        body: (new UnregisteredApplicationProfileRequest(applicationId)).stringify(),
+      }
+      solidClientSpy.fetch.and.resolveTo(response)
+      await service.getUnregisteredApplicationProfile(applicationId);
+
+      expect(solidClientSpy.fetch).toHaveBeenCalledWith(apiUrl, expectedOptions);
+    })
   })
 })

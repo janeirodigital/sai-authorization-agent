@@ -45,24 +45,29 @@ export class ApplicationProfileEffects {
     map(registries => DataActions.dataRegistriesProvided({registries})),
   ) })
 
+  
+  /**
+  * 'Descriptions' are the set of data needed to describe to an user the needs and capabilities of an application
+  * using the descriptor provided by the application and the associated shapetrees. This effect takes all this data (as a `AuthorizationData`)
+  * and breaks it down into smaller parts (groups, needs and shapetrees) that can then be individually addressed from the store
+  */
   loadDescriptions$ = createEffect(() => { return this.actions$.pipe(
     ofType(DescActions.descriptionsNeeded),
     concatLatestFrom(() => this.store.select(selectors.selectPrefLanguage)),
     mergeMap(([props, lang]) => this.data.getDescriptions(props.applicationId, lang)),
-    // TODO split into a single action per effect
-    // eslint-disable-next-line @ngrx/no-multiple-actions-in-effects
     switchMap(authorizationData => [
-      DescActions.descriptionsReceived({authorizationData}),
       ...mapAuthorizationDataToNeedsActions(authorizationData).flat(),
     ]),
   ) })
 
+  /* @deprecated use authorization effect */
   authorizeApplication$ = createEffect(() => { return this.actions$.pipe(
     ofType(DataActions.authorizeApplication),
     mergeMap(({ authorization }) => this.data.authorizeApplication(authorization)),
     map(accessAuthorization => DataActions.authorizationReceived({ accessAuthorization })),
   ) })
 
+  /* TODO move to authorization effects */
   redirectToCallbackEndpoint =  createEffect(() => { return this.actions$.pipe(
     ofType(DataActions.authorizationReceived),
     tap(({accessAuthorization}) => window.location.href = accessAuthorization.callbackEndpoint || '')

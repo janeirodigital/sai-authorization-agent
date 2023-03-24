@@ -5,7 +5,7 @@ import {AuthorizationEffects} from "./authorization.effects";
 import {Action} from "@ngrx/store";
 import {provideMockStore} from "@ngrx/store/testing";
 import {DataService} from "../../services/data.service";
-import {authorizationInitiated} from "../actions/authorization.actions";
+import {authorizationPageLoaded, authorizationRequested} from "../actions/authorization.actions";
 import {
   unregisteredApplicationProfileError,
   unregisteredApplicationProfileReceived
@@ -15,7 +15,6 @@ import {descriptionsNeeded} from "../actions/description.actions";
 const initialState = {}
 const dataSpy = jasmine.createSpyObj('data service', [
   'getUnregisteredApplicationProfile',
-  'getDescriptions',
 ])
 
 const applicationId = 'https://app.id'
@@ -41,7 +40,7 @@ describe('Authorization Effects', () => {
     describe('if service correct response', () => {
 
       beforeEach(() => {
-        actions$ = of(authorizationInitiated({applicationId}));
+        actions$ = of(authorizationPageLoaded({applicationId}));
         dataSpy.getUnregisteredApplicationProfile.and.returnValue(of({id: applicationId}))
       })
 
@@ -71,7 +70,7 @@ describe('Authorization Effects', () => {
 
     describe('if service throws', () => {
       beforeEach(() => {
-        actions$ = of(authorizationInitiated({applicationId}));
+        actions$ = of(authorizationPageLoaded({applicationId}));
         dataSpy.getUnregisteredApplicationProfile.and.throwError('Error');
       })
 
@@ -87,13 +86,24 @@ describe('Authorization Effects', () => {
   describe('requestUnregisteredApplicationNeeds', () => {
 
     beforeEach(() => {
-      actions$ = of(authorizationInitiated({applicationId}));
+      actions$ = of(authorizationPageLoaded({applicationId}));
     })
 
     it('triggers a "descriptions needed" action with the right id', (done) => {
       effects.requestUnregisteredApplicationNeeds$.subscribe(action => {
         expect(action.type).toEqual(descriptionsNeeded({applicationId}).type)
         done()
+      })
+    })
+  })
+
+  describe('requestAuthorization', () => {
+    beforeEach(() => {
+      actions$ = of(authorizationRequested({applicationId: 'https:://app.id'}))
+    })
+
+    it('calls the authorization service with the right aplication id', () => {
+      effects.requestAuthorization$.subscribe(action => {
       })
     })
   })

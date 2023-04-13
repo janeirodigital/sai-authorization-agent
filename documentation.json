@@ -434,7 +434,7 @@
     "injectables": [
         {
             "name": "ApplicationProfileEffects",
-            "id": "injectable-ApplicationProfileEffects-3d68269b9f6ec9cd99e5afc72a275ad0ff79e2abb7ed621944e6ea288c79b5692ad6448af3abf8425af5df610f49ba0e2c19f213f29f7fd92da9a47fd15c863d",
+            "id": "injectable-ApplicationProfileEffects-28850368c518e53ce5ec0592b0813f85e8a81cb13b0c7baf78bc96ce40f12ec33d10effbe911b7a7ef10ae24313cf80ad13f8390e9feaf2cb21e88f56e3bfac5",
             "file": "src/app/state/effects/application.effects.ts",
             "properties": [
                 {
@@ -455,7 +455,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 63
+                    "line": 64
                 },
                 {
                     "name": "loadApplicationProfiles$",
@@ -506,7 +506,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 69
+                    "line": 71
                 }
             ],
             "methods": [],
@@ -514,7 +514,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import {map, mergeMap, switchMap, tap} from \"rxjs\";\nimport {Injectable} from \"@angular/core\";\nimport {Actions, concatLatestFrom, createEffect, ofType} from \"@ngrx/effects\";\nimport * as DataActions from \"../actions/application.actions\";\nimport * as DescActions from \"../actions/description.actions\";\nimport * as NeedActions from \"../actions/access-needs.actions\"\nimport {DataService} from \"../../services/data.service\";\nimport {Store} from \"@ngrx/store\";\nimport * as selectors from \"../selectors\";\nimport {AccessNeed as ApiAccessNeed, AccessNeedGroup as ApiGroup, AuthorizationData} from \"@janeirodigital/sai-api-messages\";\nimport {AccessNeed, AccessNeedGroup, ShapeTree} from \"../models\";\n\n// TODO contains effects for non-application, move to their own files/classes\n\n@Injectable()\nexport class ApplicationProfileEffects {\n  constructor(\n    private actions$: Actions,\n    private data: DataService,\n    private store: Store,\n  ) {}\n\n  loadApplicationProfiles$ = createEffect(() => { return this.actions$.pipe(\n    ofType(DataActions.applicationsPanelLoaded),\n    mergeMap(() => this.data.getApplicationProfiles()),\n    map(profiles => DataActions.applicationProfilesReceived({profiles})),\n  ) })\n\n  loadSocialAgentsProfiles$ = createEffect(() => { return this.actions$.pipe(\n    ofType(DataActions.socialAgentsPanelLoaded),\n    mergeMap(() => this.data.getSocialAgentProfiles()),\n    map(profiles => DataActions.socialAgentProfilesReceived({profiles})),\n  ) })\n\n  addSocialAgent$ = createEffect(() => { return this.actions$.pipe(\n    ofType(DataActions.addSocialAgent),\n    mergeMap(({ webId, label, note }) => this.data.addSocialAgent(webId, label, note)),\n    map(profile => DataActions.socialAgentProfileReceived({profile})),\n  ) })\n\n  loadDataRegistries$ = createEffect(() => { return this.actions$.pipe(\n    ofType(DataActions.dataRegistriesNeeded),\n    concatLatestFrom(() => this.store.select(selectors.selectPrefLanguage)),\n    mergeMap(([, lang]) => this.data.getDataRegistries(lang)),\n    map(registries => DataActions.dataRegistriesProvided({registries})),\n  ) })\n\n  \n  /**\n  * 'Descriptions' are the set of data needed to describe to an user the needs and capabilities of an application\n  * using the descriptor provided by the application and the associated shapetrees. This effect takes all this data (as a `AuthorizationData`)\n  * and breaks it down into smaller parts (groups, needs and shapetrees) that can then be individually addressed from the store\n  */\n  loadDescriptions$ = createEffect(() => { return this.actions$.pipe(\n    ofType(DescActions.descriptionsNeeded),\n    concatLatestFrom(() => this.store.select(selectors.selectPrefLanguage)),\n    mergeMap(([props, lang]) => this.data.getDescriptions(props.applicationId, lang)),\n    switchMap(authorizationData => [\n      ...mapAuthorizationDataToNeedsActions(authorizationData).flat(),\n    ]),\n  ) })\n\n  authorizeApplication$ = createEffect(() => { return this.actions$.pipe(\n    ofType(DataActions.authorizeApplication),\n    mergeMap(({ authorization }) => this.data.authorizeApplication(authorization)),\n    map(accessAuthorization => DataActions.authorizationReceived({ accessAuthorization })),\n  ) })\n\n  redirectToCallbackEndpoint =  createEffect(() => { return this.actions$.pipe(\n    ofType(DataActions.authorizationReceived),\n    tap(({accessAuthorization}) => window.location.href = accessAuthorization.callbackEndpoint || '')\n  ) }, {dispatch: false});\n}\n\nconst mapAuthorizationDataToNeedsActions = (data: AuthorizationData) => {\n  const needs = data.accessNeedGroup.needs;\n\n  const shapeTrees = needs.map(need => flatShapeTrees(need)).flat();\n  const accessNeeds = needs.map(need => flatAccessNeed(need)).flat();\n\n  const shapeTreeActions = shapeTrees.map(tree => NeedActions.addShapeTree({tree}));\n  const needsActions = accessNeeds.map(need => NeedActions.addAccessNeed({need}));\n\n  const group = flatAccessNeedGroup(data.accessNeedGroup);\n  const groupAction = NeedActions.addAccessNeedGroup({group});\n  return [shapeTreeActions, needsActions, groupAction];\n}\n\n\n/* This set of functions take the nested Authorization Data from the api and flatten the needs, shapetrees and group\n * that then can be used to insert into the store as independent entities\n */\nconst flatAccessNeedGroup = (apiGroup: ApiGroup): AccessNeedGroup => {\n  return {...apiGroup, needs: apiGroup.needs.map(need => need.id)};\n}\n\nconst flatAccessNeed = (apiAccess: ApiAccessNeed): AccessNeed[] => {\n  const children = apiAccess.children;\n\n  if (!children || children.length === 0)\n    return [{...apiAccess, shapeTree: apiAccess.shapeTree.id, children: apiAccess.children?.map(c => c.id) || []}];\n\n  else {\n    // collect and recurse\n    const newAccess: AccessNeed = {...apiAccess, shapeTree: apiAccess.shapeTree.id, children: apiAccess.children?.map(c => c.id) || []};\n    const convertedChildren = children.map(c => flatAccessNeed(c)).flat();\n\n    return [newAccess, ...convertedChildren];\n  }\n}\n\nconst flatShapeTrees = (apiAccess: ApiAccessNeed): ShapeTree[] => {\n  const children = apiAccess.children;\n\n  if (!children || children.length === 0)\n    return [{id: apiAccess.shapeTree.id, label: apiAccess.shapeTree.label}]\n\n  else {\n    const thisShapeTree = {id: apiAccess.shapeTree.id, label: apiAccess.shapeTree.label};\n    const childrenShapeTrees = children.map(c => flatShapeTrees(c)).flat();\n\n    return [thisShapeTree, ...childrenShapeTrees];\n  }\n}\n",
+            "sourceCode": "import {map, mergeMap, switchMap, tap} from \"rxjs\";\nimport {Injectable} from \"@angular/core\";\nimport {Actions, concatLatestFrom, createEffect, ofType} from \"@ngrx/effects\";\nimport * as DataActions from \"../actions/application.actions\";\nimport * as DescActions from \"../actions/description.actions\";\nimport * as NeedActions from \"../actions/access-needs.actions\"\nimport {DataService} from \"../../services/data.service\";\nimport {Store} from \"@ngrx/store\";\nimport * as selectors from \"../selectors\";\nimport {AccessNeed as ApiAccessNeed, AccessNeedGroup as ApiGroup, AuthorizationData} from \"@janeirodigital/sai-api-messages\";\nimport {AccessNeed, AccessNeedGroup, ShapeTree} from \"../models\";\n\n// TODO contains effects for non-application, move to their own files/classes\n\n@Injectable()\nexport class ApplicationProfileEffects {\n  constructor(\n    private actions$: Actions,\n    private data: DataService,\n    private store: Store,\n  ) {}\n\n  loadApplicationProfiles$ = createEffect(() => { return this.actions$.pipe(\n    ofType(DataActions.applicationsPanelLoaded),\n    mergeMap(() => this.data.getApplicationProfiles()),\n    map(profiles => DataActions.applicationProfilesReceived({profiles})),\n  ) })\n\n  loadSocialAgentsProfiles$ = createEffect(() => { return this.actions$.pipe(\n    ofType(DataActions.socialAgentsPanelLoaded),\n    mergeMap(() => this.data.getSocialAgentProfiles()),\n    map(profiles => DataActions.socialAgentProfilesReceived({profiles})),\n  ) })\n\n  addSocialAgent$ = createEffect(() => { return this.actions$.pipe(\n    ofType(DataActions.addSocialAgent),\n    mergeMap(({ webId, label, note }) => this.data.addSocialAgent(webId, label, note)),\n    map(profile => DataActions.socialAgentProfileReceived({profile})),\n  ) })\n\n  loadDataRegistries$ = createEffect(() => { return this.actions$.pipe(\n    ofType(DataActions.dataRegistriesNeeded),\n    concatLatestFrom(() => this.store.select(selectors.selectPrefLanguage)),\n    mergeMap(([, lang]) => this.data.getDataRegistries(lang)),\n    map(registries => DataActions.dataRegistriesProvided({registries})),\n  ) })\n\n  \n  /**\n  * 'Descriptions' are the set of data needed to describe to an user the needs and capabilities of an application\n  * using the descriptor provided by the application and the associated shapetrees. This effect takes all this data (as a `AuthorizationData`)\n  * and breaks it down into smaller parts (groups, needs and shapetrees) that can then be individually addressed from the store\n  */\n  loadDescriptions$ = createEffect(() => { return this.actions$.pipe(\n    ofType(DescActions.descriptionsNeeded),\n    concatLatestFrom(() => this.store.select(selectors.selectPrefLanguage)),\n    mergeMap(([props, lang]) => this.data.getDescriptions(props.applicationId, lang)),\n    switchMap(authorizationData => [\n      ...mapAuthorizationDataToNeedsActions(authorizationData).flat(),\n    ]),\n  ) })\n\n  /* @deprecated use authorization effect */\n  authorizeApplication$ = createEffect(() => { return this.actions$.pipe(\n    ofType(DataActions.authorizeApplication),\n    mergeMap(({ authorization }) => this.data.authorizeApplication(authorization)),\n    map(accessAuthorization => DataActions.authorizationReceived({ accessAuthorization })),\n  ) })\n\n  /* TODO move to authorization effects */\n  redirectToCallbackEndpoint =  createEffect(() => { return this.actions$.pipe(\n    ofType(DataActions.authorizationReceived),\n    tap(({accessAuthorization}) => window.location.href = accessAuthorization.callbackEndpoint || '')\n  ) }, {dispatch: false});\n}\n\nconst mapAuthorizationDataToNeedsActions = (data: AuthorizationData) => {\n  const needs = data.accessNeedGroup.needs;\n\n  const shapeTrees = needs.map(need => flatShapeTrees(need)).flat();\n  const accessNeeds = needs.map(need => flatAccessNeed(need)).flat();\n\n  const shapeTreeActions = shapeTrees.map(tree => NeedActions.addShapeTree({tree}));\n  const needsActions = accessNeeds.map(need => NeedActions.addAccessNeed({need}));\n\n  const group = flatAccessNeedGroup(data.accessNeedGroup);\n  const groupAction = NeedActions.addAccessNeedGroup({group});\n  return [shapeTreeActions, needsActions, groupAction];\n}\n\n\n/* This set of functions take the nested Authorization Data from the api and flatten the needs, shapetrees and group\n * that then can be used to insert into the store as independent entities\n */\nconst flatAccessNeedGroup = (apiGroup: ApiGroup): AccessNeedGroup => {\n  return {...apiGroup, needs: apiGroup.needs.map(need => need.id)};\n}\n\nconst flatAccessNeed = (apiAccess: ApiAccessNeed): AccessNeed[] => {\n  const children = apiAccess.children;\n\n  if (!children || children.length === 0)\n    return [{...apiAccess, shapeTree: apiAccess.shapeTree.id, children: apiAccess.children?.map(c => c.id) || []}];\n\n  else {\n    // collect and recurse\n    const newAccess: AccessNeed = {...apiAccess, shapeTree: apiAccess.shapeTree.id, children: apiAccess.children?.map(c => c.id) || []};\n    const convertedChildren = children.map(c => flatAccessNeed(c)).flat();\n\n    return [newAccess, ...convertedChildren];\n  }\n}\n\nconst flatShapeTrees = (apiAccess: ApiAccessNeed): ShapeTree[] => {\n  const children = apiAccess.children;\n\n  if (!children || children.length === 0)\n    return [{id: apiAccess.shapeTree.id, label: apiAccess.shapeTree.label}]\n\n  else {\n    const thisShapeTree = {id: apiAccess.shapeTree.id, label: apiAccess.shapeTree.label};\n    const childrenShapeTrees = children.map(c => flatShapeTrees(c)).flat();\n\n    return [thisShapeTree, ...childrenShapeTrees];\n  }\n}\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -575,28 +575,38 @@
         },
         {
             "name": "AuthorizationEffects",
-            "id": "injectable-AuthorizationEffects-d1b40e76680a22b827b130397db5f8108bca92a0a1894377fa02f311ad190e2e3efdb77dcdcb8804ded3ff5aa9180ff914015c92ce82419fdf695822273d7e9e",
+            "id": "injectable-AuthorizationEffects-659d8ab564e75ec013455353d1071aa5f28dbde8ec6580563745d904312877731d1e7fc5633e4a4d91351f3b816a304e706882761e8d1f9007426e5c4a065833",
             "file": "src/app/state/effects/authorization.effects.ts",
             "properties": [
                 {
-                    "name": "requestUnregisteredApplicationNeeds$",
-                    "defaultValue": "createEffect(() => { return this.actions$.pipe(\n    ofType(authorizationComponentLoaded),\n    map((action) => descriptionsNeeded({applicationId: action.applicationId}))\n  )})",
+                    "name": "requestAuthorization$",
+                    "defaultValue": "createEffect(() => { return this.actions$.pipe(\n    ofType(authorizationRequested),\n    mergeMap(({ authorization }) => this.data.authorizeApplication(authorization)),\n    map(accessAuthorization => DataActions.authorizationReceived({ accessAuthorization })),\n    map(() => ({type: 'NOOP'}))\n  )})",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 31
+                    "line": 37
+                },
+                {
+                    "name": "requestUnregisteredApplicationNeeds$",
+                    "defaultValue": "createEffect(() => { return this.actions$.pipe(\n    ofType(authorizationPageLoaded),\n    map((action) => descriptionsNeeded({applicationId: action.applicationId}))\n  )})",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 32
                 },
                 {
                     "name": "requestUnregisteredApplicationProfile$",
-                    "defaultValue": "createEffect(() => { return this.actions$.pipe(\n    ofType(authorizationComponentLoaded),\n    mergeMap((action) =>\n      from(\n        this.data.getUnregisteredApplicationProfile(action.applicationId)).pipe(\n          map(profile => unregisteredApplicationProfileReceived({profile}))\n        )),\n    catchError(() => of(unregisteredApplicationProfileError()))\n  )})",
+                    "defaultValue": "createEffect(() => { return this.actions$.pipe(\n    ofType(authorizationPageLoaded),\n    mergeMap((action) =>\n      from(\n        this.data.getUnregisteredApplicationProfile(action.applicationId)).pipe(\n          map(profile => unregisteredApplicationProfileReceived({profile}))\n        )),\n    catchError(() => of(unregisteredApplicationProfileError()))\n  )})",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 21
+                    "line": 22
                 }
             ],
             "methods": [],
@@ -604,7 +614,7 @@
             "deprecationMessage": "",
             "description": "",
             "rawdescription": "\n",
-            "sourceCode": "import {Actions, createEffect, ofType} from \"@ngrx/effects\";\nimport {DataService} from \"../../services/data.service\";\nimport {authorizationComponentLoaded} from \"../actions/authorization.actions\";\nimport {catchError, mergeMap} from \"rxjs/operators\";\nimport {from, map, of} from \"rxjs\";\nimport {Injectable} from \"@angular/core\";\nimport {\n  unregisteredApplicationProfileError,\n  unregisteredApplicationProfileReceived\n} from \"../actions/application.actions\";\nimport {descriptionsNeeded} from \"../actions/description.actions\";\n\n\n@Injectable()\nexport class AuthorizationEffects {\n  constructor(\n    private actions$: Actions,\n    private data: DataService,\n  ) {}\n\n  requestUnregisteredApplicationProfile$ = createEffect(() => { return this.actions$.pipe(\n    ofType(authorizationComponentLoaded),\n    mergeMap((action) =>\n      from(\n        this.data.getUnregisteredApplicationProfile(action.applicationId)).pipe(\n          map(profile => unregisteredApplicationProfileReceived({profile}))\n        )),\n    catchError(() => of(unregisteredApplicationProfileError()))\n  )});\n\n  requestUnregisteredApplicationNeeds$ = createEffect(() => { return this.actions$.pipe(\n    ofType(authorizationComponentLoaded),\n    map((action) => descriptionsNeeded({applicationId: action.applicationId}))\n  )})\n}\n",
+            "sourceCode": "import {Actions, createEffect, ofType} from \"@ngrx/effects\";\nimport {DataService} from \"../../services/data.service\";\nimport {authorizationPageLoaded, authorizationRequested} from \"../actions/authorization.actions\";\nimport {catchError, mergeMap} from \"rxjs/operators\";\nimport {EMPTY, from, map, of} from \"rxjs\";\nimport {Injectable} from \"@angular/core\";\nimport {\n  unregisteredApplicationProfileError,\n  unregisteredApplicationProfileReceived\n} from \"../actions/application.actions\";\nimport {descriptionsNeeded} from \"../actions/description.actions\";\nimport * as DataActions from \"../actions/application.actions\";\n\n\n@Injectable()\nexport class AuthorizationEffects {\n  constructor(\n    private actions$: Actions,\n    private data: DataService,\n  ) {}\n\n  requestUnregisteredApplicationProfile$ = createEffect(() => { return this.actions$.pipe(\n    ofType(authorizationPageLoaded),\n    mergeMap((action) =>\n      from(\n        this.data.getUnregisteredApplicationProfile(action.applicationId)).pipe(\n          map(profile => unregisteredApplicationProfileReceived({profile}))\n        )),\n    catchError(() => of(unregisteredApplicationProfileError()))\n  )});\n\n  requestUnregisteredApplicationNeeds$ = createEffect(() => { return this.actions$.pipe(\n    ofType(authorizationPageLoaded),\n    map((action) => descriptionsNeeded({applicationId: action.applicationId}))\n  )})\n\n  requestAuthorization$ = createEffect(() => { return this.actions$.pipe(\n    ofType(authorizationRequested),\n    mergeMap(({ authorization }) => this.data.authorizeApplication(authorization)),\n    map(accessAuthorization => DataActions.authorizationReceived({ accessAuthorization })),\n    map(() => ({type: 'NOOP'}))\n  )})\n}\n",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
@@ -624,7 +634,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 15,
+                "line": 16,
                 "jsdoctags": [
                     {
                         "name": "actions$",
@@ -1752,200 +1762,6 @@
     "directives": [],
     "components": [
         {
-            "name": "AccessNeedViewComponent",
-            "id": "component-AccessNeedViewComponent-d0e99e01232e65736f65fb240c0139c9714f8f7a8c68d07a29e4c8442db4e550394d2ac273c408105c3c383bea8edb3cd223e6ffd8d5ba9c248e0ee0286e36f2",
-            "file": "src/app/components/access-need-view/access-need-view.component.ts",
-            "encapsulation": [],
-            "entryComponents": [],
-            "inputs": [],
-            "outputs": [],
-            "providers": [],
-            "selector": "sai-access-need-view",
-            "styleUrls": [
-                "./access-need-view.component.css"
-            ],
-            "styles": [],
-            "templateUrl": [
-                "./access-need-view.component.html"
-            ],
-            "viewProviders": [],
-            "inputsClass": [
-                {
-                    "name": "need",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "line": 15,
-                    "type": "AccessNeed",
-                    "decorators": []
-                },
-                {
-                    "name": "registryIds",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "line": 17,
-                    "type": "string[]",
-                    "decorators": []
-                },
-                {
-                    "name": "shapetree",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "line": 16,
-                    "type": "ShapeTree",
-                    "decorators": []
-                }
-            ],
-            "outputsClass": [
-                {
-                    "name": "changed",
-                    "defaultValue": "new EventEmitter<{id: IRI, access: Array<IRI>}>()",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "line": 19,
-                    "type": "EventEmitter"
-                }
-            ],
-            "propertiesClass": [
-                {
-                    "name": "checkedAccess",
-                    "defaultValue": "[]",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "IRI[]",
-                    "optional": false,
-                    "description": "",
-                    "line": 21
-                }
-            ],
-            "methodsClass": [
-                {
-                    "name": "cancel",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 45,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "modifierKind": [
-                        123
-                    ]
-                },
-                {
-                    "name": "emitUpdate",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 37,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "modifierKind": [
-                        121
-                    ]
-                },
-                {
-                    "name": "ngOnInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 23,
-                    "deprecated": false,
-                    "deprecationMessage": ""
-                },
-                {
-                    "name": "removeAccess",
-                    "args": [
-                        {
-                            "name": "access",
-                            "type": "IRI",
-                            "deprecated": false,
-                            "deprecationMessage": ""
-                        }
-                    ],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 32,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "jsdoctags": [
-                        {
-                            "name": "access",
-                            "type": "IRI",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        }
-                    ]
-                },
-                {
-                    "name": "save",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 41,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "modifierKind": [
-                        123
-                    ]
-                },
-                {
-                    "name": "toggleNeed",
-                    "args": [
-                        {
-                            "name": "change",
-                            "type": "MatSlideToggleChange",
-                            "deprecated": false,
-                            "deprecationMessage": ""
-                        }
-                    ],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 27,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "jsdoctags": [
-                        {
-                            "name": "change",
-                            "type": "MatSlideToggleChange",
-                            "deprecated": false,
-                            "deprecationMessage": "",
-                            "tagName": {
-                                "text": "param"
-                            }
-                        }
-                    ]
-                }
-            ],
-            "deprecated": false,
-            "deprecationMessage": "",
-            "hostBindings": [],
-            "hostListeners": [],
-            "description": "",
-            "rawdescription": "\n",
-            "type": "component",
-            "sourceCode": "import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';\nimport {IRI} from \"@janeirodigital/sai-api-messages\";\nimport {AccessNeed, ShapeTree} from \"../../state/models\";\nimport {MatLegacySlideToggleChange as MatSlideToggleChange} from \"@angular/material/legacy-slide-toggle\";\n\n// TODO remove once the non-used methods are used\n// noinspection JSUnusedGlobalSymbols\n@Component({\n  selector: 'sai-access-need-view',\n  templateUrl: './access-need-view.component.html',\n  styleUrls: ['./access-need-view.component.css']\n})\nexport class AccessNeedViewComponent implements OnInit {\n\n  @Input() need!: AccessNeed;\n  @Input() shapetree!: ShapeTree;\n  @Input() registryIds!: string[]\n  // Toggling the full need means removing all the access\n  @Output() changed = new EventEmitter<{id: IRI, access: Array<IRI>}>();\n\n  checkedAccess: IRI[] = [];\n\n  ngOnInit(): void {\n    this.checkedAccess = this.need.access;\n  }\n\n  toggleNeed(change: MatSlideToggleChange): void {\n    this.checkedAccess = change.checked ? this.need.access : [];\n    this.emitUpdate();\n  }\n\n  removeAccess(access: IRI): void {\n    this.checkedAccess = this.checkedAccess.filter(v => v != access);\n    this.emitUpdate();\n  }\n\n  private emitUpdate(): void {\n    this.changed.emit({id: this.need.id, access: this.checkedAccess})\n  }\n\n  public save(): void {\n    throw Error(\"Not Implemented\")\n  }\n\n  public cancel(): void {\n    throw Error(\"Not Implemented\")\n  }\n}\n",
-            "assetsDirs": [],
-            "styleUrlsData": [
-                {
-                    "data": "",
-                    "styleUrl": "./access-need-view.component.css"
-                }
-            ],
-            "stylesData": "",
-            "implements": [
-                "OnInit"
-            ],
-            "templateData": "<div>\n  <div>\n    <mat-expansion-panel togglePosition=\"before\" [expanded]=\"true\">\n      <mat-expansion-panel-header>\n        <mat-panel-title>\n          {{shapetree.label}}\n        </mat-panel-title>\n        <mat-panel-description>\n          {{need.label}}\n        </mat-panel-description>\n      </mat-expansion-panel-header>\n      <div class=\"side-by-side\">\n        <section class=\"registries\">\n          <h3>{{'APP.ACCESS-REGISTRY' | translate}}:</h3>\n          <ul>\n            <li *ngFor=\"let registry of registryIds\">\n              <mat-checkbox [id]=\"registry\" disabled checked>\n                {{registry}}<a [href]=\"registry\" target=\"_blank\">\n                <button mat-icon-button><mat-icon>open_in_new</mat-icon></button></a>\n              </mat-checkbox>\n            </li>\n          </ul>\n        </section>\n        <section class=\"access-levels\">\n          <h3>{{'APP.ACCESS-LEVEL' | translate}}</h3>\n          <ul>\n            <li *ngFor=\"let access of need.access\">\n              <mat-checkbox checked disabled>\n                {{access.split(\"#\").pop()}}\n              </mat-checkbox>\n            </li>\n          </ul>\n        </section>\n      </div>\n    </mat-expansion-panel>\n  </div>\n</div>\n"
-        },
-        {
             "name": "AddSocialAgentComponent",
             "id": "component-AddSocialAgentComponent-43e1adefb2ccd7200f4b559d9103ed6460cd6117b3f3eafceffb827339c97dd30a40f511ca4133369789f6b8f8dbf5067bd0a6d3b2cf454b3902bba849a1f2ac",
             "file": "src/app/pages/add-social-agent/add-social-agent.component.ts",
@@ -2178,7 +1994,7 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "\nform {\n  display: flex;\n  flex-direction: column;\n}\n",
+                    "data": "",
                     "styleUrl": "./add-social-agent-form.component.css"
                 }
             ],
@@ -2186,7 +2002,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<div class=\"flex flex-col px-12 py-28 items-center bg-slate-100 text-slate-800\">\n  <h2 class=\"text-4xl mb-8\">{{\"APP.CTA-ADD-SOCIAL-AGENT\" | translate}}</h2>\n  <div>\n    <form [formGroup]=\"form\" (ngSubmit)=\"submitHandler()\"\n          class=\"flex space-y-6\">\n      <label>\n        <p class=\"text-sm\">WebId</p>\n        <input type=\"url\" required class=\"border border-slate-200 w-96\">\n      </label>\n      <label>\n        <p class=\"text-sm\">Name</p>\n        <input type=\"text\" required class=\"border border-slate-200 w-96\">\n      </label>\n      <label>\n        <p class=\"text-sm\">Notes</p>\n        <input type=\"text\" class=\"border border-slate-200 w-96\">\n      </label>\n      <button class=\"bg-blue-900 text-blue-50 text-xl w-1/3 mx-auto py-2 font-bold\">Add</button>\n    </form>\n  </div>\n</div>\n"
+            "templateData": "<div class=\"flex flex-col px-12 py-28 items-center bg-slate-100 text-slate-800\">\n  <h2 class=\"text-4xl mb-8\">{{\"APP.CTA-ADD-SOCIAL-AGENT\" | translate}}</h2>\n  <div>\n    <form [formGroup]=\"form\" (ngSubmit)=\"submitHandler()\"\n          class=\"flex flex-col space-y-6\">\n      <label>\n        <p class=\"text-sm ml-2\">WebId</p>\n        <input type=\"url\" formControlName=\"webid\" required class=\"border border-slate-200 w-96 p-2\">\n      </label>\n      <label>\n        <p class=\"text-sm ml-2\">Name</p>\n        <input type=\"text\" formControlName=\"label\" required class=\"border border-slate-200 w-96 p-2\">\n      </label>\n      <label>\n        <p class=\"text-sm ml-2\">Notes</p>\n        <input type=\"text\" formControlName=\"note\" class=\"border border-slate-200 w-96 p-2\">\n      </label>\n      <button class=\"bg-blue-900 text-blue-50 text-xl w-1/3 mx-auto py-2 font-bold\">Add</button>\n    </form>\n  </div>\n</div>\n"
         },
         {
             "name": "AppComponent",
@@ -2638,7 +2454,7 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "mat-card {\n  margin-bottom: 1rem;\n}\n",
+                    "data": "",
                     "styleUrl": "./applications.component.css"
                 }
             ],
@@ -2672,7 +2488,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<div *ngFor=\"let app of allApps$ | async\">\n  <sai-app-view (click)=\"requestDescriptions(app.id)\"\n                [application]=\"app\"\n                [group]=\"currentGroup$ | async\"\n                [needs]=\"currentNeeds$ | async\"\n                [shapetrees]=\"currentShapeTrees$ | async\"\n  ></sai-app-view>\n</div>\n"
+            "templateData": "<div class=\"flex flex-col gap-y-3 m-6\">\n  <a *ngFor=\"let app of allApps$ | async\"\n      routerLink=\"application\"\n      [queryParams]=\"{client_id: app.id}\"\n       class=\"hover:cursor-pointer bg-slate-200 grow max-w-xs\n              flex p-3 items-center\n              border border-slate-700\">\n    <img [src]=\"app.logo\" alt=\"Logo\"\n         class=\"object-cover w-16 h-16 border border-slate-700 bg-white\">\n    <h4 class=\"ml-5 text-3xl\">{{app.name}}</h4>\n  </a>\n</div>\n<router-outlet></router-outlet>\n"
         },
         {
             "name": "AppViewComponent",
@@ -2807,11 +2623,11 @@
                 }
             ],
             "stylesData": "",
-            "templateData": "\n<div class=\"flex flex-col p-5 bg-slate-100 border border-slate-200\">\n  <div class=\"flex items-center ml-5\">\n    <img [src]=\"application.logo\" alt=\"Logo\"\n         class=\"object-cover w-16 h-16 border border-slate-200 mr-5 bg-white\">\n    <div class=\"flex flex-col\">\n      <h2 class=\"text-4xl font-normal\">{{application.name}} <span class=\"text-sm\">by <span class=\"underline\"><a\n        href=\"https://janeirodigital.com/\" target=\"_blank\">Janeiro Digital</a></span></span></h2>\n      <p *ngIf=\"application.lastUpdateDate || application.authorizationDate\"\n         class=\"text-slate-500 text-sm\">\n        {{'APP.LAST-UPDATE' | translate}} {{(application.lastUpdateDate || application.authorizationDate) | date}}\n      </p>\n    </div>\n  </div>\n  <div class=\"mt-10 bg-white\">\n    <div *ngIf=\"group\" class=\"px-4 py-2 border border-slate-200\">\n      <h6 class=\"text-2xl text-slate-900\">{{group.label}}</h6>\n      <p class=\"text-slate-500 text-sm\">{{group.description}}</p>\n\n      <div *ngFor=\"let need of needs\"\n           class=\"mt-10 last:mb-5\">\n        <p class=\"pl-5\"><span class=\"text-xl\">{{getShapetreesForNeed(need).label}}</span><br><span class=\"text-sm\">{{need.label}}</span></p>\n      </div>\n    </div>\n  </div>\n</div>\n\n<!--<mat-card>-->\n<!--  <mat-card-header>-->\n<!--    <img mat-card-avatar class=\"header-image\" alt=\"application logo\" src=\"{{application.logo}}\">-->\n<!--    <mat-card-title>{{application.name}}</mat-card-title>-->\n<!--    <mat-card-subtitle *ngIf=\"application.lastUpdateDate || application.authorizationDate\">-->\n<!--      {{'APP.LAST-UPDATE' | translate}}: {{(application.lastUpdateDate || application.authorizationDate) | date}}-->\n<!--    </mat-card-subtitle>-->\n<!--  </mat-card-header>-->\n<!--  <mat-card-content *ngIf=\"expanded && group\">-->\n<!--    <p>{{application.name}} {{'APP.ACCESS-NEEDS' | translate}}</p>-->\n<!--    <div>-->\n<!--      <h3>{{group.label}}</h3>-->\n<!--      <p>{{group.description}}</p>-->\n<!--    </div>-->\n<!--    <ng-container *ngIf=\"needs; else loadingNeeds\">-->\n<!--        <sai-access-need-view *ngFor=\"let need of needs\" [need]=\"need\" [shapetree]=\"getShapetreesForNeed(need)\" (changed)=\"handleNeedChange($event)\"></sai-access-need-view>-->\n<!--    </ng-container>-->\n<!--  </mat-card-content>-->\n<!--</mat-card>-->\n\n<!--<ng-template #loadingNeeds>-->\n<!--  <div class=\"centered\">-->\n<!--    <mat-spinner></mat-spinner>-->\n<!--  </div>-->\n<!--</ng-template>-->\n"
+            "templateData": "\n<div class=\"flex flex-col p-5 bg-slate-100 border border-slate-200\">\n  <div class=\"flex items-center ml-5\">\n    <img [src]=\"application.logo\" alt=\"Logo\"\n         class=\"object-cover w-16 h-16 border border-slate-200 mr-5 bg-white\">\n    <div class=\"flex flex-col\">\n      <h2 class=\"text-4xl font-normal\">\n<!--        TODO use actual author name and url-->\n        {{application.name}} <span class=\"text-sm\">by <span class=\"underline\"> <a href=\"https://janeirodigital.com/\" target=\"_blank\">Janeiro Digital</a></span></span>\n      </h2>\n      <p *ngIf=\"application.lastUpdateDate || application.authorizationDate\"\n         class=\"text-slate-500 text-sm\">\n        {{'APP.LAST-UPDATE' | translate}} {{(application.lastUpdateDate || application.authorizationDate) | date}}\n      </p>\n    </div>\n  </div>\n  <div class=\"mt-10 bg-white\">\n    <div *ngIf=\"group\" class=\"px-4 py-2 border border-slate-200\">\n      <h6 class=\"text-2xl text-slate-900\">{{group.label}}</h6>\n      <p class=\"text-slate-500 text-sm\">{{group.description}}</p>\n\n      <div *ngFor=\"let need of needs\"\n           class=\"mt-10 last:mb-5\">\n        <p class=\"pl-5\"><span class=\"text-xl\">{{getShapetreesForNeed(need).label}}</span><br><span class=\"text-sm\">{{need.label}}</span></p>\n      </div>\n    </div>\n  </div>\n</div>\n"
         },
         {
             "name": "AuthorizationPage",
-            "id": "component-AuthorizationPage-6003db69a67be096e29c9e5a48d6caa5d47fc5f3f531c40b4e1d831894dc6c7354cbb5c2105549d3d73277c7a3e40c12efad20afe513b157f490489fecd2ad5a",
+            "id": "component-AuthorizationPage-b5ec9c15ee4b37fe95e5bb1b96c80355207276df6f1b893d1e5942d74efc93621bc4f6b77fb5567127292d73da08c4c36fe32a5c582e63ae4fd98e599430eb0f",
             "file": "src/app/pages/authorization/authorization.page.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -2837,7 +2653,7 @@
                     "type": "Observable<Application>",
                     "optional": false,
                     "description": "",
-                    "line": 25
+                    "line": 32
                 },
                 {
                     "name": "clientId",
@@ -2846,7 +2662,7 @@
                     "type": "IRI",
                     "optional": false,
                     "description": "",
-                    "line": 23
+                    "line": 30
                 },
                 {
                     "name": "group$",
@@ -2855,7 +2671,7 @@
                     "type": "Observable<AccessNeedGroup>",
                     "optional": false,
                     "description": "",
-                    "line": 26
+                    "line": 33
                 },
                 {
                     "name": "needs$",
@@ -2864,7 +2680,7 @@
                     "type": "Observable<AccessNeed[]>",
                     "optional": false,
                     "description": "",
-                    "line": 27
+                    "line": 34
                 },
                 {
                     "name": "shapetrees$",
@@ -2873,7 +2689,7 @@
                     "type": "Observable<ShapeTree[]>",
                     "optional": false,
                     "description": "",
-                    "line": 28
+                    "line": 35
                 }
             ],
             "methodsClass": [
@@ -2891,7 +2707,7 @@
                     "optional": false,
                     "returnType": "any",
                     "typeParameters": [],
-                    "line": 89,
+                    "line": 113,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -2930,7 +2746,7 @@
                     "optional": false,
                     "returnType": "Promise<DataAuthorization[]>",
                     "typeParameters": [],
-                    "line": 71,
+                    "line": 87,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -2971,7 +2787,7 @@
                     "optional": false,
                     "returnType": "string",
                     "typeParameters": [],
-                    "line": 61,
+                    "line": 77,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -2992,7 +2808,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 36,
+                    "line": 43,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -3002,7 +2818,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 49,
+                    "line": 63,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "rawdescription": "\n\nUses the client_id query parameter to init an authorization flow\n",
@@ -3019,7 +2835,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component, OnInit} from '@angular/core';\nimport {ActivatedRoute, Router} from '@angular/router';\nimport {AccessNeed, AccessNeedGroup, ShapeTree} from '../../state/models';\nimport {Application, Authorization, DataAuthorization, IRI} from '@janeirodigital/sai-api-messages';\nimport {Store} from \"@ngrx/store\";\nimport {authorizationComponentLoaded, authorizationRequested} from \"../../state/actions/authorization.actions\";\nimport {applicationProfile} from \"../../state/selectors/application.selectors\";\nimport {filter, lastValueFrom, Observable} from \"rxjs\";\nimport {\n  selectAccessNeed, selectAccessNeeds,\n  selectGroupFromClientId,\n  selectNeedsFromClientId,\n  selectShapetreesFromClientId\n} from \"../../state/selectors/access-needs.selectors\";\nimport {authorizeApplication} from \"../../state/actions/application.actions\";\n\n@Component({\n  selector: 'sai-authorization-page',\n  templateUrl: './authorization.page.html',\n  styleUrls: ['./authorization.page.css']\n})\nexport class AuthorizationPage implements OnInit {\n  clientId!: IRI;\n\n  application$!: Observable<Application>;\n  group$!: Observable<AccessNeedGroup>;\n  needs$!: Observable<AccessNeed[]>;\n  shapetrees$!: Observable<ShapeTree[]>;\n\n  constructor(\n    private route: ActivatedRoute,\n    private router: Router,\n    private store: Store,\n    ) {}\n\n  ngOnInit(): void {\n    this.requestAuthorizationData();\n\n    this.application$ = this.store.select(applicationProfile(this.clientId)).pipe(filter(Boolean));\n    this.group$ = this.store.select(selectGroupFromClientId(this.clientId)).pipe(filter(Boolean));\n    this.needs$ = this.store.select(selectNeedsFromClientId(this.clientId)).pipe(filter(Boolean));\n    this.shapetrees$ = this.store.select(selectShapetreesFromClientId(this.clientId)).pipe(filter(Boolean));\n  }\n\n\n  /**\n  * Uses the client_id query parameter to init an authorization flow\n  */\n  private requestAuthorizationData(): void {\n    const applicationId = this.route.snapshot.queryParamMap.get('client_id');\n\n    if (!applicationId) {\n      this.router.navigateByUrl('dashboard').catch(() => console.error('client id not provided'));\n      return;\n    }\n\n    this.clientId = applicationId;\n    this.store.dispatch(authorizationComponentLoaded({applicationId}));\n  }\n\n  getScope(accessNeed: AccessNeed): string {\n    if (accessNeed.parent) return 'Inherited'\n    // TODO based on user input\n    return 'All'\n  }\n\n  // TODO all the 'authorization creation' process should exist in a sai-library which a service uses\n  //      the component just triggers the relevant effects to signal the authorization action\n  // TODO use case when there is a `parent` access need\n  // eslint-disable-next-line @typescript-eslint/no-unused-vars\n  async createDataAuthorizations(accessNeed: AccessNeed, parent?: AccessNeed): Promise<DataAuthorization[]> {\n    const dataAuthorization = {\n      accessNeed: accessNeed.id,\n      scope: this.getScope(accessNeed),\n    } as DataAuthorization\n    let childrenAuthorizations: DataAuthorization[] = []\n    if (accessNeed.children) {\n       childrenAuthorizations =\n        await lastValueFrom(this.store.select(selectAccessNeeds(accessNeed.children)))\n          .then(needs => needs.filter(Boolean) as AccessNeed[])\n          .then(needs => needs.flatMap(need => this.createDataAuthorizations(need, accessNeed)))\n          .then(promises => Promise.all(promises))\n          .then(authorizations => authorizations.flat())\n    }\n\n    return [ dataAuthorization, ...childrenAuthorizations]\n  }\n\n  async authorize(granted = true) {\n    this.store.dispatch(authorizationRequested({applicationId: this.clientId}));\n\n    let authorization: Authorization;\n    const base = {\n      grantee: this.clientId,\n      accessNeedGroup: (await lastValueFrom(this.group$)).id,\n    }\n\n    if (granted) {\n      authorization = {\n        ...base,\n        dataAuthorizations: await lastValueFrom(this.needs$)\n          .then(needs => needs.flatMap(need => this.createDataAuthorizations(need)))\n          .then(promises => Promise.all(promises)).then(authorizations => authorizations.flat()),\n        granted: true,\n      };\n    } else {\n      authorization = {\n        ...base,\n        granted: false,\n      };\n    }\n\n    this.store.dispatch(authorizeApplication({authorization}));\n  }\n}\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { ActivatedRoute, Router } from '@angular/router';\nimport { AccessNeed, AccessNeedGroup, ShapeTree } from '../../state/models';\nimport {\n  Application,\n  Authorization,\n  DataAuthorization,\n  IRI,\n} from '@janeirodigital/sai-api-messages';\nimport { Store } from '@ngrx/store';\nimport {\n  authorizationPageLoaded,\n  authorizationRequested,\n} from '../../state/actions/authorization.actions';\nimport { applicationProfile } from '../../state/selectors/application.selectors';\nimport { filter, firstValueFrom, Observable } from 'rxjs';\nimport {\n  selectAccessNeeds,\n  selectGroupFromClientId,\n  selectNeedsFromClientId,\n  selectShapetreesFromClientId,\n} from '../../state/selectors/access-needs.selectors';\n\n@Component({\n  selector: 'sai-authorization-page',\n  templateUrl: './authorization.page.html',\n  styleUrls: ['./authorization.page.css'],\n})\nexport class AuthorizationPage implements OnInit {\n  clientId!: IRI;\n\n  application$!: Observable<Application>;\n  group$!: Observable<AccessNeedGroup>;\n  needs$!: Observable<AccessNeed[]>;\n  shapetrees$!: Observable<ShapeTree[]>;\n\n  constructor(\n    private route: ActivatedRoute,\n    private router: Router,\n    private store: Store\n  ) {}\n\n  ngOnInit(): void {\n    this.requestAuthorizationData();\n\n    this.application$ = this.store\n      .select(applicationProfile(this.clientId))\n      .pipe(filter(Boolean));\n    this.group$ = this.store\n      .select(selectGroupFromClientId(this.clientId))\n      .pipe(filter(Boolean));\n    this.needs$ = this.store\n      .select(selectNeedsFromClientId(this.clientId))\n      .pipe(filter(Boolean));\n    this.shapetrees$ = this.store\n      .select(selectShapetreesFromClientId(this.clientId))\n      .pipe(filter(Boolean));\n  }\n\n  /**\n   * Uses the client_id query parameter to init an authorization flow\n   */\n  private requestAuthorizationData(): void {\n    const applicationId = this.route.snapshot.queryParamMap.get('client_id');\n\n    if (!applicationId) {\n      this.router\n        .navigateByUrl('dashboard')\n        .catch(() => console.error('client id not provided'));\n      return;\n    }\n\n    this.clientId = applicationId;\n    this.store.dispatch(authorizationPageLoaded({ applicationId }));\n  }\n\n  getScope(accessNeed: AccessNeed): string {\n    if (accessNeed.parent) return 'Inherited';\n    // TODO based on user input\n    return 'All';\n  }\n\n  // TODO all the 'authorization creation' process should exist in a sai-library which a service uses\n  //      the component just triggers the relevant effects to signal the authorization action\n  // TODO use case when there is a `parent` access need\n  // eslint-disable-next-line @typescript-eslint/no-unused-vars\n  async createDataAuthorizations(\n    accessNeed: AccessNeed,\n    parent?: AccessNeed\n  ): Promise<DataAuthorization[]> {\n    const dataAuthorization = {\n      accessNeed: accessNeed.id,\n      scope: this.getScope(accessNeed),\n    } as DataAuthorization;\n    let childrenAuthorizations: DataAuthorization[] = [];\n    if (accessNeed.children) {\n      childrenAuthorizations = await firstValueFrom(\n        this.store.select(selectAccessNeeds(accessNeed.children))\n      )\n        .then((needs) => needs.filter(Boolean) as AccessNeed[])\n        .then((needs) =>\n          needs.flatMap((need) =>\n            this.createDataAuthorizations(need, accessNeed)\n          )\n        )\n        .then((promises) => Promise.all(promises))\n        .then((authorizations) => authorizations.flat());\n    }\n\n    return [dataAuthorization, ...childrenAuthorizations];\n  }\n\n  async authorize(granted = true) {\n    let authorization: Authorization;\n\n    const base = {\n      grantee: this.clientId,\n      accessNeedGroup: (await firstValueFrom(this.group$)).id,\n    };\n\n    if (granted) {\n      authorization = {\n        ...base,\n        dataAuthorizations: await firstValueFrom(this.needs$)\n          .then((needs) =>\n            needs.flatMap((need) => this.createDataAuthorizations(need))\n          )\n          .then((promises) => Promise.all(promises))\n          .then((authorizations) => authorizations.flat()),\n        granted: true,\n      };\n    } else {\n      authorization = {\n        ...base,\n        granted: false,\n      };\n    }\n    this.store.dispatch(authorizationRequested({ authorization }));\n    console.log('this');\n  }\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -3053,7 +2869,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 28,
+                "line": 35,
                 "jsdoctags": [
                     {
                         "name": "route",
@@ -3199,7 +3015,7 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "\n.container {\n  display: flex;\n  flex-direction: row;\n  justify-content: space-around;\n}\n\n.section {\n  min-height: 100px;\n  min-width: 100px;\n  padding: 100px;\n  margin: 50px;\n  border: #333333;\n}\n\nbutton {\n  min-height: 100px;\n  min-width: 100px;\n}\n\nmat-icon {\n  margin-top: 30px;\n  min-width: 4em;\n  min-height: 2em;\n  font-size: 4em;\n}\n",
+                    "data": "",
                     "styleUrl": "./dashboard.component.css"
                 }
             ],
@@ -3261,7 +3077,7 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "mat-card {\n  margin: 1rem;\n}\n",
+                    "data": "",
                     "styleUrl": "./data.component.css"
                 }
             ],
@@ -3295,7 +3111,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<div *ngFor=\"let registry of registries$ | async\">\n  <h3>{{registry.id}}</h3>\n  <mat-card *ngFor=\"let registration of registry.registrations\">\n    <mat-card-title>{{registration.label}}</mat-card-title>\n    <mat-card-content>{{registration.count}}</mat-card-content>\n  </mat-card>\n</div>\n"
+            "templateData": "\n<div class=\"flex flex-col bg-white p-4 m-12 gap-y-3\">\n  <div *ngFor=\"let registry of registries$ | async\"\n       class=\"text-slate-800 text-xl bg-slate-100 p-3\">\n    <h4 class=\"font-bold\">Registry: <a class=\"font-normal\" href=\"{{registry.id}}\">{{registry.id}}</a></h4>\n\n    <table class=\"mt-4 text-center w-5/6\">\n      <thead class=\"bg-slate-500 py-3\">\n      <tr class=\"py-3\">\n        <th class=\"py-3 pl-1\">Type</th>\n        <th>Count</th>\n        <th>Shapetree</th>\n        <th>id</th>\n      </tr>\n      </thead>\n      <tbody class=\"\">\n      <tr *ngFor=\"let registration of registry.registrations\"\n          class=\"h-12\">\n        <td class=\"text-sm\">{{registration.label}}</td>\n        <td class=\"text-sm\">{{registration.count}}</td>\n        <td class=\"text-sm\">{{registration.shapeTree}}</td>\n        <td class=\"text-sm\">{{registration.id}}</td>\n      </tr>\n      </tbody>\n    </table>\n\n  </div>\n</div>\n"
         },
         {
             "name": "LanguageComponent",
@@ -3582,7 +3398,7 @@
         },
         {
             "name": "NavbarComponent",
-            "id": "component-NavbarComponent-4755cf8678cd75d46840ad25ce20a04a0274f00309fe63274d994627e86b0333e78eca9fb2742bfbaf247b9934d720aad312e52abe91c2c2ef927acb68db7a62",
+            "id": "component-NavbarComponent-763d61bb09921d59355aa6ee65df6785afeb4188c3941f714a3560a599c88560f98ea4a526ecfc5a23c998a4c4722184bd38144f5bc7a35c9496a147aedb575c",
             "file": "src/app/components/navbar/navbar.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3604,7 +3420,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 17,
+                    "line": 15,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -3613,7 +3429,7 @@
                     "defaultValue": "Languages",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 19,
+                    "line": 17,
                     "type": "any",
                     "decorators": []
                 },
@@ -3621,7 +3437,7 @@
                     "name": "webId",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 16,
+                    "line": 14,
                     "type": "string | null",
                     "decorators": []
                 },
@@ -3630,7 +3446,7 @@
                     "defaultValue": "true",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 18,
+                    "line": 16,
                     "type": "boolean",
                     "decorators": []
                 }
@@ -3641,7 +3457,7 @@
                     "defaultValue": "new EventEmitter()",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 21,
+                    "line": 19,
                     "type": "EventEmitter"
                 }
             ],
@@ -3654,31 +3470,7 @@
                     "type": "",
                     "optional": false,
                     "description": "",
-                    "line": 14
-                },
-                {
-                    "name": "faHome",
-                    "defaultValue": "faHome",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 13
-                },
-                {
-                    "name": "log",
-                    "defaultValue": "log",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 28,
-                    "modifierKind": [
-                        122,
-                        144
-                    ]
+                    "line": 12
                 },
                 {
                     "name": "router",
@@ -3687,7 +3479,20 @@
                     "type": "Router",
                     "optional": false,
                     "description": "",
-                    "line": 25,
+                    "line": 28,
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "routes",
+                    "defaultValue": "[\n    { path: '/dashboard', label: 'APP.HOME' },\n    { path: '/applications', label: 'APP.NAV-APPS' },\n    { path: '/social-agents', label: 'APP.NAV-PEERS' },\n    { path: '/data', label: 'APP.NAV-DATA' },\n  ]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "[]",
+                    "optional": false,
+                    "description": "",
+                    "line": 21,
                     "modifierKind": [
                         123
                     ]
@@ -3701,7 +3506,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component, EventEmitter, Input, Output} from '@angular/core';\nimport {Router} from \"@angular/router\";\nimport {Languages} from \"../../languages\";\nimport { faHome, faBell } from \"@fortawesome/free-solid-svg-icons\";\nimport {log} from \"util\";\n\n@Component({\n  selector: 'sai-navbar',\n  templateUrl: './navbar.component.html',\n  styleUrls: ['./navbar.component.css']\n})\nexport class NavbarComponent {\n  faHome = faHome;\n  faBell = faBell;\n\n  @Input() webId!: string | null;\n  @Input() isLoggedIn  = false;\n  @Input() withNotificationsAction = true;\n  @Input() languageSelect = Languages;\n\n  @Output() notifications = new EventEmitter();\n\n\n  constructor(\n    public router: Router,\n  ) {}\n\n  protected readonly log = log;\n}\n",
+            "sourceCode": "import { Component, EventEmitter, Input, Output } from '@angular/core';\nimport { Router } from '@angular/router';\nimport { Languages } from '../../languages';\nimport { faBell } from '@fortawesome/free-solid-svg-icons';\n\n@Component({\n  selector: 'sai-navbar',\n  templateUrl: './navbar.component.html',\n  styleUrls: ['./navbar.component.css'],\n})\nexport class NavbarComponent {\n  faBell = faBell;\n\n  @Input() webId!: string | null;\n  @Input() isLoggedIn = false;\n  @Input() withNotificationsAction = true;\n  @Input() languageSelect = Languages;\n\n  @Output() notifications = new EventEmitter();\n\n  public routes = [\n    { path: '/dashboard', label: 'APP.HOME' },\n    { path: '/applications', label: 'APP.NAV-APPS' },\n    { path: '/social-agents', label: 'APP.NAV-PEERS' },\n    { path: '/data', label: 'APP.NAV-DATA' },\n  ];\n\n  constructor(public router: Router) {}\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -3723,7 +3528,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 21,
+                "line": 26,
                 "jsdoctags": [
                     {
                         "name": "router",
@@ -3736,7 +3541,7 @@
                     }
                 ]
             },
-            "templateData": "<div class=\"w-full h-16 bg-slate-700\n            text-xl text-slate-100\">\n  <div *ngIf=\"isLoggedIn else loggedOut\"\n       class=\"flex h-full px-5 items-center no-wrap space-x-4\">\n    <button routerLink=\"/applications\">{{'APP.NAV-APPS' | translate}}</button>\n    <button routerLink=\"/social-agents\">{{'APP.NAV-PEERS' | translate}}</button>\n    <button routerLink=\"/data\">{{'APP.NAV-DATA' | translate}}</button>\n    <div class=\"grow\"></div>\n    <button *ngIf=\"withNotificationsAction\" (click)=\"notifications.emit()\"\n            class=\"bg-slate-100 text-slate-700 p-2\">\n      <fa-icon [icon]=\"faBell\"></fa-icon>\n      {{'APP.NAV-CTA' | translate}}\n    </button>\n  </div>\n</div>\n\n<ng-template #loggedOut>\n</ng-template>\n"
+            "templateData": "<div class=\"w-full h-16 bg-slate-700\n            text-xl text-slate-100\">\n  <div *ngIf=\"isLoggedIn else loggedOut\"\n       class=\"flex h-full px-5 items-center no-wrap space-x-6\">\n    <button *ngFor=\"let route of routes\" [routerLink]=\"route.path\"\n            class=\"border-b-slate-100\"\n            routerLinkActive=\"border-b-4\">\n      {{route.label | translate}}\n    </button>\n    <div class=\"grow\"></div>\n    <button *ngIf=\"withNotificationsAction\" (click)=\"notifications.emit()\"\n            class=\"bg-slate-100 text-slate-700 p-2\">\n      <fa-icon [icon]=\"faBell\"></fa-icon>\n      {{'APP.NAV-CTA' | translate}}\n    </button>\n  </div>\n</div>\n\n<ng-template #loggedOut>\n</ng-template>\n"
         },
         {
             "name": "RedirectHandlerComponent",
@@ -3838,7 +3643,7 @@
         },
         {
             "name": "SocialAgentsComponent",
-            "id": "component-SocialAgentsComponent-3c75fe60ae731c148db673b711ad57994e331173e6339beae269004cbcf67096b6f84f2ed6eabeb2ddbf5e655a2c3bc5df486be8b6e0528ffcf4b7db85d6e0c9",
+            "id": "component-SocialAgentsComponent-6688184b7a6dbafe05b3a0d6f6f61e1f37be3761b1fcfede2431c0b165e83c8055cf5132ad2cc54db4c5f29a7577f29925488486349662b8b56593dc72a25f16",
             "file": "src/app/pages/social-agents/social-agents.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3858,6 +3663,16 @@
             "outputsClass": [],
             "propertiesClass": [
                 {
+                    "name": "faPlus",
+                    "defaultValue": "faPlus",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 15
+                },
+                {
                     "name": "socialAgents$",
                     "defaultValue": "this.store.select(selectSocialAgents)",
                     "deprecated": false,
@@ -3865,7 +3680,7 @@
                     "type": "Observable<SocialAgent[]>",
                     "optional": false,
                     "description": "",
-                    "line": 15
+                    "line": 16
                 }
             ],
             "methodsClass": [
@@ -3875,7 +3690,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 21,
+                    "line": 22,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -3887,11 +3702,11 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { Store } from \"@ngrx/store\";\nimport { selectSocialAgents } from 'src/app/state/selectors/social-agent.selectors';\nimport  * as DataActions from 'src/app/state/actions/application.actions';\nimport {Observable} from \"rxjs\";\nimport {SocialAgent} from \"@janeirodigital/sai-api-messages\";\n\n@Component({\n  selector: 'sai-social-agents',\n  templateUrl: './social-agents.component.html',\n  styleUrls: ['./social-agents.component.css']\n})\nexport class SocialAgentsComponent implements OnInit {\n\n  socialAgents$: Observable<SocialAgent[]> = this.store.select(selectSocialAgents);\n\n  constructor(\n    private store: Store,\n  ) { }\n\n  ngOnInit(): void {\n    this.store.dispatch(DataActions.socialAgentsPanelLoaded())\n  }\n\n}\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { Store } from \"@ngrx/store\";\nimport { selectSocialAgents } from 'src/app/state/selectors/social-agent.selectors';\nimport  * as DataActions from 'src/app/state/actions/application.actions';\nimport {Observable} from \"rxjs\";\nimport {SocialAgent} from \"@janeirodigital/sai-api-messages\";\nimport {faPlus} from '@fortawesome/free-solid-svg-icons';\n\n@Component({\n  selector: 'sai-social-agents',\n  templateUrl: './social-agents.component.html',\n  styleUrls: ['./social-agents.component.css']\n})\nexport class SocialAgentsComponent implements OnInit {\n  faPlus = faPlus;\n  socialAgents$: Observable<SocialAgent[]> = this.store.select(selectSocialAgents);\n\n  constructor(\n    private store: Store,\n  ) { }\n\n  ngOnInit(): void {\n    this.store.dispatch(DataActions.socialAgentsPanelLoaded())\n  }\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "mat-card {\n  margin: 1rem;\n}\n",
+                    "data": "",
                     "styleUrl": "./social-agents.component.css"
                 }
             ],
@@ -3909,7 +3724,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 15,
+                "line": 16,
                 "jsdoctags": [
                     {
                         "name": "store",
@@ -3925,7 +3740,7 @@
             "implements": [
                 "OnInit"
             ],
-            "templateData": "<mat-card *ngFor=\"let agent of socialAgents$ | async\">\n  <mat-card-header>\n    <mat-card-title>{{agent.label}} <a mat-icon-button target=\"_blank\" href=\"{{agent.id}}\"><mat-icon>link</mat-icon></a></mat-card-title>\n    <mat-card-subtitle>{{\"APP.SOCIAL-AGENT-DATE\" | translate}} {{agent.authorizationDate | date}}</mat-card-subtitle>\n  </mat-card-header>\n  <mat-card-content>\n    <p>{{agent.label}}</p>\n    <p>{{agent.note}}</p>\n  </mat-card-content>\n</mat-card>\n"
+            "templateData": "\n<div class=\"flex bg-white m-12 justify-between text-slate-800 flex-wrap content-around gap-y-3 gap-x-3\">\n  <a routerLink=\"/add-social-agent\" class=\"flex text-xl font-bold bg-slate-200 align-middle border border-slate-700 p-8 hover:cursor-pointer\">\n    <fa-icon [icon]=\"faPlus\" class=\"\"></fa-icon>\n    <p>Add</p>\n  </a>\n  <a *ngFor=\"let agent of socialAgents$ | async\"\n       href=\"{{agent.id}}\" target=\"_blank\"\n        class=\"bg-slate-100 border border-slate-700 p-8 grow hover:cursor-pointer\">\n    <h5 class=\"text-xl font-bold\">{{agent.label}}</h5>\n    <p class=\"text-xs text-slate-400\">{{agent.authorizationDate | date}}</p>\n    <p class=\"max-w-lg\">{{agent.note}}</p>\n  </a>\n</div>\n"
         },
         {
             "name": "StartComponent",
@@ -3960,24 +3775,24 @@
             "assetsDirs": [],
             "styleUrlsData": [
                 {
-                    "data": "mat-spinner {\n  margin: 2rem auto;\n}\n",
+                    "data": "",
                     "styleUrl": "./start.component.css"
                 }
             ],
             "stylesData": "",
-            "templateData": "<mat-spinner></mat-spinner>\n"
+            "templateData": "<!-- TODO add spinner -->\n"
         }
     ],
     "modules": [
         {
             "name": "AppModule",
-            "id": "module-AppModule-4c17d772929b6d7d1eca3586a31302b138ff33af22f01d1451774ddf853ecc4d3b14a8acc6ce272deaa49fc694efe578616cb771a699f2f2b8d4c67daa4e11a2",
+            "id": "module-AppModule-d16626c2ee0deaf5a379de08a3cd37f7a2d65052cdaa3626b6f017f8a83e06c41f12f5fc994d786cfc93fcef7a614b5b3d7048c647db67d1d09f28e7c5447902",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app.module.ts",
             "methods": [],
-            "sourceCode": "import {NgModule} from '@angular/core';\nimport {BrowserModule} from '@angular/platform-browser';\n\nimport {AppRoutingModule} from './app-routing.module';\nimport {AppComponent} from './app.component';\nimport {BrowserAnimationsModule} from '@angular/platform-browser/animations';\nimport {HTTP_INTERCEPTORS, HttpClientModule} from \"@angular/common/http\";\nimport {MatLegacyButtonModule as MatButtonModule} from \"@angular/material/legacy-button\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {NavbarComponent} from \"./components/navbar/navbar.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {MatLegacyCardModule as MatCardModule} from \"@angular/material/legacy-card\";\nimport {MatLegacyListModule as MatListModule} from '@angular/material/legacy-list';\nimport {MatTreeModule} from '@angular/material/tree';\nimport {FormsModule, ReactiveFormsModule} from \"@angular/forms\";\nimport {MatLegacyFormFieldModule as MatFormFieldModule} from \"@angular/material/legacy-form-field\";\nimport {MatLegacyInputModule as MatInputModule} from \"@angular/material/legacy-input\";\nimport {DashboardComponent} from './pages/dashboard/dashboard.component';\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport {StoreModule} from '@ngrx/store';\nimport {metaReducers, reducers} from './state/reducers';\nimport {StoreDevtoolsModule} from '@ngrx/store-devtools';\nimport {ENV} from '../environments/environment';\nimport {EffectsModule} from '@ngrx/effects';\nimport {AuthInterceptor} from \"./interceptors/auth.interceptor\";\nimport {Effects} from \"./state/effects\";\nimport {MatIconModule} from \"@angular/material/icon\";\nimport {RedirectHandlerComponent} from './pages/redirect-handler/redirect-handler.component';\nimport {SolidClient} from \"./utils/solid-client\";\nimport {AuthorizationPage} from './pages/authorization/authorization.page';\nimport {MatLegacyProgressSpinnerModule as MatProgressSpinnerModule} from '@angular/material/legacy-progress-spinner';\nimport {StartComponent} from './pages/start/start.component';\nimport {ConnectServerPage} from './pages/connect-server/connect-server.page';\nimport {ServiceWorkerModule} from '@angular/service-worker';\nimport {AddSocialAgentComponent} from './pages/add-social-agent/add-social-agent.component';\nimport {SocialAgentsComponent} from './pages/social-agents/social-agents.component';\nimport {ApplicationsComponent} from './pages/applications/applications.component';\nimport {DataComponent} from './pages/data/data.component';\nimport {LanguageComponent} from './components/language/language.component';\nimport {AppViewComponent} from './components/app-view/app-view.component';\nimport {MatLegacyChipsModule as MatChipsModule} from \"@angular/material/legacy-chips\";\nimport {AccessNeedViewComponent} from './components/access-need-view/access-need-view.component';\nimport {MatLegacySlideToggleModule as MatSlideToggleModule} from \"@angular/material/legacy-slide-toggle\";\nimport {MatLegacyTooltipModule as MatTooltipModule} from \"@angular/material/legacy-tooltip\";\nimport {DemoMaterialModule} from \"../material-module\";\nimport {AddSocialAgentFormComponent} from './components/add-social-agent-form/add-social-agent-form.component';\nimport {MatLegacyCheckboxModule as MatCheckboxModule} from \"@angular/material/legacy-checkbox\";\nimport {MatLegacyRadioModule as MatRadioModule} from \"@angular/material/legacy-radio\";\nimport {I18nModule} from \"./i18n.module\";\nimport { FontAwesomeModule } from '@fortawesome/angular-fontawesome';\nimport { LoginPage } from './pages/login/login.page';\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    NavbarComponent,\n    LoginComponent,\n    DashboardComponent,\n    RedirectHandlerComponent,\n    AuthorizationPage,\n    StartComponent,\n    ConnectServerPage,\n    AddSocialAgentComponent,\n    SocialAgentsComponent,\n    ApplicationsComponent,\n    DataComponent,\n    LanguageComponent,\n    AppViewComponent,\n    AccessNeedViewComponent,\n    AddSocialAgentFormComponent,\n    LoginPage,\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    BrowserAnimationsModule,\n    HttpClientModule,\n    MatButtonModule,\n    MatToolbarModule,\n    MatCardModule,\n    MatListModule,\n    MatTreeModule,\n    ReactiveFormsModule,\n    MatFormFieldModule,\n    MatInputModule,\n    MatIconModule,\n    MatExpansionModule,\n    MatChipsModule,\n    MatProgressSpinnerModule,\n    FormsModule,\n    MatCheckboxModule,\n    MatRadioModule,\n    MatSlideToggleModule,\n    MatTooltipModule,\n\n    StoreModule.forRoot(reducers, {\n      metaReducers\n    }),\n    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: ENV.production}),\n    EffectsModule.forRoot(Effects),\n\n    ServiceWorkerModule.register('ngsw-worker.js', {\n      enabled: ENV.production,\n      // Register the ServiceWorker as soon as the application is stable\n      // or after 30 seconds (whichever comes first).\n      registrationStrategy: 'registerWhenStable:30000'\n    }),\n    I18nModule,\n    FontAwesomeModule,\n  ],\n  providers: [\n    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},\n    SolidClient,\n  ],\n  bootstrap: [AppComponent],\n  exports: [BrowserModule, DemoMaterialModule],\n})\nexport class AppModule { }\n",
+            "sourceCode": "import {NgModule} from '@angular/core';\nimport {BrowserModule} from '@angular/platform-browser';\n\nimport {AppRoutingModule} from './app-routing.module';\nimport {AppComponent} from './app.component';\nimport {BrowserAnimationsModule} from '@angular/platform-browser/animations';\nimport {HTTP_INTERCEPTORS, HttpClientModule} from \"@angular/common/http\";\nimport {MatLegacyButtonModule as MatButtonModule} from \"@angular/material/legacy-button\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {NavbarComponent} from \"./components/navbar/navbar.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {MatLegacyCardModule as MatCardModule} from \"@angular/material/legacy-card\";\nimport {MatLegacyListModule as MatListModule} from '@angular/material/legacy-list';\nimport {MatTreeModule} from '@angular/material/tree';\nimport {FormsModule, ReactiveFormsModule} from \"@angular/forms\";\nimport {MatLegacyFormFieldModule as MatFormFieldModule} from \"@angular/material/legacy-form-field\";\nimport {MatLegacyInputModule as MatInputModule} from \"@angular/material/legacy-input\";\nimport {DashboardComponent} from './pages/dashboard/dashboard.component';\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport {StoreModule} from '@ngrx/store';\nimport {metaReducers, reducers} from './state/reducers';\nimport {StoreDevtoolsModule} from '@ngrx/store-devtools';\nimport {ENV} from '../environments/environment';\nimport {EffectsModule} from '@ngrx/effects';\nimport {AuthInterceptor} from \"./interceptors/auth.interceptor\";\nimport {Effects} from \"./state/effects\";\nimport {MatIconModule} from \"@angular/material/icon\";\nimport {RedirectHandlerComponent} from './pages/redirect-handler/redirect-handler.component';\nimport {SolidClient} from \"./utils/solid-client\";\nimport {AuthorizationPage} from './pages/authorization/authorization.page';\nimport {MatLegacyProgressSpinnerModule as MatProgressSpinnerModule} from '@angular/material/legacy-progress-spinner';\nimport {StartComponent} from './pages/start/start.component';\nimport {ConnectServerPage} from './pages/connect-server/connect-server.page';\nimport {ServiceWorkerModule} from '@angular/service-worker';\nimport {AddSocialAgentComponent} from './pages/add-social-agent/add-social-agent.component';\nimport {SocialAgentsComponent} from './pages/social-agents/social-agents.component';\nimport {ApplicationsComponent} from './pages/applications/applications.component';\nimport {DataComponent} from './pages/data/data.component';\nimport {LanguageComponent} from './components/language/language.component';\nimport {AppViewComponent} from './components/app-view/app-view.component';\nimport {MatLegacyChipsModule as MatChipsModule} from \"@angular/material/legacy-chips\";\nimport {MatLegacySlideToggleModule as MatSlideToggleModule} from \"@angular/material/legacy-slide-toggle\";\nimport {MatLegacyTooltipModule as MatTooltipModule} from \"@angular/material/legacy-tooltip\";\nimport {DemoMaterialModule} from \"../material-module\";\nimport {AddSocialAgentFormComponent} from './components/add-social-agent-form/add-social-agent-form.component';\nimport {MatLegacyCheckboxModule as MatCheckboxModule} from \"@angular/material/legacy-checkbox\";\nimport {MatLegacyRadioModule as MatRadioModule} from \"@angular/material/legacy-radio\";\nimport {I18nModule} from \"./i18n.module\";\nimport { FontAwesomeModule } from '@fortawesome/angular-fontawesome';\nimport { LoginPage } from './pages/login/login.page';\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    NavbarComponent,\n    LoginComponent,\n    DashboardComponent,\n    RedirectHandlerComponent,\n    AuthorizationPage,\n    StartComponent,\n    ConnectServerPage,\n    AddSocialAgentComponent,\n    SocialAgentsComponent,\n    ApplicationsComponent,\n    DataComponent,\n    LanguageComponent,\n    AppViewComponent,\n    AddSocialAgentFormComponent,\n    LoginPage,\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    BrowserAnimationsModule,\n    HttpClientModule,\n    MatButtonModule,\n    MatToolbarModule,\n    MatCardModule,\n    MatListModule,\n    MatTreeModule,\n    ReactiveFormsModule,\n    MatFormFieldModule,\n    MatInputModule,\n    MatIconModule,\n    MatExpansionModule,\n    MatChipsModule,\n    MatProgressSpinnerModule,\n    FormsModule,\n    MatCheckboxModule,\n    MatRadioModule,\n    MatSlideToggleModule,\n    MatTooltipModule,\n\n    StoreModule.forRoot(reducers, {\n      metaReducers\n    }),\n    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: ENV.production}),\n    EffectsModule.forRoot(Effects),\n\n    ServiceWorkerModule.register('ngsw-worker.js', {\n      enabled: ENV.production,\n      // Register the ServiceWorker as soon as the application is stable\n      // or after 30 seconds (whichever comes first).\n      registrationStrategy: 'registerWhenStable:30000'\n    }),\n    I18nModule,\n    FontAwesomeModule,\n  ],\n  providers: [\n    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},\n    SolidClient,\n  ],\n  bootstrap: [AppComponent],\n  exports: [BrowserModule, DemoMaterialModule],\n})\nexport class AppModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -3993,9 +3808,6 @@
                 {
                     "type": "declarations",
                     "elements": [
-                        {
-                            "name": "AccessNeedViewComponent"
-                        },
                         {
                             "name": "AddSocialAgentComponent"
                         },
@@ -4081,13 +3893,13 @@
         },
         {
             "name": "AppRoutingModule",
-            "id": "module-AppRoutingModule-54f5921384eb44c21c3b2bf6d91eea8c2a5395ff4ae3baa7c76c73853cf4b8d02c6bccfe4e213b427f7fe77ee07c6a74a036a4341509c077c8d96cdac03fe81a",
+            "id": "module-AppRoutingModule-b17186449074efee9fe277cc24d127c0d05d3b55e35d5ffd728b00ac3551bd1e5d5e3fa76de40e9fbc357bd6a5a4196fb56fd738a7c818ed3e9bdcd081a138ed",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app-routing.module.ts",
             "methods": [],
-            "sourceCode": "import { NgModule } from '@angular/core';\nimport { RouterModule, Routes } from '@angular/router';\nimport {StartComponent} from \"./pages/start/start.component\";\nimport {ConnectServerPage} from \"./pages/connect-server/connect-server.page\";\nimport {DashboardComponent} from \"./pages/dashboard/dashboard.component\";\nimport {StartGuard} from \"./guards/start.guard\";\nimport {AuthGuard} from \"./guards/auth.guard.service\";\nimport {RedirectHandlerComponent} from \"./pages/redirect-handler/redirect-handler.component\";\nimport {AuthorizationPage} from \"./pages/authorization/authorization.page\";\nimport {AddSocialAgentComponent} from \"./pages/add-social-agent/add-social-agent.component\";\nimport { SocialAgentsComponent } from './pages/social-agents/social-agents.component';\nimport { ApplicationsComponent } from './pages/applications/applications.component';\nimport { DataComponent } from './pages/data/data.component';\nimport {TranslateModule} from \"@ngx-translate/core\";\nimport {LoginPage} from \"./pages/login/login.page\";\n\nconst routes: Routes = [\n  {\n    path: '',\n    canActivateChild: [StartGuard] ,\n    children: [\n      {\n        path: 'start', component: StartComponent,\n      },\n      {\n        path: 'login', component: LoginPage,\n      },\n      {\n        path: 'redirect', component: RedirectHandlerComponent,\n      },\n      {\n        path: 'connect', component: ConnectServerPage,\n      },\n\n    ]\n  },\n  {\n    path: '',\n    canActivateChild: [AuthGuard] ,\n    children: [\n      {\n        path: 'dashboard', component: DashboardComponent,\n      },\n      {\n        path: 'authorize', component: AuthorizationPage,\n      },\n      {\n        path: 'applications', component: ApplicationsComponent,\n      },\n      {\n        path: 'social-agents', component: SocialAgentsComponent,\n      },\n      {\n        path: 'add-social-agent', component: AddSocialAgentComponent,\n      },\n      {\n        path: 'data', component: DataComponent,\n      },\n    ]\n  }\n];\n\n@NgModule({\n  imports: [RouterModule.forRoot(routes), TranslateModule],\n  exports: [RouterModule]\n})\nexport class AppRoutingModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { RouterModule, Routes } from '@angular/router';\nimport { StartComponent } from './pages/start/start.component';\nimport { ConnectServerPage } from './pages/connect-server/connect-server.page';\nimport { DashboardComponent } from './pages/dashboard/dashboard.component';\nimport { StartGuard } from './guards/start.guard';\nimport { AuthGuard } from './guards/auth.guard.service';\nimport { RedirectHandlerComponent } from './pages/redirect-handler/redirect-handler.component';\nimport { AuthorizationPage } from './pages/authorization/authorization.page';\nimport { AddSocialAgentComponent } from './pages/add-social-agent/add-social-agent.component';\nimport { SocialAgentsComponent } from './pages/social-agents/social-agents.component';\nimport { ApplicationsComponent } from './pages/applications/applications.component';\nimport { DataComponent } from './pages/data/data.component';\nimport { TranslateModule } from '@ngx-translate/core';\nimport { LoginPage } from './pages/login/login.page';\nimport { ApplicationComponent } from './pages/application/application.component';\n\nconst routes: Routes = [\n  {\n    path: '',\n    canActivateChild: [StartGuard],\n    children: [\n      {\n        path: 'start',\n        component: StartComponent,\n      },\n      {\n        path: 'login',\n        component: LoginPage,\n      },\n      {\n        path: 'redirect',\n        component: RedirectHandlerComponent,\n      },\n      {\n        path: 'connect',\n        component: ConnectServerPage,\n      },\n    ],\n  },\n  {\n    path: '',\n    canActivateChild: [AuthGuard],\n    children: [\n      {\n        path: 'dashboard',\n        component: DashboardComponent,\n      },\n      {\n        path: 'authorize',\n        component: AuthorizationPage,\n      },\n      {\n        path: 'applications',\n        component: ApplicationsComponent,\n        children: [\n          {\n            path: 'application',\n            component: ApplicationComponent,\n          },\n        ],\n      },\n      {\n        path: 'application',\n        component: ApplicationComponent,\n      },\n      {\n        path: 'social-agents',\n        component: SocialAgentsComponent,\n      },\n      {\n        path: 'add-social-agent',\n        component: AddSocialAgentComponent,\n      },\n      {\n        path: 'data',\n        component: DataComponent,\n      },\n    ],\n  },\n];\n\n@NgModule({\n  imports: [RouterModule.forRoot(routes), TranslateModule],\n  exports: [RouterModule]\n})\nexport class AppRoutingModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -4387,14 +4199,14 @@
                 "defaultValue": "createAction(\n  '[APPLICATION PROFILES] Application Profiles Requested'\n)"
             },
             {
-                "name": "authorizationComponentLoaded",
+                "name": "authorizationPageLoaded",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "src/app/state/actions/authorization.actions.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "createAction(\n  '[Authorization] Authorization Initiated',\n  props<{applicationId: string}>(),\n)"
+                "defaultValue": "createAction(\n  '[Authorization] Authorization Page Loaded',\n  props<{applicationId: string}>(),\n)"
             },
             {
                 "name": "authorizationReceived",
@@ -4414,7 +4226,7 @@
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
-                "defaultValue": "createAction(\n  '[Authorization] Authorization Requested',\n  props<{applicationId: string}>(),\n)"
+                "defaultValue": "createAction(\n  '[Authorization] Authorization `Submit` clicked on',\n  props<{authorization: Authorization}>(),\n)"
             },
             {
                 "name": "authorizeApplication",
@@ -4901,16 +4713,6 @@
                 "defaultValue": "createAction(\n  '[CORE] OIDC Info Received',\n  props<{oidcInfo: ISessionInfo}>(),\n)"
             },
             {
-                "name": "Optional",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/access-need-view/access-need-view.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "Template.bind({})"
-            },
-            {
                 "name": "pathRequested",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -4969,16 +4771,6 @@
                 "deprecationMessage": "",
                 "type": "",
                 "defaultValue": "createAction(\n  '[CORE] Request Name',\n)"
-            },
-            {
-                "name": "Required",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/access-need-view/access-need-view.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "",
-                "defaultValue": "Template.bind({})"
             },
             {
                 "name": "selectAccessNeed",
@@ -5448,7 +5240,7 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/access-need-view/access-need-view.stories.ts",
+                "file": "src/app/components/app-view/app-view.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
@@ -5459,16 +5251,6 @@
                 "ctype": "miscellaneous",
                 "subtype": "variable",
                 "file": "src/app/components/language/language.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story",
-                "defaultValue": "(args) => ({props: args})"
-            },
-            {
-                "name": "Template",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "src/app/components/app-view/app-view.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
@@ -6143,14 +5925,14 @@
             ],
             "src/app/state/actions/authorization.actions.ts": [
                 {
-                    "name": "authorizationComponentLoaded",
+                    "name": "authorizationPageLoaded",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "src/app/state/actions/authorization.actions.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "createAction(\n  '[Authorization] Authorization Initiated',\n  props<{applicationId: string}>(),\n)"
+                    "defaultValue": "createAction(\n  '[Authorization] Authorization Page Loaded',\n  props<{applicationId: string}>(),\n)"
                 },
                 {
                     "name": "authorizationRequested",
@@ -6160,7 +5942,7 @@
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "",
-                    "defaultValue": "createAction(\n  '[Authorization] Authorization Requested',\n  props<{applicationId: string}>(),\n)"
+                    "defaultValue": "createAction(\n  '[Authorization] Authorization `Submit` clicked on',\n  props<{authorization: Authorization}>(),\n)"
                 }
             ],
             "src/app/state/selectors/access-needs.selectors.ts": [
@@ -6907,38 +6689,6 @@
                     "defaultValue": "{\n  [CORE_STATE_KEY]: coreReducer,\n  [APPLICATION_PROFILE_STATE_KEY]: applicationProfileReducer,\n  [SOCIAL_AGENT_STATE_KEY]: socialAgentsReducer,\n  [DESCRIPTIONS_STATE_KEY]: descriptionsReducer,\n  [DATA_REGISTRY_STATE_KEY]: dataRegistriesReducer,\n  [ACCESS_NEEDS_STATE_KEY]: accessNeedsReducer,\n  [ACCESS_NEEDS_GROUPS_STATE_KEY]: accessNeedsGroupReducer,\n  [SHAPE_TREE_STATE_KEY]: shapetreeReducer,\n}"
                 }
             ],
-            "src/app/components/access-need-view/access-need-view.stories.ts": [
-                {
-                    "name": "Optional",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/access-need-view/access-need-view.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Required",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/access-need-view/access-need-view.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/access-need-view/access-need-view.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story",
-                    "defaultValue": "(args) => ({props: args})"
-                }
-            ],
             "src/app/state/selectors/core.selectors.ts": [
                 {
                     "name": "selectBothEndsLoggedIn",
@@ -7300,7 +7050,17 @@
                             },
                             {
                                 "path": "applications",
-                                "component": "ApplicationsComponent"
+                                "component": "ApplicationsComponent",
+                                "children": [
+                                    {
+                                        "path": "application",
+                                        "component": "ApplicationComponent"
+                                    }
+                                ]
+                            },
+                            {
+                                "path": "application",
+                                "component": "ApplicationComponent"
                             },
                             {
                                 "path": "social-agents",
@@ -7322,7 +7082,7 @@
         ]
     },
     "coverage": {
-        "count": 2,
+        "count": 3,
         "status": "low",
         "files": [
             {
@@ -7332,45 +7092,6 @@
                 "name": "AppComponent",
                 "coveragePercent": 0,
                 "coverageCount": "0/9",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/components/access-need-view/access-need-view.component.ts",
-                "type": "component",
-                "linktype": "component",
-                "name": "AccessNeedViewComponent",
-                "coveragePercent": 0,
-                "coverageCount": "0/12",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/components/access-need-view/access-need-view.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "Optional",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/components/access-need-view/access-need-view.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "Required",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "src/app/components/access-need-view/access-need-view.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "Template",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
                 "status": "low"
             },
             {
@@ -7515,7 +7236,7 @@
                 "linktype": "component",
                 "name": "NavbarComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/11",
+                "coverageCount": "0/10",
                 "status": "low"
             },
             {
@@ -7692,7 +7413,7 @@
                 "linktype": "component",
                 "name": "SocialAgentsComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/4",
+                "coverageCount": "0/5",
                 "status": "low"
             },
             {
@@ -7906,7 +7627,7 @@
                 "type": "variable",
                 "linktype": "miscellaneous",
                 "linksubtype": "variable",
-                "name": "authorizationComponentLoaded",
+                "name": "authorizationPageLoaded",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -8116,7 +7837,7 @@
                 "linktype": "injectable",
                 "name": "AuthorizationEffects",
                 "coveragePercent": 0,
-                "coverageCount": "0/4",
+                "coverageCount": "0/5",
                 "status": "low"
             },
             {

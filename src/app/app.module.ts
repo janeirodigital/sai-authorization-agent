@@ -39,7 +39,6 @@ import {DataComponent} from './pages/data/data.component';
 import {LanguageComponent} from './components/language/language.component';
 import {AppViewComponent} from './components/app-view/app-view.component';
 import {MatLegacyChipsModule as MatChipsModule} from "@angular/material/legacy-chips";
-import {AccessNeedViewComponent} from './components/access-need-view/access-need-view.component';
 import {MatLegacySlideToggleModule as MatSlideToggleModule} from "@angular/material/legacy-slide-toggle";
 import {MatLegacyTooltipModule as MatTooltipModule} from "@angular/material/legacy-tooltip";
 import {DemoMaterialModule} from "../material-module";
@@ -66,7 +65,6 @@ import { LoginPage } from './pages/login/login.page';
     DataComponent,
     LanguageComponent,
     AppViewComponent,
-    AccessNeedViewComponent,
     AddSocialAgentFormComponent,
     LoginPage,
   ],

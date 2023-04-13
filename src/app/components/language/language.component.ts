@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {Languages} from "../../languages";
 import {TranslateService} from "@ngx-translate/core";
 import {CORE_LANGUAGE_KEY, initialState, preferLanguage} from "../../state/reducers/core.reducer";
+import {faLanguage} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'sai-language',
@@ -9,6 +10,7 @@ import {CORE_LANGUAGE_KEY, initialState, preferLanguage} from "../../state/reduc
   styleUrls: ['./language.component.css']
 })
 export class LanguageComponent {
+  faLanguage = faLanguage;
 
   @Input() languages = Languages;
 

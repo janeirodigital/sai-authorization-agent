@@ -1,20 +1,18 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Router} from "@angular/router";
-import {Languages} from "../../languages";
-import { faHome, faBell } from "@fortawesome/free-solid-svg-icons";
-import {log} from "util";
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router } from '@angular/router';
+import { Languages } from '../../languages';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'sai-navbar',
   templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  styleUrls: ['./navbar.component.css'],
 })
 export class NavbarComponent {
-  faHome = faHome;
   faBell = faBell;
 
   @Input() webId!: string | null;
-  @Input() isLoggedIn  = false;
+  @Input() isLoggedIn = false;
   @Input() withNotificationsAction = true;
   @Input() languageSelect = Languages;
 
@@ -25,11 +23,7 @@ export class NavbarComponent {
     { path: '/applications', label: 'APP.NAV-APPS' },
     { path: '/social-agents', label: 'APP.NAV-PEERS' },
     { path: '/data', label: 'APP.NAV-DATA' },
-  ]
+  ];
 
-  constructor(
-    public router: Router,
-  ) {}
-
-  protected readonly log = log;
+  constructor(public router: Router) {}
 }

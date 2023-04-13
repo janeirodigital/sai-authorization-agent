@@ -1,14 +1,12 @@
 import {moduleMetadata, Story} from "@storybook/angular";
 import {AppViewComponent} from "./app-view.component";
 import {DemoMaterialModule} from "../../../material-module";
-import {AccessNeedViewComponent} from "../access-need-view/access-need-view.component";
 
 export default {
   title: 'Components/App View',
   component: AppViewComponent,
   decorators: [
     moduleMetadata({
-      declarations: [AccessNeedViewComponent],
       imports: [DemoMaterialModule],
     })
   ]

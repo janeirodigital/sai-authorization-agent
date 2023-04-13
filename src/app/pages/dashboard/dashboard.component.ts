@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import { faMagnifyingGlass, faPerson } from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'sai-dashboard',
@@ -6,4 +7,6 @@ import {Component} from '@angular/core';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent {
+  faMagnifyingGlass = faMagnifyingGlass;
+  faPerson = faPerson;
 }

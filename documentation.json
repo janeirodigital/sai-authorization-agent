@@ -3817,13 +3817,13 @@
     "modules": [
         {
             "name": "AppModule",
-            "id": "module-AppModule-68c8d8e1b6a300f9de6c1da2dfe44ca5446ee0daac1a1ac3a7cf0f5321e2630c4728e4ee9201a9e9d2da6ecbb524628b8ae84e923f655c8c91d907da6a82ea78",
+            "id": "module-AppModule-22b4e68b62e68946a4a0217662e77bd35c3ac2c0a8c52f0d4622514eef9ae6d9b5eacabf027702bf1ab3b101f024fd6ed1403a4346fa7f9fdaa67063f684e0de",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app.module.ts",
             "methods": [],
-            "sourceCode": "import {NgModule} from '@angular/core';\nimport {BrowserModule} from '@angular/platform-browser';\n\nimport {AppRoutingModule} from './app-routing.module';\nimport {AppComponent} from './app.component';\nimport {BrowserAnimationsModule} from '@angular/platform-browser/animations';\nimport {HTTP_INTERCEPTORS, HttpClientModule} from \"@angular/common/http\";\nimport {MatLegacyButtonModule as MatButtonModule} from \"@angular/material/legacy-button\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {NavbarComponent} from \"./components/navbar/navbar.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {MatLegacyCardModule as MatCardModule} from \"@angular/material/legacy-card\";\nimport {MatLegacyListModule as MatListModule} from '@angular/material/legacy-list';\nimport {MatTreeModule} from '@angular/material/tree';\nimport {FormsModule, ReactiveFormsModule} from \"@angular/forms\";\nimport {MatLegacyFormFieldModule as MatFormFieldModule} from \"@angular/material/legacy-form-field\";\nimport {MatLegacyInputModule as MatInputModule} from \"@angular/material/legacy-input\";\nimport {DashboardComponent} from './pages/dashboard/dashboard.component';\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport {StoreModule} from '@ngrx/store';\nimport {metaReducers, reducers} from './state/reducers';\nimport {StoreDevtoolsModule} from '@ngrx/store-devtools';\nimport {ENV} from '../environments/environment';\nimport {EffectsModule} from '@ngrx/effects';\nimport {AuthInterceptor} from \"./interceptors/auth.interceptor\";\nimport {Effects} from \"./state/effects\";\nimport {MatIconModule} from \"@angular/material/icon\";\nimport {RedirectHandlerComponent} from './pages/redirect-handler/redirect-handler.component';\nimport {SolidClient} from \"./utils/solid-client\";\nimport {AuthorizationPage} from './pages/authorization/authorization.page';\nimport {MatLegacyProgressSpinnerModule as MatProgressSpinnerModule} from '@angular/material/legacy-progress-spinner';\nimport {StartComponent} from './pages/start/start.component';\nimport {ConnectServerPage} from './pages/connect-server/connect-server.page';\nimport {ServiceWorkerModule} from '@angular/service-worker';\nimport {AddSocialAgentComponent} from './pages/add-social-agent/add-social-agent.component';\nimport {SocialAgentsComponent} from './pages/social-agents/social-agents.component';\nimport {ApplicationsComponent} from './pages/applications/applications.component';\nimport {DataComponent} from './pages/data/data.component';\nimport {LanguageComponent} from './components/language/language.component';\nimport {AppViewComponent} from './components/app-view/app-view.component';\nimport {MatLegacyChipsModule as MatChipsModule} from \"@angular/material/legacy-chips\";\nimport {MatLegacySlideToggleModule as MatSlideToggleModule} from \"@angular/material/legacy-slide-toggle\";\nimport {MatLegacyTooltipModule as MatTooltipModule} from \"@angular/material/legacy-tooltip\";\nimport {SbModule} from \"../sb-module\";\nimport {AddSocialAgentFormComponent} from './components/add-social-agent-form/add-social-agent-form.component';\nimport {MatLegacyCheckboxModule as MatCheckboxModule} from \"@angular/material/legacy-checkbox\";\nimport {MatLegacyRadioModule as MatRadioModule} from \"@angular/material/legacy-radio\";\nimport {I18nModule} from \"./i18n.module\";\nimport { FontAwesomeModule } from '@fortawesome/angular-fontawesome';\nimport { LoginPage } from './pages/login/login.page';\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    NavbarComponent,\n    LoginComponent,\n    DashboardComponent,\n    RedirectHandlerComponent,\n    AuthorizationPage,\n    StartComponent,\n    ConnectServerPage,\n    AddSocialAgentComponent,\n    SocialAgentsComponent,\n    ApplicationsComponent,\n    DataComponent,\n    LanguageComponent,\n    AppViewComponent,\n    AddSocialAgentFormComponent,\n    LoginPage,\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    BrowserAnimationsModule,\n    HttpClientModule,\n    MatButtonModule,\n    MatToolbarModule,\n    MatCardModule,\n    MatListModule,\n    MatTreeModule,\n    ReactiveFormsModule,\n    MatFormFieldModule,\n    MatInputModule,\n    MatIconModule,\n    MatExpansionModule,\n    MatChipsModule,\n    MatProgressSpinnerModule,\n    FormsModule,\n    MatCheckboxModule,\n    MatRadioModule,\n    MatSlideToggleModule,\n    MatTooltipModule,\n\n    StoreModule.forRoot(reducers, {\n      metaReducers\n    }),\n    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: ENV.production}),\n    EffectsModule.forRoot(Effects),\n\n    ServiceWorkerModule.register('ngsw-worker.js', {\n      enabled: ENV.production,\n      // Register the ServiceWorker as soon as the application is stable\n      // or after 30 seconds (whichever comes first).\n      registrationStrategy: 'registerWhenStable:30000'\n    }),\n    I18nModule,\n    FontAwesomeModule,\n  ],\n  providers: [\n    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},\n    SolidClient,\n  ],\n  bootstrap: [AppComponent],\n  exports: [BrowserModule, SbModule],\n})\nexport class AppModule { }\n",
+            "sourceCode": "import { NgModule } from '@angular/core';\nimport { BrowserModule } from '@angular/platform-browser';\n\nimport { AppRoutingModule } from './app-routing.module';\nimport { AppComponent } from './app.component';\nimport { BrowserAnimationsModule } from '@angular/platform-browser/animations';\nimport { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';\nimport { NavbarComponent } from './components/navbar/navbar.component';\nimport { LoginComponent } from './components/login/login.component';\nimport { FormsModule, ReactiveFormsModule } from '@angular/forms';\nimport { DashboardComponent } from './pages/dashboard/dashboard.component';\nimport { StoreModule } from '@ngrx/store';\nimport { metaReducers, reducers } from './state/reducers';\nimport { StoreDevtoolsModule } from '@ngrx/store-devtools';\nimport { ENV } from '../environments/environment';\nimport { EffectsModule } from '@ngrx/effects';\nimport { AuthInterceptor } from './interceptors/auth.interceptor';\nimport { Effects } from './state/effects';\nimport { RedirectHandlerComponent } from './pages/redirect-handler/redirect-handler.component';\nimport { SolidClient } from './utils/solid-client';\nimport { AuthorizationPage } from './pages/authorization/authorization.page';\nimport { StartComponent } from './pages/start/start.component';\nimport { ConnectServerPage } from './pages/connect-server/connect-server.page';\nimport { ServiceWorkerModule } from '@angular/service-worker';\nimport { AddSocialAgentComponent } from './pages/add-social-agent/add-social-agent.component';\nimport { SocialAgentsComponent } from './pages/social-agents/social-agents.component';\nimport { ApplicationsComponent } from './pages/applications/applications.component';\nimport { DataComponent } from './pages/data/data.component';\nimport { LanguageComponent } from './components/language/language.component';\nimport { AppViewComponent } from './components/app-view/app-view.component';\nimport { AddSocialAgentFormComponent } from './components/add-social-agent-form/add-social-agent-form.component';\nimport { I18nModule } from './i18n.module';\nimport { FontAwesomeModule } from '@fortawesome/angular-fontawesome';\nimport { LoginPage } from './pages/login/login.page';\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    NavbarComponent,\n    LoginComponent,\n    DashboardComponent,\n    RedirectHandlerComponent,\n    AuthorizationPage,\n    StartComponent,\n    ConnectServerPage,\n    AddSocialAgentComponent,\n    SocialAgentsComponent,\n    ApplicationsComponent,\n    DataComponent,\n    LanguageComponent,\n    AppViewComponent,\n    AddSocialAgentFormComponent,\n    LoginPage,\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    BrowserAnimationsModule,\n    HttpClientModule,\n    ReactiveFormsModule,\n    FormsModule,\n\n    StoreModule.forRoot(reducers, {\n      metaReducers,\n    }),\n    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: ENV.production }),\n    EffectsModule.forRoot(Effects),\n\n    ServiceWorkerModule.register('ngsw-worker.js', {\n      enabled: ENV.production,\n      // Register the ServiceWorker as soon as the application is stable\n      // or after 30 seconds (whichever comes first).\n      registrationStrategy: 'registerWhenStable:30000',\n    }),\n    I18nModule,\n    FontAwesomeModule,\n  ],\n  providers: [\n    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },\n    SolidClient,\n  ],\n  bootstrap: [AppComponent],\n  exports: [BrowserModule],\n})\nexport class AppModule {}\n",
             "children": [
                 {
                     "type": "providers",
@@ -3902,11 +3902,7 @@
                 },
                 {
                     "type": "exports",
-                    "elements": [
-                        {
-                            "name": "SbModule"
-                        }
-                    ]
+                    "elements": []
                 },
                 {
                     "type": "bootstrap",
@@ -4375,7 +4371,7 @@
                 "name": "Default",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/app-view/app-view.stories.ts",
+                "file": "src/app/components/login/login.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -4385,7 +4381,7 @@
                 "name": "Default",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/login/login.stories.ts",
+                "file": "src/app/components/app-view/app-view.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "",
@@ -5271,7 +5267,7 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/app-view/app-view.stories.ts",
+                "file": "src/app/components/language/language.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
@@ -5291,7 +5287,7 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/language/language.stories.ts",
+                "file": "src/app/components/app-view/app-view.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
@@ -6268,6 +6264,28 @@
                     "defaultValue": "Template.bind({})"
                 }
             ],
+            "src/app/components/login/login.stories.ts": [
+                {
+                    "name": "Default",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/login/login.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "defaultValue": "Template.bind({})"
+                },
+                {
+                    "name": "Template",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "src/app/components/login/login.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "(args) => ({props: args})"
+                }
+            ],
             "src/app/components/app-view/app-view.stories.ts": [
                 {
                     "name": "Default",
@@ -6294,28 +6312,6 @@
                     "ctype": "miscellaneous",
                     "subtype": "variable",
                     "file": "src/app/components/app-view/app-view.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "Story",
-                    "defaultValue": "(args) => ({props: args})"
-                }
-            ],
-            "src/app/components/login/login.stories.ts": [
-                {
-                    "name": "Default",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/login/login.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "defaultValue": "Template.bind({})"
-                },
-                {
-                    "name": "Template",
-                    "ctype": "miscellaneous",
-                    "subtype": "variable",
-                    "file": "src/app/components/login/login.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",

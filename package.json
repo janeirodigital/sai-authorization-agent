@@ -34,7 +34,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@inrupt/solid-client-authn-browser": "^1.11.7",
-    "@janeirodigital/sai-api-messages": "file:../sai-impl-service/packages/api-messages",
+    "@janeirodigital/sai-api-messages": "^0.7.0",
     "@ngrx/effects": "^15.4.0",
     "@ngrx/entity": "^15.4.0",
     "@ngrx/store": "^15.4.0",

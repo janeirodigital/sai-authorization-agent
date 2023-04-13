@@ -1,5 +1,5 @@
 import {moduleMetadata, Story} from "@storybook/angular";
-import {DemoMaterialModule} from "../../../material-module";
+import {SbModule} from "../../../sb-module";
 import {AddSocialAgentFormComponent} from "./add-social-agent-form.component";
 
 export default {
@@ -8,7 +8,7 @@ export default {
   decorators: [
     moduleMetadata({
       declarations: [],
-      imports: [DemoMaterialModule],
+      imports: [SbModule],
     })
   ]
 }

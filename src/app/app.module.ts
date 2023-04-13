@@ -41,7 +41,7 @@ import {AppViewComponent} from './components/app-view/app-view.component';
 import {MatLegacyChipsModule as MatChipsModule} from "@angular/material/legacy-chips";
 import {MatLegacySlideToggleModule as MatSlideToggleModule} from "@angular/material/legacy-slide-toggle";
 import {MatLegacyTooltipModule as MatTooltipModule} from "@angular/material/legacy-tooltip";
-import {DemoMaterialModule} from "../material-module";
+import {SbModule} from "../sb-module";
 import {AddSocialAgentFormComponent} from './components/add-social-agent-form/add-social-agent-form.component';
 import {MatLegacyCheckboxModule as MatCheckboxModule} from "@angular/material/legacy-checkbox";
 import {MatLegacyRadioModule as MatRadioModule} from "@angular/material/legacy-radio";
@@ -111,6 +111,6 @@ import { LoginPage } from './pages/login/login.page';
     SolidClient,
   ],
   bootstrap: [AppComponent],
-  exports: [BrowserModule, DemoMaterialModule],
+  exports: [BrowserModule, SbModule],
 })
 export class AppModule { }

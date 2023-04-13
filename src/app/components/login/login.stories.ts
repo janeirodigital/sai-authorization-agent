@@ -1,13 +1,13 @@
 import {moduleMetadata, Story} from "@storybook/angular";
 import {LoginComponent} from "./login.component";
-import {DemoMaterialModule} from "../../../material-module";
+import {SbModule} from "../../../sb-module";
 
 export default {
   title: 'Components/Log In',
   component: LoginComponent,
   decorators: [
     moduleMetadata({
-      imports: [DemoMaterialModule],
+      imports: [SbModule],
     })
   ]
 }

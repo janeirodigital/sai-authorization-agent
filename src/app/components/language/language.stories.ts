@@ -1,6 +1,6 @@
 import { Story, moduleMetadata } from "@storybook/angular";
 import { LanguageComponent } from "./language.component";
-import { DemoMaterialModule } from "../../../material-module";
+import { SbModule } from "../../../sb-module";
 import {TranslateModule, TranslateService} from "@ngx-translate/core";
 
 export default {
@@ -8,7 +8,7 @@ export default {
   component: LanguageComponent,
   decorators: [
     moduleMetadata({
-      imports: [DemoMaterialModule,
+      imports: [SbModule,
         TranslateModule.forRoot({
           defaultLanguage: 'en'
         }),

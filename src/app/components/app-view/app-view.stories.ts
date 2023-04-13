@@ -1,13 +1,13 @@
 import {moduleMetadata, Story} from "@storybook/angular";
 import {AppViewComponent} from "./app-view.component";
-import {DemoMaterialModule} from "../../../material-module";
+import {SbModule} from "../../../sb-module";
 
 export default {
   title: 'Components/App View',
   component: AppViewComponent,
   decorators: [
     moduleMetadata({
-      imports: [DemoMaterialModule],
+      imports: [SbModule],
     })
   ]
 }

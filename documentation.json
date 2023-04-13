@@ -2984,7 +2984,7 @@
         },
         {
             "name": "DashboardComponent",
-            "id": "component-DashboardComponent-0b6355dce47e72f589c60ac8a4ea8b9a0f7ed14cc37eef2af95c21b1e371f8f5746270de92cb06d4488acb51e22abc1805e273cac2cb04f72093c7172ebdfe84",
+            "id": "component-DashboardComponent-ac96af30ba6359f543b7d49e5f60316f1de3635c54104f635cc456cc2119b01754e8530c5d0e5fb25bcc3c3357b524ebc3ac1680b8b0ab794510951a319e02ad",
             "file": "src/app/pages/dashboard/dashboard.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3002,7 +3002,28 @@
             "viewProviders": [],
             "inputsClass": [],
             "outputsClass": [],
-            "propertiesClass": [],
+            "propertiesClass": [
+                {
+                    "name": "faMagnifyingGlass",
+                    "defaultValue": "faMagnifyingGlass",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 10
+                },
+                {
+                    "name": "faPerson",
+                    "defaultValue": "faPerson",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 11
+                }
+            ],
             "methodsClass": [],
             "deprecated": false,
             "deprecationMessage": "",
@@ -3011,7 +3032,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component} from '@angular/core';\n\n@Component({\n  selector: 'sai-dashboard',\n  templateUrl: './dashboard.component.html',\n  styleUrls: ['./dashboard.component.css']\n})\nexport class DashboardComponent {\n}\n",
+            "sourceCode": "import {Component} from '@angular/core';\nimport { faMagnifyingGlass, faPerson } from \"@fortawesome/free-solid-svg-icons\";\n\n@Component({\n  selector: 'sai-dashboard',\n  templateUrl: './dashboard.component.html',\n  styleUrls: ['./dashboard.component.css']\n})\nexport class DashboardComponent {\n  faMagnifyingGlass = faMagnifyingGlass;\n  faPerson = faPerson;\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -3020,7 +3041,7 @@
                 }
             ],
             "stylesData": "",
-            "templateData": "<div class=\"container\">\n  <div class=\"section\">\n    <button mat-raised-button routerLink=\"/authorize\" [queryParams]=\"{client_id: 'http://localhost:3000/acme/projectron/id'}\">\n      <mat-icon fontIcon=\"web_asset\"></mat-icon>\n      <br>Add Projectron\n    </button>\n  </div>\n  <div class=\"section\">\n    <button mat-raised-button routerLink=\"/add-social-agent\">\n      <mat-icon fontIcon=\"person\"></mat-icon>\n      <br>{{'APP.CTA-ADD-SOCIAL-AGENT' | translate}}\n    </button>\n  </div>\n</div>\n\n"
+            "templateData": "<div class=\"container\">\n  <div class=\"section\">\n    <button routerLink=\"/authorize\" [queryParams]=\"{client_id: 'http://localhost:3000/acme/projectron/id'}\">\n      <fa-icon [icon]=\"faMagnifyingGlass\"></fa-icon>\n      <br>Add Projectron\n    </button>\n  </div>\n  <div class=\"section\">\n    <button routerLink=\"/add-social-agent\">\n      <fa-icon [icon]=\"faPerson\"></fa-icon>\n      <br>{{'APP.CTA-ADD-SOCIAL-AGENT' | translate}}\n    </button>\n  </div>\n</div>\n\n"
         },
         {
             "name": "DataComponent",
@@ -3115,7 +3136,7 @@
         },
         {
             "name": "LanguageComponent",
-            "id": "component-LanguageComponent-c79cae9eba3ba52a10e238994f208a7647e424e370a32fe13d92be812003e364296f1f55106d0451ef01b5db1d97e56325ee098d7fb8f694951000c3e1fbeeb2",
+            "id": "component-LanguageComponent-8c375b0cf846a4366b42893dcdd1674894c193e807df03ed1a99f491c1097f8b2ae6616ce4fa95edb880fc51437c00df249e8854d8b4ab4d28bfa340ff7ae5e2",
             "file": "src/app/components/language/language.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -3137,7 +3158,7 @@
                     "defaultValue": "Languages",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 13,
+                    "line": 15,
                     "type": "any",
                     "decorators": []
                 }
@@ -3145,13 +3166,23 @@
             "outputsClass": [],
             "propertiesClass": [
                 {
+                    "name": "faLanguage",
+                    "defaultValue": "faLanguage",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 13
+                },
+                {
                     "name": "translate",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "TranslateService",
                     "optional": false,
                     "description": "",
-                    "line": 15,
+                    "line": 17,
                     "modifierKind": [
                         123
                     ]
@@ -3171,7 +3202,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 20,
+                    "line": 22,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -3194,7 +3225,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import {Component, Input} from '@angular/core';\nimport {Languages} from \"../../languages\";\nimport {TranslateService} from \"@ngx-translate/core\";\nimport {CORE_LANGUAGE_KEY, initialState, preferLanguage} from \"../../state/reducers/core.reducer\";\n\n@Component({\n  selector: 'sai-language',\n  templateUrl: './language.component.html',\n  styleUrls: ['./language.component.css']\n})\nexport class LanguageComponent {\n\n  @Input() languages = Languages;\n\n  constructor(public translate: TranslateService) {\n    const browserLang: string = initialState.language;\n    translate.use(browserLang.match(/en|es/) ? browserLang : 'en');\n  }\n\n  onChange(selectEvent: Event) {\n    const { target } = selectEvent;\n    if (!target) return;\n\n    const languageSelectedValue: string = (<HTMLSelectElement>target).value;\n    this.translate.use(languageSelectedValue);\n    //Set localStorage with user prefer language\n    preferLanguage.language = languageSelectedValue;\n    window.localStorage.setItem(CORE_LANGUAGE_KEY, JSON.stringify(preferLanguage));\n  }\n\n}\n",
+            "sourceCode": "import {Component, Input} from '@angular/core';\nimport {Languages} from \"../../languages\";\nimport {TranslateService} from \"@ngx-translate/core\";\nimport {CORE_LANGUAGE_KEY, initialState, preferLanguage} from \"../../state/reducers/core.reducer\";\nimport {faLanguage} from \"@fortawesome/free-solid-svg-icons\";\n\n@Component({\n  selector: 'sai-language',\n  templateUrl: './language.component.html',\n  styleUrls: ['./language.component.css']\n})\nexport class LanguageComponent {\n  faLanguage = faLanguage;\n\n  @Input() languages = Languages;\n\n  constructor(public translate: TranslateService) {\n    const browserLang: string = initialState.language;\n    translate.use(browserLang.match(/en|es/) ? browserLang : 'en');\n  }\n\n  onChange(selectEvent: Event) {\n    const { target } = selectEvent;\n    if (!target) return;\n\n    const languageSelectedValue: string = (<HTMLSelectElement>target).value;\n    this.translate.use(languageSelectedValue);\n    //Set localStorage with user prefer language\n    preferLanguage.language = languageSelectedValue;\n    window.localStorage.setItem(CORE_LANGUAGE_KEY, JSON.stringify(preferLanguage));\n  }\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {
@@ -3216,7 +3247,7 @@
                         "deprecationMessage": ""
                     }
                 ],
-                "line": 13,
+                "line": 15,
                 "jsdoctags": [
                     {
                         "name": "translate",
@@ -3229,7 +3260,7 @@
                     }
                 ]
             },
-            "templateData": "<ng-container>\n  <div class=\"languageSelector\">\n    <mat-icon matListIcon>language</mat-icon>\n    <select (change)=\"onChange($event)\">\n      <option *ngFor=\"let language of languages\" [value]=\"language.id\" [selected]=\"language.id === translate.currentLang\">{{ language.label }}</option>\n    </select>\n  </div>\n</ng-container>\n"
+            "templateData": "<ng-container>\n  <div class=\"languageSelector\">\n    <fa-icon [icon]=\"faLanguage\"></fa-icon>\n    <select (change)=\"onChange($event)\">\n      <option *ngFor=\"let language of languages\" [value]=\"language.id\" [selected]=\"language.id === translate.currentLang\">{{ language.label }}</option>\n    </select>\n  </div>\n</ng-container>\n"
         },
         {
             "name": "LoginComponent",
@@ -3786,13 +3817,13 @@
     "modules": [
         {
             "name": "AppModule",
-            "id": "module-AppModule-d16626c2ee0deaf5a379de08a3cd37f7a2d65052cdaa3626b6f017f8a83e06c41f12f5fc994d786cfc93fcef7a614b5b3d7048c647db67d1d09f28e7c5447902",
+            "id": "module-AppModule-68c8d8e1b6a300f9de6c1da2dfe44ca5446ee0daac1a1ac3a7cf0f5321e2630c4728e4ee9201a9e9d2da6ecbb524628b8ae84e923f655c8c91d907da6a82ea78",
             "description": "",
             "deprecationMessage": "",
             "deprecated": false,
             "file": "src/app/app.module.ts",
             "methods": [],
-            "sourceCode": "import {NgModule} from '@angular/core';\nimport {BrowserModule} from '@angular/platform-browser';\n\nimport {AppRoutingModule} from './app-routing.module';\nimport {AppComponent} from './app.component';\nimport {BrowserAnimationsModule} from '@angular/platform-browser/animations';\nimport {HTTP_INTERCEPTORS, HttpClientModule} from \"@angular/common/http\";\nimport {MatLegacyButtonModule as MatButtonModule} from \"@angular/material/legacy-button\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {NavbarComponent} from \"./components/navbar/navbar.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {MatLegacyCardModule as MatCardModule} from \"@angular/material/legacy-card\";\nimport {MatLegacyListModule as MatListModule} from '@angular/material/legacy-list';\nimport {MatTreeModule} from '@angular/material/tree';\nimport {FormsModule, ReactiveFormsModule} from \"@angular/forms\";\nimport {MatLegacyFormFieldModule as MatFormFieldModule} from \"@angular/material/legacy-form-field\";\nimport {MatLegacyInputModule as MatInputModule} from \"@angular/material/legacy-input\";\nimport {DashboardComponent} from './pages/dashboard/dashboard.component';\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport {StoreModule} from '@ngrx/store';\nimport {metaReducers, reducers} from './state/reducers';\nimport {StoreDevtoolsModule} from '@ngrx/store-devtools';\nimport {ENV} from '../environments/environment';\nimport {EffectsModule} from '@ngrx/effects';\nimport {AuthInterceptor} from \"./interceptors/auth.interceptor\";\nimport {Effects} from \"./state/effects\";\nimport {MatIconModule} from \"@angular/material/icon\";\nimport {RedirectHandlerComponent} from './pages/redirect-handler/redirect-handler.component';\nimport {SolidClient} from \"./utils/solid-client\";\nimport {AuthorizationPage} from './pages/authorization/authorization.page';\nimport {MatLegacyProgressSpinnerModule as MatProgressSpinnerModule} from '@angular/material/legacy-progress-spinner';\nimport {StartComponent} from './pages/start/start.component';\nimport {ConnectServerPage} from './pages/connect-server/connect-server.page';\nimport {ServiceWorkerModule} from '@angular/service-worker';\nimport {AddSocialAgentComponent} from './pages/add-social-agent/add-social-agent.component';\nimport {SocialAgentsComponent} from './pages/social-agents/social-agents.component';\nimport {ApplicationsComponent} from './pages/applications/applications.component';\nimport {DataComponent} from './pages/data/data.component';\nimport {LanguageComponent} from './components/language/language.component';\nimport {AppViewComponent} from './components/app-view/app-view.component';\nimport {MatLegacyChipsModule as MatChipsModule} from \"@angular/material/legacy-chips\";\nimport {MatLegacySlideToggleModule as MatSlideToggleModule} from \"@angular/material/legacy-slide-toggle\";\nimport {MatLegacyTooltipModule as MatTooltipModule} from \"@angular/material/legacy-tooltip\";\nimport {DemoMaterialModule} from \"../material-module\";\nimport {AddSocialAgentFormComponent} from './components/add-social-agent-form/add-social-agent-form.component';\nimport {MatLegacyCheckboxModule as MatCheckboxModule} from \"@angular/material/legacy-checkbox\";\nimport {MatLegacyRadioModule as MatRadioModule} from \"@angular/material/legacy-radio\";\nimport {I18nModule} from \"./i18n.module\";\nimport { FontAwesomeModule } from '@fortawesome/angular-fontawesome';\nimport { LoginPage } from './pages/login/login.page';\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    NavbarComponent,\n    LoginComponent,\n    DashboardComponent,\n    RedirectHandlerComponent,\n    AuthorizationPage,\n    StartComponent,\n    ConnectServerPage,\n    AddSocialAgentComponent,\n    SocialAgentsComponent,\n    ApplicationsComponent,\n    DataComponent,\n    LanguageComponent,\n    AppViewComponent,\n    AddSocialAgentFormComponent,\n    LoginPage,\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    BrowserAnimationsModule,\n    HttpClientModule,\n    MatButtonModule,\n    MatToolbarModule,\n    MatCardModule,\n    MatListModule,\n    MatTreeModule,\n    ReactiveFormsModule,\n    MatFormFieldModule,\n    MatInputModule,\n    MatIconModule,\n    MatExpansionModule,\n    MatChipsModule,\n    MatProgressSpinnerModule,\n    FormsModule,\n    MatCheckboxModule,\n    MatRadioModule,\n    MatSlideToggleModule,\n    MatTooltipModule,\n\n    StoreModule.forRoot(reducers, {\n      metaReducers\n    }),\n    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: ENV.production}),\n    EffectsModule.forRoot(Effects),\n\n    ServiceWorkerModule.register('ngsw-worker.js', {\n      enabled: ENV.production,\n      // Register the ServiceWorker as soon as the application is stable\n      // or after 30 seconds (whichever comes first).\n      registrationStrategy: 'registerWhenStable:30000'\n    }),\n    I18nModule,\n    FontAwesomeModule,\n  ],\n  providers: [\n    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},\n    SolidClient,\n  ],\n  bootstrap: [AppComponent],\n  exports: [BrowserModule, DemoMaterialModule],\n})\nexport class AppModule { }\n",
+            "sourceCode": "import {NgModule} from '@angular/core';\nimport {BrowserModule} from '@angular/platform-browser';\n\nimport {AppRoutingModule} from './app-routing.module';\nimport {AppComponent} from './app.component';\nimport {BrowserAnimationsModule} from '@angular/platform-browser/animations';\nimport {HTTP_INTERCEPTORS, HttpClientModule} from \"@angular/common/http\";\nimport {MatLegacyButtonModule as MatButtonModule} from \"@angular/material/legacy-button\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {NavbarComponent} from \"./components/navbar/navbar.component\";\nimport {LoginComponent} from \"./components/login/login.component\";\nimport {MatLegacyCardModule as MatCardModule} from \"@angular/material/legacy-card\";\nimport {MatLegacyListModule as MatListModule} from '@angular/material/legacy-list';\nimport {MatTreeModule} from '@angular/material/tree';\nimport {FormsModule, ReactiveFormsModule} from \"@angular/forms\";\nimport {MatLegacyFormFieldModule as MatFormFieldModule} from \"@angular/material/legacy-form-field\";\nimport {MatLegacyInputModule as MatInputModule} from \"@angular/material/legacy-input\";\nimport {DashboardComponent} from './pages/dashboard/dashboard.component';\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport {StoreModule} from '@ngrx/store';\nimport {metaReducers, reducers} from './state/reducers';\nimport {StoreDevtoolsModule} from '@ngrx/store-devtools';\nimport {ENV} from '../environments/environment';\nimport {EffectsModule} from '@ngrx/effects';\nimport {AuthInterceptor} from \"./interceptors/auth.interceptor\";\nimport {Effects} from \"./state/effects\";\nimport {MatIconModule} from \"@angular/material/icon\";\nimport {RedirectHandlerComponent} from './pages/redirect-handler/redirect-handler.component';\nimport {SolidClient} from \"./utils/solid-client\";\nimport {AuthorizationPage} from './pages/authorization/authorization.page';\nimport {MatLegacyProgressSpinnerModule as MatProgressSpinnerModule} from '@angular/material/legacy-progress-spinner';\nimport {StartComponent} from './pages/start/start.component';\nimport {ConnectServerPage} from './pages/connect-server/connect-server.page';\nimport {ServiceWorkerModule} from '@angular/service-worker';\nimport {AddSocialAgentComponent} from './pages/add-social-agent/add-social-agent.component';\nimport {SocialAgentsComponent} from './pages/social-agents/social-agents.component';\nimport {ApplicationsComponent} from './pages/applications/applications.component';\nimport {DataComponent} from './pages/data/data.component';\nimport {LanguageComponent} from './components/language/language.component';\nimport {AppViewComponent} from './components/app-view/app-view.component';\nimport {MatLegacyChipsModule as MatChipsModule} from \"@angular/material/legacy-chips\";\nimport {MatLegacySlideToggleModule as MatSlideToggleModule} from \"@angular/material/legacy-slide-toggle\";\nimport {MatLegacyTooltipModule as MatTooltipModule} from \"@angular/material/legacy-tooltip\";\nimport {SbModule} from \"../sb-module\";\nimport {AddSocialAgentFormComponent} from './components/add-social-agent-form/add-social-agent-form.component';\nimport {MatLegacyCheckboxModule as MatCheckboxModule} from \"@angular/material/legacy-checkbox\";\nimport {MatLegacyRadioModule as MatRadioModule} from \"@angular/material/legacy-radio\";\nimport {I18nModule} from \"./i18n.module\";\nimport { FontAwesomeModule } from '@fortawesome/angular-fontawesome';\nimport { LoginPage } from './pages/login/login.page';\n\n@NgModule({\n  declarations: [\n    AppComponent,\n    NavbarComponent,\n    LoginComponent,\n    DashboardComponent,\n    RedirectHandlerComponent,\n    AuthorizationPage,\n    StartComponent,\n    ConnectServerPage,\n    AddSocialAgentComponent,\n    SocialAgentsComponent,\n    ApplicationsComponent,\n    DataComponent,\n    LanguageComponent,\n    AppViewComponent,\n    AddSocialAgentFormComponent,\n    LoginPage,\n  ],\n  imports: [\n    BrowserModule,\n    AppRoutingModule,\n    BrowserAnimationsModule,\n    HttpClientModule,\n    MatButtonModule,\n    MatToolbarModule,\n    MatCardModule,\n    MatListModule,\n    MatTreeModule,\n    ReactiveFormsModule,\n    MatFormFieldModule,\n    MatInputModule,\n    MatIconModule,\n    MatExpansionModule,\n    MatChipsModule,\n    MatProgressSpinnerModule,\n    FormsModule,\n    MatCheckboxModule,\n    MatRadioModule,\n    MatSlideToggleModule,\n    MatTooltipModule,\n\n    StoreModule.forRoot(reducers, {\n      metaReducers\n    }),\n    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: ENV.production}),\n    EffectsModule.forRoot(Effects),\n\n    ServiceWorkerModule.register('ngsw-worker.js', {\n      enabled: ENV.production,\n      // Register the ServiceWorker as soon as the application is stable\n      // or after 30 seconds (whichever comes first).\n      registrationStrategy: 'registerWhenStable:30000'\n    }),\n    I18nModule,\n    FontAwesomeModule,\n  ],\n  providers: [\n    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},\n    SolidClient,\n  ],\n  bootstrap: [AppComponent],\n  exports: [BrowserModule, SbModule],\n})\nexport class AppModule { }\n",
             "children": [
                 {
                     "type": "providers",
@@ -3873,7 +3904,7 @@
                     "type": "exports",
                     "elements": [
                         {
-                            "name": "DemoMaterialModule"
+                            "name": "SbModule"
                         }
                     ]
                 },
@@ -3928,46 +3959,6 @@
             ]
         },
         {
-            "name": "DemoMaterialModule",
-            "id": "module-DemoMaterialModule-23c1d8c9f274eaea6f5d5c0ad348c20ee2ac12f249e0bc057b9f1729796821000fbba62beeefab19f49333c9e2fabd0faaf099802b309139b26492f9a5380f95",
-            "description": "",
-            "deprecationMessage": "",
-            "deprecated": false,
-            "file": "src/material-module.ts",
-            "methods": [],
-            "sourceCode": "import {DragDropModule} from '@angular/cdk/drag-drop';\nimport {ScrollingModule} from '@angular/cdk/scrolling';\nimport {CdkTableModule} from '@angular/cdk/table';\nimport {CdkTreeModule} from '@angular/cdk/tree';\nimport {NgModule} from '@angular/core';\nimport {MatLegacyAutocompleteModule as MatAutocompleteModule} from \"@angular/material/legacy-autocomplete\";\nimport { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';\nimport { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';\nimport { MatBadgeModule } from \"@angular/material/badge\";\nimport { MatBottomSheetModule } from \"@angular/material/bottom-sheet\";\nimport { MatButtonToggleModule } from \"@angular/material/button-toggle\";\nimport { MatLegacyCheckboxModule as MatCheckboxModule } from \"@angular/material/legacy-checkbox\";\nimport { MatLegacyChipsModule as MatChipsModule } from \"@angular/material/legacy-chips\";\nimport { MatStepperModule } from \"@angular/material/stepper\";\nimport { MatDatepickerModule } from \"@angular/material/datepicker\";\nimport { MatLegacyDialogModule as MatDialogModule } from \"@angular/material/legacy-dialog\";\nimport { MatDividerModule } from \"@angular/material/divider\";\nimport {MatExpansionModule} from \"@angular/material/expansion\";\nimport {MatGridListModule} from \"@angular/material/grid-list\";\nimport {MatIconModule} from \"@angular/material/icon\";\nimport {MatLegacyInputModule as MatInputModule} from \"@angular/material/legacy-input\";\nimport {MatLegacyListModule as MatListModule} from \"@angular/material/legacy-list\";\nimport {MatLegacyMenuModule as MatMenuModule} from \"@angular/material/legacy-menu\";\nimport {MatNativeDateModule, MatRippleModule} from \"@angular/material/core\";\nimport {MatLegacyPaginatorModule as MatPaginatorModule} from \"@angular/material/legacy-paginator\";\nimport {MatLegacyProgressBarModule as MatProgressBarModule} from \"@angular/material/legacy-progress-bar\";\nimport {MatLegacyProgressSpinnerModule as MatProgressSpinnerModule} from \"@angular/material/legacy-progress-spinner\";\nimport {MatLegacyRadioModule as MatRadioModule} from \"@angular/material/legacy-radio\";\nimport {MatLegacySelectModule as MatSelectModule} from \"@angular/material/legacy-select\";\nimport {MatSidenavModule} from \"@angular/material/sidenav\";\nimport {MatLegacySliderModule as MatSliderModule} from \"@angular/material/legacy-slider\";\nimport {MatLegacySlideToggleModule as MatSlideToggleModule} from \"@angular/material/legacy-slide-toggle\";\nimport {MatLegacySnackBarModule as MatSnackBarModule} from \"@angular/material/legacy-snack-bar\";\nimport {MatSortModule} from \"@angular/material/sort\";\nimport {MatLegacyTableModule as MatTableModule} from \"@angular/material/legacy-table\";\nimport {MatLegacyTabsModule as MatTabsModule} from \"@angular/material/legacy-tabs\";\nimport {MatToolbarModule} from \"@angular/material/toolbar\";\nimport {MatLegacyTooltipModule as MatTooltipModule} from \"@angular/material/legacy-tooltip\";\nimport {MatTreeModule} from \"@angular/material/tree\";\nimport {BrowserAnimationsModule} from \"@angular/platform-browser/animations\";\nimport {ReactiveFormsModule, FormsModule} from \"@angular/forms\";\nimport {I18nModule} from \"./app/i18n.module\";\nimport {FontAwesomeModule} from \"@fortawesome/angular-fontawesome\";\n\n@NgModule({\n  exports: [\n    CdkTableModule,\n    CdkTreeModule,\n    DragDropModule,\n    MatAutocompleteModule,\n    MatBadgeModule,\n    MatBottomSheetModule,\n    MatButtonModule,\n    MatButtonToggleModule,\n    MatCardModule,\n    MatCheckboxModule,\n    MatChipsModule,\n    MatStepperModule,\n    MatDatepickerModule,\n    MatDialogModule,\n    MatDividerModule,\n    MatExpansionModule,\n    MatGridListModule,\n    MatIconModule,\n    MatInputModule,\n    MatListModule,\n    MatMenuModule,\n    MatNativeDateModule,\n    MatPaginatorModule,\n    MatProgressBarModule,\n    MatProgressSpinnerModule,\n    MatRadioModule,\n    MatRippleModule,\n    MatSelectModule,\n    MatSidenavModule,\n    MatSliderModule,\n    MatSlideToggleModule,\n    MatSnackBarModule,\n    MatSortModule,\n    MatTableModule,\n    MatTabsModule,\n    MatToolbarModule,\n    MatTooltipModule,\n    MatTreeModule,\n    ScrollingModule,\n    BrowserAnimationsModule,\n    ReactiveFormsModule,\n    FormsModule,\n    I18nModule,\n    FontAwesomeModule,\n  ]\n})\nexport class DemoMaterialModule {}\n",
-            "children": [
-                {
-                    "type": "providers",
-                    "elements": []
-                },
-                {
-                    "type": "declarations",
-                    "elements": []
-                },
-                {
-                    "type": "imports",
-                    "elements": []
-                },
-                {
-                    "type": "exports",
-                    "elements": [
-                        {
-                            "name": "I18nModule"
-                        }
-                    ]
-                },
-                {
-                    "type": "bootstrap",
-                    "elements": []
-                },
-                {
-                    "type": "classes",
-                    "elements": []
-                }
-            ]
-        },
-        {
             "name": "I18nModule",
             "id": "module-I18nModule-6878d217dc64867cf21db2dab8b731d3934d92e2faac323c62743a87cad1118de25a2825e8c988a9b8014392a5ffb897ef9eca423c277392d8f6ab2048f5cba0",
             "description": "",
@@ -3992,6 +3983,46 @@
                 {
                     "type": "exports",
                     "elements": []
+                },
+                {
+                    "type": "bootstrap",
+                    "elements": []
+                },
+                {
+                    "type": "classes",
+                    "elements": []
+                }
+            ]
+        },
+        {
+            "name": "SbModule",
+            "id": "module-SbModule-cd8e78eac96b4b4f09a5a9cc3ad89bd04a28c55da7488325f2aeb47cb215226bab8ea60d624f597f6f68e2078e8f907ded78d46473365bad1e35b88e31dd4d18",
+            "description": "",
+            "deprecationMessage": "",
+            "deprecated": false,
+            "file": "src/sb-module.ts",
+            "methods": [],
+            "sourceCode": "import {DragDropModule} from '@angular/cdk/drag-drop';\nimport {ScrollingModule} from '@angular/cdk/scrolling';\nimport {CdkTableModule} from '@angular/cdk/table';\nimport {CdkTreeModule} from '@angular/cdk/tree';\nimport {NgModule} from '@angular/core';\nimport {BrowserAnimationsModule} from \"@angular/platform-browser/animations\";\nimport {ReactiveFormsModule, FormsModule} from \"@angular/forms\";\nimport {I18nModule} from \"./app/i18n.module\";\nimport {FontAwesomeModule} from \"@fortawesome/angular-fontawesome\";\n\n@NgModule({\n  exports: [\n    CdkTableModule,\n    CdkTreeModule,\n    DragDropModule,\n    ScrollingModule,\n    BrowserAnimationsModule,\n    ReactiveFormsModule,\n    FormsModule,\n    I18nModule,\n    FontAwesomeModule,\n  ]\n})\nexport class SbModule {}\n",
+            "children": [
+                {
+                    "type": "providers",
+                    "elements": []
+                },
+                {
+                    "type": "declarations",
+                    "elements": []
+                },
+                {
+                    "type": "imports",
+                    "elements": []
+                },
+                {
+                    "type": "exports",
+                    "elements": [
+                        {
+                            "name": "I18nModule"
+                        }
+                    ]
                 },
                 {
                     "type": "bootstrap",
@@ -5250,7 +5281,7 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/language/language.stories.ts",
+                "file": "src/app/components/login/login.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
@@ -5260,7 +5291,7 @@
                 "name": "Template",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/app/components/login/login.stories.ts",
+                "file": "src/app/components/language/language.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
@@ -7178,7 +7209,7 @@
                 "linktype": "component",
                 "name": "LanguageComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/5",
+                "coverageCount": "0/6",
                 "status": "low"
             },
             {
@@ -7377,7 +7408,7 @@
                 "linktype": "component",
                 "name": "DashboardComponent",
                 "coveragePercent": 0,
-                "coverageCount": "0/1",
+                "coverageCount": "0/3",
                 "status": "low"
             },
             {

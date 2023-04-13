@@ -1,14 +1,14 @@
 
 import { Story, moduleMetadata } from '@storybook/angular';
 import { NavbarComponent } from "./navbar.component";
-import { DemoMaterialModule } from "../../../material-module";
+import { SbModule } from "../../../sb-module";
 
 export default {
   title: 'Components/Navbar',
   component: NavbarComponent,
   decorators: [
     moduleMetadata({
-      imports: [DemoMaterialModule],
+      imports: [SbModule],
     })
   ]
 };

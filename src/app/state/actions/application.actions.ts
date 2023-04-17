@@ -56,12 +56,3 @@ export const dataRegistriesProvided = createAction(
   props<{registries: DataRegistry[]}>(),
 )
 
-export const authorizeApplication = createAction(
-  '[APPLICATION PROFILES] Authorize Application',
-  props<{ authorization: Authorization }>()
-)
-
-export const authorizationReceived = createAction(
-  '[APPLICATION PROFILES] Authorization Received',
-  props<{ accessAuthorization: AccessAuthorization }>()
-)

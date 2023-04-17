@@ -88,6 +88,7 @@ export class AuthorizationPage implements OnInit {
     accessNeed: AccessNeed,
     parent?: AccessNeed
   ): Promise<DataAuthorization[]> {
+    // TODO data authorization should be created in a service/in the backend
     const dataAuthorization = {
       accessNeed: accessNeed.id,
       scope: this.getScope(accessNeed),
@@ -111,6 +112,7 @@ export class AuthorizationPage implements OnInit {
   }
 
   async authorize(granted = true) {
+    // TODO authorization should be created in a service/in the backend
     let authorization: Authorization;
 
     const base = {
@@ -136,6 +138,5 @@ export class AuthorizationPage implements OnInit {
       };
     }
     this.store.dispatch(authorizationRequested({ authorization }));
-    console.log('this');
   }
 }

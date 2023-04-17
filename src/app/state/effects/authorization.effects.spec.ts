@@ -11,6 +11,7 @@ import {
   unregisteredApplicationProfileReceived
 } from "../actions/application.actions";
 import {descriptionsNeeded} from "../actions/description.actions";
+import {Authorization, BaseAuthorization} from "@janeirodigital/sai-api-messages";
 
 const initialState = {}
 const dataSpy = jasmine.createSpyObj('data service', [
@@ -99,10 +100,11 @@ describe('Authorization Effects', () => {
 
   describe('requestAuthorization', () => {
     beforeEach(() => {
-      actions$ = of(authorizationRequested({applicationId: 'https:://app.id'}))
+      const authorization: Authorization = {grantee: 'https://app.id', granted: false, accessNeedGroup: {} as any};
+      actions$ = of(authorizationRequested({authorization}))
     })
 
-    it('calls the authorization service with the right aplication id', () => {
+    it('calls the authorization service with the right application id', () => {
       effects.requestAuthorization$.subscribe(action => {
       })
     })

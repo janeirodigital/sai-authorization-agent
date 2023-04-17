@@ -49,8 +49,7 @@ export class AuthorizationEffects {
       ),
       map((accessAuthorization) =>
         authorizationReceived({ accessAuthorization })
-      ),
-      map(() => ({ type: 'NOOP' }))
+      )
     );
   });
 
@@ -59,13 +58,11 @@ export class AuthorizationEffects {
     () => {
       return this.actions$.pipe(
         ofType(authorizationReceived),
-        tap(
-          ({ accessAuthorization }) => {
-            if (accessAuthorization.callbackEndpoint) {
-              window.location.href = accessAuthorization.callbackEndpoint;
-            }
+        tap(({ accessAuthorization }) => {
+          if (accessAuthorization.callbackEndpoint) {
+            window.location.href = accessAuthorization.callbackEndpoint;
           }
-        )
+        })
       );
     },
     { dispatch: false }

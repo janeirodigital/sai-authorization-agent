@@ -8,7 +8,7 @@ import {descriptionsNeeded} from "../../state/actions/description.actions";
   templateUrl: './application.component.html',
   styleUrls: ['./application.component.css']
 })
-export class ApplicationComponent implements OnInit, OnDestroy {
+export class ApplicationComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
@@ -26,8 +26,4 @@ export class ApplicationComponent implements OnInit, OnDestroy {
       this.store.dispatch(descriptionsNeeded({applicationId}));
     }
   }
-
-  ngOnDestroy(): void {
-  }
-
 }

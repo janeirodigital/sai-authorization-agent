@@ -1,22 +1,16 @@
-import {from, Observable, of} from 'rxjs';
-import {provideMockActions} from '@ngrx/effects/testing';
-import {TestBed} from '@angular/core/testing';
-import {Action} from '@ngrx/store';
-import {ApplicationProfileEffects} from './application.effects';
-import {DataService} from '../../services/data.service';
+import { Observable, of } from 'rxjs';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { TestBed } from '@angular/core/testing';
+import { Action } from '@ngrx/store';
+import { ApplicationProfileEffects } from './application.effects';
+import { DataService } from '../../services/data.service';
 import {
-  AccessAuthorization,
-  AccessNeed,
   Application,
-  Authorization,
-  AuthorizationData,
   DataRegistry,
-  SocialAgent
+  SocialAgent,
 } from '@janeirodigital/sai-api-messages';
-import {provideMockStore} from '@ngrx/store/testing';
-import {selectPrefLanguage} from '../selectors';
-import {descriptionsNeeded} from "../actions/description.actions";
-import {addAccessNeed} from "../actions/access-needs.actions";
+import { provideMockStore } from '@ngrx/store/testing';
+import { selectPrefLanguage } from '../selectors';
 
 let actions$ = new Observable<Action>();
 let dataServiceSpy: jasmine.SpyObj<DataService>;
@@ -139,27 +133,6 @@ describe('ApplicationProfileEffects', () => {
     });
   });
 
-  it('authorizeApplication', (done) => {
-    const authorization = { grantee: 'https://bob.example'} as Authorization
-    actions$ = of({
-      type: '[APPLICATION PROFILES] Authorize Application',
-      authorization
-    });
-
-    const expectedAccessAuthorization = { grantee: 'https://bob.example' } as AccessAuthorization
-
-    dataServiceSpy.authorizeApplication.and.resolveTo(expectedAccessAuthorization);
-
-    effects.authorizeApplication$.subscribe((action) => {
-      expect(action).toEqual({
-        type: '[APPLICATION PROFILES] Authorization Received',
-        accessAuthorization: expectedAccessAuthorization,
-      });
-      expect(dataServiceSpy.authorizeApplication).toHaveBeenCalledOnceWith(authorization)
-      done();
-    });
-  });
-
   xit('loadDescriptions', (done) => {
     // TODO `load descriptions` will be refactored into smaller effects
     done()
@@ -192,10 +165,5 @@ describe('ApplicationProfileEffects', () => {
     //   },
     //   complete: () => done(),
     // });
-  });
-
-  // TODO
-  xit('redirect to callback', async() => {
-    effects.redirectToCallbackEndpoint.subscribe().unsubscribe();
   });
 });

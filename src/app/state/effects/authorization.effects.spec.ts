@@ -5,17 +5,18 @@ import {AuthorizationEffects} from "./authorization.effects";
 import {Action} from "@ngrx/store";
 import {provideMockStore} from "@ngrx/store/testing";
 import {DataService} from "../../services/data.service";
-import {authorizationPageLoaded, authorizationRequested} from "../actions/authorization.actions";
+import {authorizationPageLoaded, authorizationReceived, authorizationRequested} from "../actions/authorization.actions";
 import {
   unregisteredApplicationProfileError,
   unregisteredApplicationProfileReceived
 } from "../actions/application.actions";
 import {descriptionsNeeded} from "../actions/description.actions";
-import {Authorization, BaseAuthorization} from "@janeirodigital/sai-api-messages";
+import {AccessAuthorization, Authorization, BaseAuthorization} from "@janeirodigital/sai-api-messages";
 
 const initialState = {}
 const dataSpy = jasmine.createSpyObj('data service', [
   'getUnregisteredApplicationProfile',
+  'authorizeApplication',
 ])
 
 const applicationId = 'https://app.id'
@@ -104,9 +105,20 @@ describe('Authorization Effects', () => {
       actions$ = of(authorizationRequested({authorization}))
     })
 
-    it('calls the authorization service with the right application id', () => {
+
+    it('returns the right action after running', (done) => {
+      dataSpy.authorizeApplication.and.returnValue(of({id: 'sai:auth'} as AccessAuthorization));
+
+
       effects.requestAuthorization$.subscribe(action => {
+        expect(action.type).toEqual(authorizationReceived.type);
+        done()
       })
     })
   })
+
+  // TODO
+  xit('redirect to callback', async() => {
+    effects.redirectToCallbackEndpoint.subscribe().unsubscribe();
+  });
 })

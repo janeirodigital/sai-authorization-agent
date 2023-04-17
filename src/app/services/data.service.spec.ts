@@ -1,12 +1,13 @@
 import { SolidClient } from '../utils/solid-client';
 import { DataService } from './data.service';
-import { ApplicationsRequest,
+import {
+  ApplicationsRequest,
   Application, DescriptionsRequest,
   DataRegistriesRequest, DataRegistry,
   SocialAgentsRequest, SocialAgent,
   AddSocialAgentRequest, AuthorizationData,
   AccessAuthorization, Authorization,
-  ApplicationAuthorizationRequest, ResponseMessageTypes, UnregisteredApplicationProfileRequest
+  ApplicationAuthorizationRequest, ResponseMessageTypes, UnregisteredApplicationProfileRequest, RequestMessageTypes
 } from '@janeirodigital/sai-api-messages'
 import { ENV } from 'src/environments/environment';
 
@@ -212,7 +213,7 @@ describe('getUnregisteredApplicationProfile', () => {
     let response: Response;
 
     beforeEach(() => {
-      response = { json: async () => ({})} as Response;
+      response = { json: async () => ({type: ResponseMessageTypes.UNREGISTERED_APPLICATION_PROFILE})} as Response;
     })
 
     it('should call the api with the right inputs', async () => {

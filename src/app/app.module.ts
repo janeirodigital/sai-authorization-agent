@@ -32,6 +32,7 @@ import { AddSocialAgentFormComponent } from './components/add-social-agent-form/
 import { I18nModule } from './i18n.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LoginPage } from './pages/login/login.page';
+import {ApplicationComponent} from "./pages/application/application.component";
 
 @NgModule({
   declarations: [

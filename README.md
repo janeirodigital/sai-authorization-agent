@@ -1,8 +1,13 @@
 # SAI Authorization Agent Web
 
-[![CI](https://github.com/janeirodigital/sai-impl-web/actions/workflows/ci.yml/badge.svg)](https://github.com/janeirodigital/sai-impl-web/actions/workflows/ci.yml)
+[![CI](https://github.com/janeirodigital/sai-impl-web/actions/workflows/qa.yml/badge.svg)](https://github.com/janeirodigital/sai-impl-web/actions/workflows/qa.yml)
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/solid/data-interoperability-panel)
 [![MIT license](https://img.shields.io/github/license/janeirodigital/sai-impl-web)](https://github.com/janeirodigital/sai-impl-web/blob/main/LICENSE)
+
+-----------
+⚠️ More up to date, Vue based frontend is available in [janeirodigital/sai-js/ui/authorization](https://github.com/janeirodigital/sai-js/tree/main/ui/authorization) ⚠️
+
+-----------
 
 A frontend compatible with [SAI Authorization Agent Service](https://github.com/janeirodigital/sai-impl-service/),
 the two together provide a compliant [Authorization Agent](https://solid.github.io/data-interoperability-panel/specification/) implementation.
